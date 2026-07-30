@@ -478,9 +478,8 @@ const HomePage: React.FC = () => {
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gap: 12,
-            className: 'overview-card-grid',
             animation: 'tileFadeUp 0.7s ease-out 0.15s both',
-          }}>
+          }} className="overview-card-grid">
             {[
               {
                 step: '01',
