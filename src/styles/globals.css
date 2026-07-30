@@ -1,0 +1,827 @@
+/* ============================================
+   APPLE DESIGN SYSTEM TOKENS
+   Based on DESIGN.md - Apple Photography-First Interface
+   ============================================ */
+
+/* Apple Colors */
+:root {
+  /* Brand & Accent */
+  --apple-primary: #0066cc;
+  --apple-primary-focus: #0071e3;
+  --apple-primary-on-dark: #2997ff;
+
+  /* Surfaces */
+  --apple-canvas: #ffffff;
+  --apple-canvas-parchment: #f5f5f7;
+  --apple-surface-pearl: #fafafc;
+  --apple-surface-tile-1: #272729;
+  --apple-surface-tile-2: #2a2a2c;
+  --apple-surface-tile-3: #252527;
+  --apple-surface-black: #000000;
+  --apple-chip-translucent: #d2d2d7;
+
+  /* Text */
+  --apple-ink: #1d1d1f;
+  --apple-body-muted: #cccccc;
+  --apple-ink-muted-80: #333333;
+  --apple-ink-muted-48: #7a7a7a;
+  --apple-on-dark: #ffffff;
+
+  /* Dividers */
+  --apple-divider-soft: #f0f0f0;
+  --apple-hairline: #e0e0e0;
+
+  /* Shadows */
+  --apple-product-shadow: rgba(0, 0, 0, 0.22) 3px 5px 30px;
+
+  /* Spacing */
+  --apple-spacing-xxs: 4px;
+  --apple-spacing-xs: 8px;
+  --apple-spacing-sm: 12px;
+  --apple-spacing-md: 17px;
+  --apple-spacing-lg: 24px;
+  --apple-spacing-xl: 32px;
+  --apple-spacing-xxl: 48px;
+  --apple-spacing-section: 80px;
+
+  /* Border Radius */
+  --apple-rounded-none: 0px;
+  --apple-rounded-xs: 5px;
+  --apple-rounded-sm: 8px;
+  --apple-rounded-md: 11px;
+  --apple-rounded-lg: 18px;
+  --apple-rounded-pill: 9999px;
+  --apple-rounded-full: 9999px;
+}
+
+:root {
+  /* Kraken Purple Scale */
+  --kraken-purple: #7132f5;
+  --kraken-purple-dark: #5741d8;
+  --kraken-purple-deep: #5b1ecf;
+  --kraken-purple-subtle: rgba(133, 91, 251, 0.16);
+  
+  /* Text Colors */
+  --kraken-text: #101114;
+  --kraken-gray: #686b82;
+  --kraken-gray-light: #9497a9;
+  
+  /* Background & Border */
+  --kraken-white: #ffffff;
+  --kraken-border: #dedee5;
+  --kraken-bg-gray: rgba(148, 151, 169, 0.08);
+  
+  /* Semantic Colors */
+  --kraken-success: #149e61;
+  --kraken-success-bg: rgba(20, 158, 97, 0.16);
+  --kraken-success-text: #026b3f;
+  --kraken-warning: #d97706;
+  --kraken-error: #dc2626;
+  --kraken-error-bg: rgba(220, 38, 38, 0.12);
+  
+  /* Neutral Badge */
+  --kraken-neutral-bg: rgba(104, 107, 130, 0.12);
+  --kraken-neutral-text: #484b5e;
+  
+  /* Shadows */
+  --kraken-shadow: rgba(0, 0, 0, 0.03) 0px 4px 24px;
+  --kraken-shadow-micro: rgba(16, 24, 40, 0.04) 0px 1px 4px;
+  
+  /* Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+}
+
+/* Font Families */
+.font-display {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.font-body {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Typography Classes */
+.text-hero {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 1.17;
+  letter-spacing: -1px;
+}
+
+.text-heading {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: -0.5px;
+}
+
+.text-subheading {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.29;
+  letter-spacing: -0.5px;
+}
+
+.text-title {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.20;
+}
+
+.text-body {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.38;
+}
+
+.text-body-medium {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.38;
+}
+
+.text-caption {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+}
+
+.text-small {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.33;
+}
+
+/* Button Variants */
+.btn-primary {
+  background: var(--kraken-purple);
+  color: var(--kraken-white);
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: 13px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--kraken-purple-dark);
+}
+
+.btn-outline {
+  background: var(--kraken-white);
+  color: var(--kraken-purple-dark);
+  border: 1px solid var(--kraken-purple-dark);
+  border-radius: var(--radius-xl);
+  padding: 13px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-outline:hover {
+  background: var(--kraken-purple-subtle);
+}
+
+.btn-subtle {
+  background: var(--kraken-purple-subtle);
+  color: var(--kraken-purple);
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-subtle:hover {
+  background: rgba(133, 91, 251, 0.24);
+}
+
+.btn-white {
+  background: var(--kraken-white);
+  color: var(--kraken-text);
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: 13px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--kraken-shadow);
+  transition: all 0.2s ease;
+}
+
+.btn-secondary {
+  background: var(--kraken-bg-gray);
+  color: var(--kraken-text);
+  border: none;
+  border-radius: var(--radius-xl);
+  padding: 13px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Badge Variants */
+.badge-success {
+  background: var(--kraken-success-bg);
+  color: var(--kraken-success-text);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-neutral {
+  background: var(--kraken-neutral-bg);
+  color: var(--kraken-neutral-text);
+  border-radius: var(--radius-md);
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.badge-error {
+  background: var(--kraken-error-bg);
+  color: var(--kraken-error);
+  border-radius: var(--radius-sm);
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Card Base */
+.card {
+  background: var(--kraken-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--kraken-shadow);
+  padding: var(--spacing-xl);
+}
+
+/* Utility Classes */
+.text-primary { color: var(--kraken-purple); }
+.text-text { color: var(--kraken-text); }
+.text-gray { color: var(--kraken-gray); }
+.text-light { color: var(--kraken-gray-light); }
+.text-success { color: var(--kraken-success); }
+.text-error { color: var(--kraken-error); }
+
+.bg-white { background: var(--kraken-white); }
+.bg-gray { background: var(--kraken-bg-gray); }
+.bg-purple { background: var(--kraken-purple); }
+.bg-purple-subtle { background: var(--kraken-purple-subtle); }
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: var(--kraken-text);
+  line-height: 1.38;
+}
+
+a {
+  color: var(--kraken-purple);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--kraken-purple-dark);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--kraken-bg-gray);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--kraken-gray-light);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--kraken-gray);
+}
+
+/* Layout Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-xl);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.gap-sm {
+  gap: var(--spacing-sm);
+}
+
+.gap-md {
+  gap: var(--spacing-md);
+}
+
+.gap-lg {
+  gap: var(--spacing-lg);
+}
+
+.gap-xl {
+  gap: var(--spacing-xl);
+}
+
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+.mt-2xl { margin-top: var(--spacing-2xl); }
+
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+.mb-2xl { margin-bottom: var(--spacing-2xl); }
+
+/* ============================================
+   APPLE DESIGN SYSTEM - TYPOGRAPHY
+   ============================================ */
+
+.apple-hero-display {
+  font-family: 'SF Pro Display', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.28px;
+}
+
+.apple-display-lg {
+  font-family: 'SF Pro Display', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: 0;
+}
+
+.apple-display-md {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+
+.apple-lead {
+  font-family: 'SF Pro Display', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.14;
+  letter-spacing: 0.196px;
+}
+
+.apple-lead-airy {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.apple-tagline {
+  font-family: 'SF Pro Display', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.19;
+  letter-spacing: 0.231px;
+}
+
+.apple-body-strong {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.24;
+  letter-spacing: -0.374px;
+}
+
+.apple-body {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+}
+
+.apple-caption {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.224px;
+}
+
+.apple-caption-strong {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+}
+
+.apple-button-large {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: 0;
+}
+
+.apple-button-utility {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+}
+
+.apple-fine-print {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+}
+
+.apple-nav-link {
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+}
+
+/* ============================================
+   APPLE DESIGN SYSTEM - COMPONENTS
+   ============================================ */
+
+/* Global Nav */
+.apple-global-nav {
+  background-color: var(--apple-surface-black);
+  color: var(--apple-on-dark);
+  height: 44px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Sub Nav Frosted */
+.apple-sub-nav {
+  background-color: rgba(245, 245, 247, 0.80);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  color: var(--apple-ink);
+  height: 52px;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 44px;
+  z-index: 999;
+  border-bottom: 1px solid var(--apple-divider-soft);
+}
+
+/* Primary Blue Pill Button */
+.apple-btn-primary {
+  background-color: var(--apple-primary);
+  color: var(--apple-canvas);
+  border: none;
+  border-radius: var(--apple-rounded-pill);
+  padding: 11px 22px;
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.apple-btn-primary:hover {
+  background-color: #0055aa;
+}
+
+.apple-btn-primary:active {
+  transform: scale(0.95);
+}
+
+.apple-btn-primary:focus-visible {
+  outline: 2px solid var(--apple-primary-focus);
+  outline-offset: 2px;
+}
+
+/* Secondary Ghost Pill Button */
+.apple-btn-secondary-pill {
+  background-color: transparent;
+  color: var(--apple-primary);
+  border: 1px solid var(--apple-primary);
+  border-radius: var(--apple-rounded-pill);
+  padding: 11px 22px;
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.apple-btn-secondary-pill:hover {
+  background-color: rgba(0, 102, 204, 0.06);
+}
+
+.apple-btn-secondary-pill:active {
+  transform: scale(0.95);
+}
+
+/* Dark Utility Button */
+.apple-btn-dark-utility {
+  background-color: var(--apple-ink);
+  color: var(--apple-on-dark);
+  border: none;
+  border-radius: var(--apple-rounded-sm);
+  padding: 8px 15px;
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  letter-spacing: -0.224px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.apple-btn-dark-utility:hover {
+  background-color: #000000;
+}
+
+.apple-btn-dark-utility:active {
+  transform: scale(0.95);
+}
+
+/* Store Hero Button (larger) */
+.apple-btn-store-hero {
+  background-color: var(--apple-primary);
+  color: var(--apple-canvas);
+  border: none;
+  border-radius: var(--apple-rounded-pill);
+  padding: 14px 28px;
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1.0;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.apple-btn-store-hero:hover {
+  background-color: #0055aa;
+}
+
+.apple-btn-store-hero:active {
+  transform: scale(0.95);
+}
+
+/* Text Link */
+.apple-text-link {
+  background-color: transparent;
+  color: var(--apple-primary);
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.apple-text-link:hover {
+  text-decoration: underline;
+}
+
+/* Text Link On Dark */
+.apple-text-link-on-dark {
+  background-color: transparent;
+  color: var(--apple-primary-on-dark);
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.47;
+  letter-spacing: -0.374px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.apple-text-link-on-dark:hover {
+  text-decoration: underline;
+}
+
+/* Product Tile Light */
+.apple-tile-light {
+  background-color: var(--apple-canvas);
+  color: var(--apple-ink);
+  padding: var(--apple-spacing-section) 48px;
+  text-align: center;
+}
+
+/* Product Tile Parchment */
+.apple-tile-parchment {
+  background-color: var(--apple-canvas-parchment);
+  color: var(--apple-ink);
+  padding: var(--apple-spacing-section) 48px;
+  text-align: center;
+}
+
+/* Product Tile Dark */
+.apple-tile-dark {
+  background-color: var(--apple-surface-tile-1);
+  color: var(--apple-on-dark);
+  padding: var(--apple-spacing-section) 48px;
+  text-align: center;
+}
+
+/* Product Tile Dark 2 */
+.apple-tile-dark-2 {
+  background-color: var(--apple-surface-tile-2);
+  color: var(--apple-on-dark);
+  padding: var(--apple-spacing-section) 48px;
+  text-align: center;
+}
+
+/* Store Utility Card */
+.apple-utility-card {
+  background-color: var(--apple-canvas);
+  border: 1px solid var(--apple-hairline);
+  border-radius: var(--apple-rounded-lg);
+  padding: var(--apple-spacing-lg);
+  color: var(--apple-ink);
+}
+
+.apple-utility-card:hover {
+  border-color: var(--apple-ink-muted-48);
+}
+
+/* Apple Footer */
+.apple-footer {
+  background-color: var(--apple-canvas-parchment);
+  color: var(--apple-ink-muted-80);
+  padding: 64px 48px 32px;
+  font-family: 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.12px;
+}
+
+.apple-footer a {
+  color: var(--apple-ink-muted-80);
+  text-decoration: none;
+}
+
+.apple-footer a:hover {
+  color: var(--apple-ink);
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Tablet landscape: 834-1023px */
+@media (max-width: 1023px) {
+  .apple-hero-display {
+    font-size: 40px;
+  }
+  .apple-display-lg {
+    font-size: 32px;
+  }
+  .apple-display-md {
+    font-size: 28px;
+  }
+  .apple-global-nav,
+  .apple-sub-nav,
+  .apple-tile-light,
+  .apple-tile-parchment,
+  .apple-tile-dark,
+  .apple-tile-dark-2 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* Phone: 420-640px */
+@media (max-width: 640px) {
+  .apple-hero-display {
+    font-size: 34px;
+    letter-spacing: -0.2px;
+  }
+  .apple-display-lg {
+    font-size: 28px;
+  }
+  .apple-display-md {
+    font-size: 24px;
+  }
+  .apple-lead {
+    font-size: 21px;
+  }
+  .apple-lead-airy {
+    font-size: 17px;
+  }
+  .apple-global-nav,
+  .apple-sub-nav,
+  .apple-tile-light,
+  .apple-tile-parchment,
+  .apple-tile-dark,
+  .apple-tile-dark-2,
+  .apple-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .apple-tile-light,
+  .apple-tile-parchment,
+  .apple-tile-dark,
+  .apple-tile-dark-2 {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+}
+
+/* Small phone: <=419px */
+@media (max-width: 419px) {
+  .apple-hero-display {
+    font-size: 28px;
+  }
+}

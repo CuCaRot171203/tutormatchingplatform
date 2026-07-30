@@ -1,0 +1,24 @@
+---
+description: Bắt buộc tuân thủ DESIGN.md khi thiết kế hoặc chỉnh sửa giao diện
+alwaysApply: true
+---
+
+# Quy tắc thiết kế giao diện
+
+Khi tạo mới, sửa đổi hoặc review bất kỳ giao diện nào:
+
+1. Bắt buộc đọc và tuân thủ toàn bộ tài liệu [DESIGN.md](mdc:DESIGN.md).
+2. Xem `DESIGN.md` là nguồn quy chuẩn thiết kế chính thức của dự án.
+3. Tuân thủ các quy định trong đó về:
+   - Màu sắc
+   - Typography
+   - Khoảng cách
+   - Layout
+   - Component
+   - Responsive
+   - Trạng thái loading, empty, error
+   - Khả năng truy cập
+4. Ưu tiên tái sử dụng component và design token hiện có.
+5. Không tự ý tạo màu sắc, font size, spacing hoặc kiểu component trái với `DESIGN.md`.
+6. Nếu yêu cầu của người dùng mâu thuẫn với `DESIGN.md`, phải chỉ rõ điểm mâu thuẫn trước khi triển khai.
+7. Trước khi hoàn thành công việc UI, phải tự kiểm tra lại kết quả với `DESIGN.md`.
