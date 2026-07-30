@@ -8,9 +8,17 @@ interface ProtectedRouteProps {
   allowedRoles?: UserRole[];
 }
 
+// ⚠️ DEV ONLY: Auth check temporarily disabled for design review
+const DEV_AUTH_DISABLED = true;
+
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
   const { isAuthenticated, user, token } = useAuthStore();
   const location = useLocation();
+
+  // DEV MODE: Skip auth check
+  if (DEV_AUTH_DISABLED) {
+    return <Outlet />;
+  }
 
   // Still loading
   if (!token && isAuthenticated === false) {
@@ -24,7 +32,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) 
 
   // Check role if specified
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    // Redirect based on role
     switch (user.role) {
       case 'Student':
         return <Navigate to="/student/dashboard" replace />;

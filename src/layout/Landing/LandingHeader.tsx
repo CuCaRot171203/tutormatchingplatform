@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores';
 
@@ -12,7 +12,13 @@ const NAV_LINKS = [
 const LandingHeader: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
   const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const handleDashboard = () => {
     if (user?.role === 'Student') navigate('/student/dashboard');
@@ -32,10 +38,14 @@ const LandingHeader: React.FC = () => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      background: 'rgba(8, 11, 18, 0.72)',
-      backdropFilter: 'blur(20px) saturate(1.6)',
-      WebkitBackdropFilter: 'blur(20px) saturate(1.6)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+      background: scrolled
+        ? 'rgba(255, 255, 255, 0.92)'
+        : 'rgba(255, 255, 255, 0.0)',
+      backdropFilter: scrolled ? 'blur(20px) saturate(1.6)' : 'none',
+      WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(1.6)' : 'none',
+      borderBottom: scrolled ? '1px solid rgba(0, 0, 0, 0.08)' : '1px solid transparent',
+      boxShadow: scrolled ? '0 1px 12px rgba(0,0,0,0.06)' : 'none',
+      transition: 'background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease',
     }}>
       {/* Left: Logo + Nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
@@ -48,7 +58,7 @@ const LandingHeader: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(0, 98, 255, 0.35)',
+            boxShadow: '0 4px 14px rgba(0, 98, 255, 0.3)',
           }}>
             <span style={{
               color: '#fff',
@@ -59,7 +69,7 @@ const LandingHeader: React.FC = () => {
             }}>TM</span>
           </div>
           <span style={{
-            color: '#fff',
+            color: '#1d1d1f',
             fontSize: 15,
             fontWeight: 600,
             letterSpacing: '-0.01em',
@@ -68,13 +78,7 @@ const LandingHeader: React.FC = () => {
         </Link>
 
         {/* Desktop Nav Links */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
-        }}
-          className="desktop-nav"
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -82,7 +86,7 @@ const LandingHeader: React.FC = () => {
               style={{
                 padding: '6px 14px',
                 fontSize: 13,
-                color: 'rgba(255, 255, 255, 0.65)',
+                color: '#6e6e73',
                 textDecoration: 'none',
                 borderRadius: 8,
                 fontWeight: 400,
@@ -90,11 +94,11 @@ const LandingHeader: React.FC = () => {
                 fontFamily: "'SF Pro Text', system-ui, sans-serif",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#fff';
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.07)';
+                e.currentTarget.style.color = '#1d1d1f';
+                e.currentTarget.style.background = 'rgba(0,0,0,0.05)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'rgba(255, 255, 255, 0.65)';
+                e.currentTarget.style.color = '#6e6e73';
                 e.currentTarget.style.background = 'transparent';
               }}
             >
@@ -119,7 +123,7 @@ const LandingHeader: React.FC = () => {
               fontWeight: 600,
               cursor: 'pointer',
               fontFamily: "'SF Pro Text', system-ui, sans-serif",
-              transition: 'opacity 0.2s ease, transform 0.2s ease',
+              transition: 'opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
               boxShadow: '0 2px 10px rgba(0, 98, 255, 0.3)',
             }}
             onMouseEnter={(e) => {
@@ -139,8 +143,8 @@ const LandingHeader: React.FC = () => {
               <button style={{
                 padding: '7px 18px',
                 background: 'transparent',
-                color: 'rgba(255, 255, 255, 0.75)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: '#1d1d1f',
+                border: '1px solid rgba(0,0,0,0.15)',
                 borderRadius: 10,
                 fontSize: 13,
                 fontWeight: 500,
@@ -149,14 +153,12 @@ const LandingHeader: React.FC = () => {
                 transition: 'all 0.2s ease',
               }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = '#fff';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)';
+                  e.currentTarget.style.background = 'rgba(0,0,0,0.05)';
+                  e.currentTarget.style.borderColor = 'rgba(0,0,0,0.25)';
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = 'rgba(255, 255, 255, 0.75)';
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.15)';
                   e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.borderColor = 'rgba(0,0,0,0.15)';
                 }}
               >
                 Đăng nhập

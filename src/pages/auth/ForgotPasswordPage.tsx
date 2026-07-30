@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Alert, Button, Form, Input, Typography, message } from 'antd';
+import { MailOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services';
 
-const { Title, Paragraph } = Typography;
+const { Text } = Typography;
 
 const ForgotPasswordPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -27,41 +28,140 @@ const ForgotPasswordPage: React.FC = () => {
 
   return (
     <div>
-      <Title level={3} style={{ textAlign: 'center' }}>Quên mật khẩu</Title>
-      <Paragraph type="secondary" style={{ textAlign: 'center' }}>
-        Nhập email để nhận hướng dẫn đặt lại mật khẩu.
-      </Paragraph>
+      {/* Back link */}
+      <Link to="/login" style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 6,
+        color: '#6e6e73',
+        fontSize: 13,
+        fontWeight: 500,
+        textDecoration: 'none',
+        marginBottom: 24,
+        transition: 'color 0.2s',
+      }}
+        onMouseEnter={(e) => e.currentTarget.style.color = '#1d1d1f'}
+        onMouseLeave={(e) => e.currentTarget.style.color = '#6e6e73'}
+      >
+        <ArrowLeftOutlined style={{ fontSize: 11 }} />
+        Quay lại đăng nhập
+      </Link>
+
+      {/* Title */}
+      <div style={{ marginBottom: 28 }}>
+        <h2 style={{
+          margin: '0 0 8px',
+          color: '#1d1d1f',
+          fontSize: 22,
+          fontWeight: 700,
+          letterSpacing: '-0.3px',
+          fontFamily: "'SF Pro Display', system-ui, sans-serif",
+        }}>
+          Quên mật khẩu
+        </h2>
+        <p style={{
+          margin: 0,
+          color: '#6e6e73',
+          fontSize: 14,
+          lineHeight: 1.5,
+          fontFamily: "'SF Pro Text', system-ui, sans-serif",
+        }}>
+          Nhập email đã đăng ký để nhận hướng dẫn đặt lại mật khẩu.
+        </p>
+      </div>
+
       {resetToken && (
         <Alert
           type="success"
           showIcon
           message="Đã tạo mã đặt lại mật khẩu (môi trường phát triển)."
           action={
-            <Button size="small" onClick={() => navigate(`/reset-password?token=${encodeURIComponent(resetToken)}`)}>
+            <Button
+              size="small"
+              onClick={() => navigate(`/reset-password?token=${encodeURIComponent(resetToken)}`)}
+              style={{
+                borderRadius: 8,
+                background: 'rgba(0, 196, 140, 0.1)',
+                border: '1px solid rgba(0, 196, 140, 0.2)',
+                color: '#00C48C',
+              }}
+            >
               Tiếp tục
             </Button>
           }
-          style={{ marginBottom: 20 }}
+          style={{
+            marginBottom: 20,
+            background: 'rgba(0, 196, 140, 0.06)',
+            border: '1px solid rgba(0, 196, 140, 0.15)',
+            borderRadius: 12,
+            color: '#00C48C',
+          }}
         />
       )}
+
       <Form layout="vertical" onFinish={onFinish} size="large">
         <Form.Item
           name="email"
-          label="Email"
           rules={[
             { required: true, message: 'Vui lòng nhập email.' },
             { type: 'email', message: 'Email không hợp lệ.' },
           ]}
         >
-          <Input placeholder="email@example.com" />
+          <Input
+            prefix={<MailOutlined style={{ color: '#86868b' }} />}
+            placeholder="email@example.com"
+            style={{
+              background: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.12)',
+              borderRadius: 12,
+              color: '#1d1d1f',
+              height: 48,
+              fontSize: 15,
+            }}
+          />
         </Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading} block>
-          Gửi yêu cầu
-        </Button>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={loading}
+            block
+            style={{
+              height: 48,
+              borderRadius: 12,
+              fontWeight: 600,
+              fontSize: 15,
+              background: 'linear-gradient(135deg, #0062FF 0%, #7B61FF 100%)',
+              border: 'none',
+              boxShadow: '0 4px 14px rgba(0, 98, 255, 0.3)',
+            }}
+            onMouseEnter={(e) => {
+              (e as any).currentTarget.style.opacity = '0.9';
+              (e as any).currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              (e as any).currentTarget.style.opacity = '1';
+              (e as any).currentTarget.style.transform = 'translateY(0)';
+            }}
+          >
+            Gửi yêu cầu
+          </Button>
+        </Form.Item>
       </Form>
-      <Paragraph style={{ textAlign: 'center', marginTop: 20 }}>
-        <Link to="/login">Quay lại đăng nhập</Link>
-      </Paragraph>
+
+      <p style={{ textAlign: 'center', marginTop: 20, marginBottom: 0 }}>
+        <Text style={{ fontSize: 13, color: '#6e6e73' }}>
+          Nhớ mật khẩu rồi?{' '}
+          <Link to="/login" style={{
+            color: '#0062FF',
+            fontWeight: 600,
+            textDecoration: 'none',
+          }}>
+            Đăng nhập
+          </Link>
+        </Text>
+      </p>
     </div>
   );
 };

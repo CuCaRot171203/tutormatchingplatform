@@ -6,7 +6,7 @@ import { useAuthStore } from '../../stores';
 import { authService } from '../../services';
 import type { RegisterRequest } from '../../types';
 
-const { Title, Paragraph } = Typography;
+const { Text } = Typography;
 
 const RegisterPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -24,11 +24,10 @@ const RegisterPage: React.FC = () => {
         ...values,
         role,
       } as RegisterRequest);
-      
+
       login(response.user, response.token, response.refreshToken);
       message.success('Đăng ký thành công!');
-      
-      // Redirect based on role
+
       switch (role) {
         case 'Student':
           navigate('/student/dashboard');
@@ -58,45 +57,63 @@ const RegisterPage: React.FC = () => {
 
   return (
     <div>
-      <Title level={3} style={{ 
-        textAlign: 'center', 
-        marginBottom: 8,
-        color: '#101114',
-        fontWeight: 700,
-      }}>
-        Tạo tài khoản mới
-      </Title>
-      <Paragraph type="secondary" style={{ textAlign: 'center', marginBottom: 32 }}>
-        Tham gia TutorMatch ngay hôm nay
-      </Paragraph>
+      {/* Title */}
+      <div style={{ textAlign: 'center', marginBottom: 24 }}>
+        <h2 style={{
+          margin: '0 0 6px',
+          color: '#1d1d1f',
+          fontSize: 22,
+          fontWeight: 700,
+          letterSpacing: '-0.3px',
+          fontFamily: "'SF Pro Display', system-ui, sans-serif",
+        }}>
+          Tạo tài khoản mới
+        </h2>
+        <p style={{
+          margin: 0,
+          color: '#6e6e73',
+          fontSize: 14,
+          fontFamily: "'SF Pro Text', system-ui, sans-serif",
+        }}>
+          Tham gia TutorMatch ngay hôm nay
+        </p>
+      </div>
 
       {error && (
         <Alert
           message={error}
           type="error"
           showIcon
-          style={{ marginBottom: 24 }}
+          style={{
+            marginBottom: 20,
+            background: 'rgba(220, 38, 38, 0.06)',
+            border: '1px solid rgba(220, 38, 38, 0.15)',
+            borderRadius: 12,
+            color: '#dc2626',
+          }}
         />
       )}
 
       {/* Role Selection */}
-      <div style={{ marginBottom: 24 }}>
-        <label style={{ 
-          display: 'block', 
-          marginBottom: 8, 
+      <div style={{ marginBottom: 20 }}>
+        <label style={{
+          display: 'block',
+          marginBottom: 8,
           fontWeight: 500,
-          color: '#101114',
+          fontSize: 13,
+          color: '#6e6e73',
+          fontFamily: "'SF Pro Text', system-ui, sans-serif",
         }}>
           Bạn là
         </label>
-        <Radio.Group 
-          value={role} 
+        <Radio.Group
+          value={role}
           onChange={(e) => setRole(e.target.value)}
           style={{ width: '100%' }}
         >
           <div style={{ display: 'flex', gap: 12 }}>
-            <Radio.Button 
-              value="Student" 
+            <Radio.Button
+              value="Student"
               style={{
                 flex: 1,
                 height: 64,
@@ -106,15 +123,24 @@ const RegisterPage: React.FC = () => {
                 borderRadius: 12,
                 fontSize: 15,
                 fontWeight: 500,
+                background: role === 'Student' ? 'rgba(0, 98, 255, 0.08)' : '#ffffff',
+                border: role === 'Student' ? '1px solid rgba(0, 98, 255, 0.4)' : '1px solid rgba(0,0,0,0.12)',
+                color: role === 'Student' ? '#0062FF' : '#6e6e73',
+                transition: 'all 0.2s',
               }}
             >
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 18, marginBottom: 4 }}>🎓</div>
-                <div>Học sinh</div>
+                <div style={{ fontSize: 20, marginBottom: 4 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={role === 'Student' ? '#0062FF' : '#86868b'}>
+                    <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
+                    <path d="M12 13.5L3.5 9 12 4.5 20.5 9 12 13.5z"/>
+                  </svg>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 500 }}>Học sinh</div>
               </div>
             </Radio.Button>
-            <Radio.Button 
-              value="Tutor" 
+            <Radio.Button
+              value="Tutor"
               style={{
                 flex: 1,
                 height: 64,
@@ -124,11 +150,19 @@ const RegisterPage: React.FC = () => {
                 borderRadius: 12,
                 fontSize: 15,
                 fontWeight: 500,
+                background: role === 'Tutor' ? 'rgba(123, 97, 255, 0.08)' : '#ffffff',
+                border: role === 'Tutor' ? '1px solid rgba(123, 97, 255, 0.4)' : '1px solid rgba(0,0,0,0.12)',
+                color: role === 'Tutor' ? '#7B61FF' : '#6e6e73',
+                transition: 'all 0.2s',
               }}
             >
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: 18, marginBottom: 4 }}>👨‍🏫</div>
-                <div>Gia sư</div>
+                <div style={{ fontSize: 20, marginBottom: 4 }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill={role === 'Tutor' ? '#7B61FF' : '#86868b'}>
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 500 }}>Gia sư</div>
               </div>
             </Radio.Button>
           </div>
@@ -149,9 +183,17 @@ const RegisterPage: React.FC = () => {
             { min: 2, message: 'Họ và tên phải có ít nhất 2 ký tự!' },
           ]}
         >
-          <Input 
-            prefix={<UserOutlined style={{ color: '#9497a9' }} />}
+          <Input
+            prefix={<UserOutlined style={{ color: '#86868b' }} />}
             placeholder="Họ và tên"
+            style={{
+              background: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.12)',
+              borderRadius: 12,
+              color: '#1d1d1f',
+              height: 48,
+              fontSize: 15,
+            }}
           />
         </Form.Item>
 
@@ -162,9 +204,17 @@ const RegisterPage: React.FC = () => {
             { type: 'email', message: 'Email không hợp lệ!' },
           ]}
         >
-          <Input 
-            prefix={<MailOutlined style={{ color: '#9497a9' }} />}
+          <Input
+            prefix={<MailOutlined style={{ color: '#86868b' }} />}
             placeholder="Email"
+            style={{
+              background: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.12)',
+              borderRadius: 12,
+              color: '#1d1d1f',
+              height: 48,
+              fontSize: 15,
+            }}
           />
         </Form.Item>
 
@@ -175,9 +225,17 @@ const RegisterPage: React.FC = () => {
             { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự!' },
           ]}
         >
-          <Input.Password 
-            prefix={<LockOutlined style={{ color: '#9497a9' }} />}
+          <Input.Password
+            prefix={<LockOutlined style={{ color: '#86868b' }} />}
             placeholder="Mật khẩu"
+            style={{
+              background: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.12)',
+              borderRadius: 12,
+              color: '#1d1d1f',
+              height: 48,
+              fontSize: 15,
+            }}
           />
         </Form.Item>
 
@@ -196,9 +254,17 @@ const RegisterPage: React.FC = () => {
             }),
           ]}
         >
-          <Input.Password 
-            prefix={<LockOutlined style={{ color: '#9497a9' }} />}
+          <Input.Password
+            prefix={<LockOutlined style={{ color: '#86868b' }} />}
             placeholder="Xác nhận mật khẩu"
+            style={{
+              background: '#ffffff',
+              border: '1px solid rgba(0,0,0,0.12)',
+              borderRadius: 12,
+              color: '#1d1d1f',
+              height: 48,
+              fontSize: 15,
+            }}
           />
         </Form.Item>
 
@@ -206,17 +272,17 @@ const RegisterPage: React.FC = () => {
           name="terms"
           valuePropName="checked"
           rules={[
-            { 
-              validator: (_, value) => 
-                value ? Promise.resolve() : Promise.reject(new Error('Bạn phải đồng ý với điều khoản!')) 
+            {
+              validator: (_, value) =>
+                value ? Promise.resolve() : Promise.reject(new Error('Bạn phải đồng ý với điều khoản!')),
             },
           ]}
         >
-          <Checkbox>
+          <Checkbox style={{ color: '#6e6e73' }}>
             Tôi đồng ý với{' '}
-            <a href="#terms" style={{ color: '#7132f5' }}>Điều khoản sử dụng</a>
+            <a href="#terms" style={{ color: '#0062FF' }}>Điều khoản sử dụng</a>
             {' '}và{' '}
-            <a href="#privacy" style={{ color: '#7132f5' }}>Chính sách bảo mật</a>
+            <a href="#privacy" style={{ color: '#0062FF' }}>Chính sách bảo mật</a>
           </Checkbox>
         </Form.Item>
 
@@ -230,7 +296,18 @@ const RegisterPage: React.FC = () => {
               height: 48,
               borderRadius: 12,
               fontWeight: 600,
-              fontSize: 16,
+              fontSize: 15,
+              background: 'linear-gradient(135deg, #0062FF 0%, #7B61FF 100%)',
+              border: 'none',
+              boxShadow: '0 4px 14px rgba(0, 98, 255, 0.3)',
+            }}
+            onMouseEnter={(e) => {
+              (e as any).currentTarget.style.opacity = '0.9';
+              (e as any).currentTarget.style.transform = 'translateY(-1px)';
+            }}
+            onMouseLeave={(e) => {
+              (e as any).currentTarget.style.opacity = '1';
+              (e as any).currentTarget.style.transform = 'translateY(0)';
             }}
           >
             Đăng ký
@@ -238,12 +315,18 @@ const RegisterPage: React.FC = () => {
         </Form.Item>
       </Form>
 
-      <Paragraph type="secondary" style={{ textAlign: 'center', marginTop: 24, marginBottom: 0 }}>
-        Đã có tài khoản?{' '}
-        <Link to="/login" style={{ color: '#7132f5', fontWeight: 500 }}>
-          Đăng nhập ngay
-        </Link>
-      </Paragraph>
+      <p style={{ textAlign: 'center', marginTop: 16, marginBottom: 0 }}>
+        <Text style={{ fontSize: 14, color: '#6e6e73' }}>
+          Đã có tài khoản?{' '}
+          <Link to="/login" style={{
+            color: '#0062FF',
+            fontWeight: 600,
+            textDecoration: 'none',
+          }}>
+            Đăng nhập ngay
+          </Link>
+        </Text>
+      </p>
     </div>
   );
 };
