@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../stores';
+import { LandingHeader, LandingFooter } from '../layout/Landing';
 
 const HomePage: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
@@ -11,53 +12,10 @@ const HomePage: React.FC = () => {
     else if (user?.role === 'Tutor') navigate('/tutor/dashboard');
     else if (user?.role === 'Administrator') navigate('/admin/dashboard');
   };
-
   return (
     <div style={{ backgroundColor: 'var(--apple-surface-black)', color: 'var(--apple-on-dark)', fontFamily: "'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif" }}>
 
-      {/* =========================================
-          GLOBAL NAV
-      ========================================= */}
-      <nav className="apple-global-nav">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-          {/* Logo */}
-          <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <div style={{
-              width: 28,
-              height: 28,
-              backgroundColor: 'var(--apple-primary)',
-              borderRadius: 6,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <span style={{ color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: "'SF Pro Display', system-ui, sans-serif" }}>TM</span>
-            </div>
-            <span style={{ color: '#fff', fontSize: 14, fontWeight: 400, letterSpacing: '-0.01em' }}>TutorMatch</span>
-          </Link>
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          {isAuthenticated ? (
-            <button
-              onClick={handleDashboard}
-              className="apple-btn-dark-utility"
-              style={{ fontSize: 12 }}
-            >
-              Dashboard
-            </button>
-          ) : (
-            <>
-              <Link to="/login">
-                <button className="apple-btn-dark-utility" style={{ fontSize: 12 }}>Đăng nhập</button>
-              </Link>
-              <Link to="/register">
-                <button className="apple-btn-primary" style={{ padding: '6px 16px', fontSize: 13 }}>Đăng ký</button>
-              </Link>
-            </>
-          )}
-        </div>
-      </nav>
+      <LandingHeader />
 
       {/* =========================================
           HERO TILE — full-width banner layout
@@ -1801,63 +1759,7 @@ const HomePage: React.FC = () => {
       {/* =========================================
           FOOTER
       ========================================= */}
-      <footer className="apple-footer">
-        <div style={{ maxWidth: 980, margin: '0 auto' }}>
-          {/* Footer Links */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 32, marginBottom: 32 }}>
-            <div>
-              <p className="apple-caption-strong" style={{ color: 'var(--apple-ink)', marginBottom: 12 }}>Nền tảng</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {['Tìm gia sư', 'Đặt phiên học', 'Môn học', 'Bảng giá'].map((link, i) => (
-                  <a key={i} href="#" className="apple-fine-print">{link}</a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="apple-caption-strong" style={{ color: 'var(--apple-ink)', marginBottom: 12 }}>Tài khoản</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {['Đăng nhập', 'Đăng ký', 'Quên mật khẩu', 'Dashboard'].map((link, i) => (
-                  <a key={i} href="#" className="apple-fine-print">{link}</a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="apple-caption-strong" style={{ color: 'var(--apple-ink)', marginBottom: 12 }}>Hỗ trợ</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {['Trung tâm trợ giúp', 'Liên hệ', 'Câu hỏi thường gặp', 'Báo cáo sự cố'].map((link, i) => (
-                  <a key={i} href="#" className="apple-fine-print">{link}</a>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="apple-caption-strong" style={{ color: 'var(--apple-ink)', marginBottom: 12 }}>Pháp lý</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {['Điều khoản sử dụng', 'Chính sách bảo mật', 'Chính sách hoàn tiền', 'Giấy phép'].map((link, i) => (
-                  <a key={i} href="#" className="apple-fine-print">{link}</a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div style={{ height: 1, backgroundColor: 'var(--apple-hairline)', marginBottom: 16 }} />
-
-          {/* Legal Row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-            <p className="apple-fine-print" style={{ color: 'var(--apple-ink-muted-48)', margin: 0 }}>
-              © {new Date().getFullYear()} TutorMatch. Tất cả quyền được bảo lưu.
-            </p>
-            <p className="apple-fine-print" style={{ color: 'var(--apple-ink-muted-48)', margin: 0 }}>
-              Kiến trúc: Clean Architecture · ASP.NET Core 10 · Entity Framework Core · JWT
-            </p>
-          </div>
-
-          {/* Tech Stack Note */}
-          <p className="apple-fine-print" style={{ color: 'var(--apple-ink-muted-48)', marginTop: 12, marginBottom: 0, fontStyle: 'italic' }}>
-            Xây dựng trên nền tảng TutorMatchingPlatform — CQRS + MediatR + FluentValidation + React + TypeScript
-          </p>
-        </div>
-      </footer>
+      <LandingFooter />
     </div>
   );
 };
