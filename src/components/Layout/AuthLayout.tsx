@@ -1,5 +1,6 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import logoUrl from '../../assets/branding/Logo.png';
 
 export const AuthLayout: React.FC = () => {
   return (
@@ -52,7 +53,7 @@ export const AuthLayout: React.FC = () => {
         boxShadow: '0 1px 12px rgba(0,0,0,0.04)',
       }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+          <img src={logoUrl} alt="Logo" style={{ width: 32, height: 32, objectFit: 'contain' }} />
           <span style={{
             color: '#1d1d1f',
             fontSize: 15,

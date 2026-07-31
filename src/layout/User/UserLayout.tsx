@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Menu, Button, Tooltip } from 'antd';
 import type { MenuProps } from 'antd';
+import logoUrl from '../../assets/branding/Logo.png';
 import {
   HomeOutlined,
   SearchOutlined,
@@ -89,7 +90,7 @@ const UserLayout: React.FC = () => {
             display: 'flex', alignItems: 'center',
             gap: 8,
           }}>
-            <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
+            <img src={logoUrl} alt="Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
             {!collapsed && (
               <div>
                 <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1d26', fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: '-0.3px', lineHeight: 1.3 }}>TutorMatch</div>

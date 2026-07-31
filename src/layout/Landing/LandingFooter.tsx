@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import logoUrl from '../../assets/branding/Logo.png';
 
 function useScrollReveal(threshold = 0.15) {
   const ref = useRef<HTMLDivElement>(null);
@@ -125,7 +126,7 @@ const LandingFooter: React.FC = () => {
           {/* Brand column */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 160 }}>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 28, height: 28, objectFit: 'contain' }} />
+          <img src={logoUrl} alt="Logo" style={{ width: 28, height: 28, objectFit: 'contain' }} />
               <span style={{
                 color: '#1d1d1f', fontSize: 14, fontWeight: 600,
                 fontFamily: "'SF Pro Display', system-ui, sans-serif",

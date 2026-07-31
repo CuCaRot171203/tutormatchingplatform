@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores';
+import logoUrl from '../../assets/branding/Logo.png';
 
 const NAV_LINKS = [
   { label: 'Tìm gia sư', href: '/find-tutor' },
@@ -56,7 +57,7 @@ const LandingHeader: React.FC = () => {
       {/* Left: Logo + Nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0 }}>
-          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+          <img src={logoUrl} alt="Logo" style={{ width: 32, height: 32, objectFit: 'contain' }} />
           <span style={{
             color: '#1d1d1f',
             fontSize: 15,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Dropdown, Avatar, Badge, Button, List, Popover, Typography, Space } from 'antd';
+import logoUrl from '../../assets/branding/Logo.png';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -235,7 +236,7 @@ export const MainLayout: React.FC = () => {
           padding: collapsed ? 0 : '0 20px',
           borderBottom: '1px solid #dedee5',
         }}>
-          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
+          <img src={logoUrl} alt="Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
           {!collapsed && (
             <span style={{
               marginLeft: 12,
