@@ -819,6 +819,47 @@ a:hover {
   }
 }
 
+/* ============================================
+   ANT DESIGN TABLE ENHANCEMENTS
+   ============================================ */
+
+/* Table hover row effect */
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background-color: rgba(0, 98, 255, 0.03) !important;
+}
+
+/* Table header */
+.ant-table-thead > tr > th {
+  background-color: #fafafa !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #1d1d1f !important;
+  border-bottom: 1px solid #e8eaed !important;
+}
+
+/* Table sort icons */
+.ant-table-column-sorter {
+  color: #9497a9 !important;
+}
+
+/* Ant notification custom styles */
+.ant-notification-notice {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12) !important;
+  padding: 16px 20px !important;
+}
+
+.ant-notification-notice-message {
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  color: #1d1d1f !important;
+}
+
+.ant-notification-notice-description {
+  font-size: 14px !important;
+  color: #6e6e73 !important;
+}
+
 /* Small phone: <=419px */
 @media (max-width: 419px) {
   .apple-hero-display {

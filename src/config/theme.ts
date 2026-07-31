@@ -53,6 +53,10 @@ export const theme: ThemeConfig = {
     Tabs: {
       borderRadius: 12,
     },
+    Notification: {
+      fontFamily: "'SF Pro Display', 'SF Pro Text', system-ui, -apple-system, sans-serif",
+      fontSize: 14,
+    },
   },
 };
 

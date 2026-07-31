@@ -18,6 +18,9 @@ import {
   TeamOutlined,
   ExclamationCircleOutlined,
   UserAddOutlined,
+  BookOutlined,
+  VideoCameraOutlined,
+  StarOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../../stores';
@@ -39,29 +42,35 @@ interface MenuItem {
 }
 
 const studentMenuItems: MenuItem[] = [
-  { key: 'dashboard', icon: <HomeOutlined />, label: 'Trang chủ', path: '/student/dashboard' },
-  { key: 'search', icon: <SearchOutlined />, label: 'Tìm gia sư', path: '/student/search-tutors' },
-  { key: 'sessions', icon: <SolutionOutlined />, label: 'Lịch học', path: '/student/sessions' },
-  { key: 'wallet', icon: <WalletOutlined />, label: 'Ví Credit', path: '/student/wallet' },
-  { key: 'progress', icon: <BarChartOutlined />, label: 'Tiến độ học tập', path: '/student/progress' },
-  { key: 'profile', icon: <UserOutlined />, label: 'Hồ sơ', path: '/student/profile' },
+  { key: 'dashboard', icon: <HomeOutlined />,           label: 'Trang chủ',           path: '/student/dashboard' },
+  { key: 'search',    icon: <SearchOutlined />,         label: 'Tìm gia sư',          path: '/student/search-tutors' },
+  { key: 'sessions',  icon: <SolutionOutlined />,       label: 'Lịch học',             path: '/student/sessions' },
+  { key: 'progress',  icon: <BarChartOutlined />,       label: 'Tiến độ học tập',     path: '/student/progress' },
+  { key: 'wallet',    icon: <WalletOutlined />,         label: 'Ví Credit',            path: '/student/wallet' },
+  { key: 'complaints',icon: <ExclamationCircleOutlined />, label: 'Khiếu nại',         path: '/student/complaints' },
+  { key: 'profile',  icon: <UserOutlined />,           label: 'Hồ sơ',               path: '/student/profile' },
 ];
 
 const tutorMenuItems: MenuItem[] = [
-  { key: 'dashboard', icon: <HomeOutlined />, label: 'Trang chủ', path: '/tutor/dashboard' },
-  { key: 'sessions', icon: <SolutionOutlined />, label: 'Lịch dạy', path: '/tutor/sessions' },
-  { key: 'schedule', icon: <ClockCircleOutlined />, label: 'Lịch rảnh', path: '/tutor/schedule' },
-  { key: 'students', icon: <TeamOutlined />, label: 'Học sinh', path: '/tutor/students' },
-  { key: 'wallet', icon: <WalletOutlined />, label: 'Ví Credit', path: '/tutor/wallet' },
-  { key: 'profile', icon: <UserOutlined />, label: 'Hồ sơ', path: '/tutor/profile' },
+  { key: 'dashboard', icon: <HomeOutlined />,        label: 'Trang chủ',          path: '/tutor/dashboard' },
+  { key: 'sessions',  icon: <SolutionOutlined />,      label: 'Lịch dạy',            path: '/tutor/sessions' },
+  { key: 'schedule',  icon: <ClockCircleOutlined />,  label: 'Lịch rảnh',           path: '/tutor/schedule' },
+  { key: 'students',  icon: <TeamOutlined />,          label: 'Học sinh',            path: '/tutor/students' },
+  { key: 'progress',  icon: <BarChartOutlined />,     label: 'Tiến độ học tập',    path: '/tutor/progress' },
+  { key: 'feedback',  icon: <StarOutlined />,          label: 'Phản hồi',            path: '/tutor/feedback' },
+  { key: 'wallet',    icon: <WalletOutlined />,        label: 'Ví Credit',           path: '/tutor/wallet' },
+  { key: 'profile',  icon: <UserOutlined />,          label: 'Hồ sơ',               path: '/tutor/profile' },
 ];
 
 const adminMenuItems: MenuItem[] = [
-  { key: 'dashboard', icon: <HomeOutlined />, label: 'Tổng quan', path: '/admin/dashboard' },
-  { key: 'tutors', icon: <UserAddOutlined />, label: 'Duyệt gia sư', path: '/admin/tutors/pending' },
-  { key: 'credits', icon: <DollarCircleOutlined />, label: 'Yêu cầu nạp tiền', path: '/admin/credits/pending' },
-  { key: 'complaints', icon: <ExclamationCircleOutlined />, label: 'Khiếu nại', path: '/admin/complaints' },
-  { key: 'users', icon: <TeamOutlined />, label: 'Quản lý người dùng', path: '/admin/users' },
+  { key: 'dashboard',  icon: <HomeOutlined />,            label: 'Tổng quan',            path: '/admin/dashboard' },
+  { key: 'tutors',    icon: <UserAddOutlined />,          label: 'Duyệt gia sư',         path: '/admin/tutors/pending' },
+  { key: 'subjects',  icon: <BookOutlined />,             label: 'Quản lý môn học',      path: '/admin/subjects' },
+  { key: 'credits',   icon: <DollarCircleOutlined />,     label: 'Yêu cầu nạp tiền',     path: '/admin/credits/pending' },
+  { key: 'complaints',icon: <ExclamationCircleOutlined />, label: 'Khiếu nại',           path: '/admin/complaints' },
+  { key: 'users',     icon: <TeamOutlined />,             label: 'Quản lý người dùng',   path: '/admin/users' },
+  { key: 'sessions',  icon: <VideoCameraOutlined />,      label: 'Giám sát phiên',        path: '/admin/sessions' },
+  { key: 'profile',   icon: <UserOutlined />,             label: 'Hồ sơ',                path: '/admin/profile' },
 ];
 
 export const MainLayout: React.FC = () => {
@@ -226,17 +235,7 @@ export const MainLayout: React.FC = () => {
           padding: collapsed ? 0 : '0 20px',
           borderBottom: '1px solid #dedee5',
         }}>
-          <div style={{
-            width: 36,
-            height: 36,
-            backgroundColor: '#7132f5',
-            borderRadius: 10,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <span style={{ color: '#ffffff', fontSize: 20, fontWeight: 700 }}>T</span>
-          </div>
+          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
           {!collapsed && (
             <span style={{
               marginLeft: 12,

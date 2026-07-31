@@ -7,3 +7,4 @@ export { default as SessionDetail } from './SessionDetail';
 export { default as Wallet } from './Wallet';
 export { default as Progress } from './Progress';
 export { default as Profile } from './Profile';
+export { default as StudentComplaints } from './Complaints';

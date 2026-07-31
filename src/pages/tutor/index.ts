@@ -3,5 +3,7 @@ export { default as TutorSessions } from './Sessions';
 export { default as TutorSessionDetail } from './SessionDetail';
 export { default as Schedule } from './Schedule';
 export { default as Students } from './Students';
+export { default as TutorProgress } from './Progress';
+export { default as TutorFeedback } from './Feedback';
 export { default as TutorProfilePage } from './Profile';
 export { default as TutorWallet } from './Wallet';

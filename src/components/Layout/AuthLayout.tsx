@@ -52,24 +52,7 @@ export const AuthLayout: React.FC = () => {
         boxShadow: '0 1px 12px rgba(0,0,0,0.04)',
       }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <div style={{
-            width: 32,
-            height: 32,
-            background: 'linear-gradient(135deg, #0062FF 0%, #7B61FF 100%)',
-            borderRadius: 8,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(0, 98, 255, 0.3)',
-          }}>
-            <span style={{
-              color: '#fff',
-              fontSize: 13,
-              fontWeight: 800,
-              fontFamily: "'SF Pro Display', system-ui, sans-serif",
-              letterSpacing: '-0.02em',
-            }}>TM</span>
-          </div>
+          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 32, height: 32, objectFit: 'contain' }} />
           <span style={{
             color: '#1d1d1f',
             fontSize: 15,

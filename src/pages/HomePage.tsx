@@ -1,8 +1,60 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuthStore } from '../stores';
 import { LandingHeader, LandingFooter } from '../layout/Landing';
+
+// ── Count-up hook: animates a number when `trigger` goes true ──
+function useCountUp(target: number, duration: number, trigger: boolean): number {
+  const [count, setCount] = useState(0);
+  const rafRef = useRef<number | null>(null);
+
+  const animate = useCallback(() => {
+    const start = performance.now();
+    const step = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(step);
+      }
+    };
+    rafRef.current = requestAnimationFrame(step);
+  }, [target, duration]);
+
+  useEffect(() => {
+    if (!trigger) return;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    animate();
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [trigger, animate]);
+
+  return count;
+}
+
+// ── Helper: compute duration from number magnitude ──
+function countDuration(value: number): number {
+  if (value <= 10) return 1000;
+  if (value <= 100) return 1500;
+  if (value <= 1000) return 2000;
+  return 3000;
+}
+
+import landing1 from '../assets/image/landing-1.png';
+import landing2 from '../assets/image/landing-2.png';
+import landing3 from '../assets/image/landing-3.png';
+import landing4 from '../assets/image/landing-4.png';
+
+const HERO_IMAGES = [
+  { src: landing1, alt: 'Học sinh & gia sư học trực tuyến' },
+  { src: landing2, alt: 'Học tập trên giấy và thiết bị' },
+  { src: landing3, alt: 'Giáo viên giảng dạy trên lớp' },
+  { src: landing4, alt: 'Học nhóm và thảo luận' },
+];
 
 const HomePage: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
@@ -119,28 +171,20 @@ const HomePage: React.FC = () => {
             borderTop: '1px solid rgba(0,0,0,0.08)',
           }}>
             {[
-              { value: '2,400+', label: 'Gia sư chất lượng' },
-              { value: '15,000+', label: 'Phiên học hoàn thành' },
-              { value: '4.9★', label: 'Điểm uy tín trung bình' },
+              { raw: 2400, label: 'Gia sư chất lượng', suffix: '+' },
+              { raw: 15000, label: 'Phiên học hoàn thành', suffix: '+' },
+              { raw: 49, label: 'Điểm uy tín trung bình', suffix: '★' },
             ].map((stat, i) => (
-              <div key={i}>
-                <p style={{
-                  fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
-                  fontSize: 22,
-                  fontWeight: 700,
-                  color: '#1d1d1f',
-                  letterSpacing: '-0.02em',
-                  margin: 0,
-                  lineHeight: 1,
-                }}>{stat.value}</p>
-                <p style={{
-                  fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
-                  fontSize: 12,
-                  fontWeight: 400,
-                  color: '#86868b',
-                  margin: '6px 0 0',
-                }}>{stat.label}</p>
-              </div>
+              <CountUpStat
+                key={i}
+                raw={stat.raw}
+                suffix={stat.suffix}
+                label={stat.label}
+                fontSize={22}
+                fontWeight={700}
+                numberColor="#1d1d1f"
+                labelSize={12}
+              />
             ))}
           </div>
         </div>
@@ -151,24 +195,7 @@ const HomePage: React.FC = () => {
           overflow: 'hidden',
           animation: 'heroFadeIn 0.9s ease-out 0.15s both',
         }}>
-          {[
-            {
-              src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&q=85',
-              alt: 'Học sinh & gia sư học trực tuyến',
-            },
-            {
-              src: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=900&q=85',
-              alt: 'Học tập trên giấy và thiết bị',
-            },
-            {
-              src: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900&q=85',
-              alt: 'Giáo viên giảng dạy trên lớp',
-            },
-            {
-              src: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=900&q=85',
-              alt: 'Học nhóm và thảo luận',
-            },
-          ].map((img, i) => (
+          {HERO_IMAGES.map((img, i) => (
             <img
               key={i}
               src={img.src}
@@ -217,30 +244,6 @@ const HomePage: React.FC = () => {
             ))}
           </div>
         </div>
-
-        {/* Scroll indicator */}
-        <div style={{
-          position: 'absolute',
-          bottom: 28,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 6,
-          zIndex: 3,
-          animation: 'heroFadeIn 1s ease-out 1s both',
-        }}>
-          <p style={{
-            fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
-            fontSize: 10,
-            color: 'rgba(0,0,0,0.3)',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            margin: 0,
-          }}>Cuộn xuống</p>
-          <div style={{ width: 1, height: 32, background: 'linear-gradient(to bottom, rgba(0,0,0,0.2), transparent)', animation: 'scrollLine 2s ease-in-out infinite' }} />
-        </div>
       </motion.section>
 
       <style>{`
@@ -252,49 +255,78 @@ const HomePage: React.FC = () => {
           0%, 100% { opacity: 0.3; transform: scaleY(1); }
           50%       { opacity: 1; transform: scaleY(1.3); }
         }
-        .hero-banner-img-0 { animation: bannerImg0 20s ease-in-out infinite; }
-        .hero-banner-img-1 { animation: bannerImg1 20s ease-in-out infinite; }
-        .hero-banner-img-2 { animation: bannerImg2 20s ease-in-out infinite; }
-        .hero-banner-img-3 { animation: bannerImg3 20s ease-in-out infinite; }
+        .hero-banner-img-0 { animation: bannerImg0 28s ease-in-out infinite; }
+        .hero-banner-img-1 { animation: bannerImg1 28s ease-in-out infinite; }
+        .hero-banner-img-2 { animation: bannerImg2 28s ease-in-out infinite; }
+        .hero-banner-img-3 { animation: bannerImg3 28s ease-in-out infinite; }
+        /* 5s display + 2s transition = 28s total cycle */
         @keyframes bannerImg0 {
-          0%, 20%   { opacity: 1; transform: scale(1); }
-          30%, 100% { opacity: 0; transform: scale(1.04); }
+          0%     { opacity: 1; }
+          17.86% { opacity: 1; }
+          25%    { opacity: 0; }
+          99%    { opacity: 0; }
+          100%   { opacity: 1; }
         }
         @keyframes bannerImg1 {
-          0%, 20%   { opacity: 0; transform: scale(1.04); }
-          30%, 50%  { opacity: 1; transform: scale(1); }
-          60%, 100% { opacity: 0; transform: scale(1.04); }
+          0%     { opacity: 0; }
+          17.86% { opacity: 0; }
+          25%    { opacity: 1; }
+          42.86% { opacity: 1; }
+          50%    { opacity: 0; }
+          99%    { opacity: 0; }
+          100%   { opacity: 0; }
         }
         @keyframes bannerImg2 {
-          0%, 50%   { opacity: 0; transform: scale(1.04); }
-          60%, 80%  { opacity: 1; transform: scale(1); }
-          90%, 100% { opacity: 0; transform: scale(1.04); }
+          0%     { opacity: 0; }
+          42.86% { opacity: 0; }
+          50%    { opacity: 1; }
+          67.86% { opacity: 1; }
+          75%    { opacity: 0; }
+          99%    { opacity: 0; }
+          100%   { opacity: 0; }
         }
         @keyframes bannerImg3 {
-          0%, 80%   { opacity: 0; transform: scale(1.04); }
-          90%, 100% { opacity: 1; transform: scale(1); }
+          0%     { opacity: 0; }
+          67.86% { opacity: 0; }
+          75%    { opacity: 1; }
+          99%    { opacity: 1; }
+          100%   { opacity: 0; }
         }
-        .hero-banner-dot-0 { animation: bannerDot0 20s ease-in-out infinite; }
-        .hero-banner-dot-1 { animation: bannerDot1 20s ease-in-out infinite; }
-        .hero-banner-dot-2 { animation: bannerDot2 20s ease-in-out infinite; }
-        .hero-banner-dot-3 { animation: bannerDot3 20s ease-in-out infinite; }
+        .hero-banner-dot-0 { animation: bannerDot0 28s ease-in-out infinite; }
+        .hero-banner-dot-1 { animation: bannerDot1 28s ease-in-out infinite; }
+        .hero-banner-dot-2 { animation: bannerDot2 28s ease-in-out infinite; }
+        .hero-banner-dot-3 { animation: bannerDot3 28s ease-in-out infinite; }
         @keyframes bannerDot0 {
-          0%, 20%  { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
-          30%, 100%{ background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          0%     { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          17.86% { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          25%    { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          99%    { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          100%   { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
         }
         @keyframes bannerDot1 {
-          0%, 20%  { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
-          30%, 50% { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
-          60%, 100%{ background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          0%     { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          17.86% { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          25%    { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          42.86% { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          50%    { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          99%    { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          100%   { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
         }
         @keyframes bannerDot2 {
-          0%, 50%  { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
-          60%, 80% { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
-          90%, 100%{ background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          0%     { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          42.86% { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          50%    { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          67.86% { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          75%    { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          99%    { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          100%   { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
         }
         @keyframes bannerDot3 {
-          0%, 80%  { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
-          90%, 100%{ background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          0%     { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          67.86% { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
+          75%    { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          99%    { background: rgba(0,98,255,0.9) !important; transform: scale(1.5); }
+          100%   { background: rgba(0,0,0,0.2) !important; transform: scale(1); }
         }
         @media (max-width: 768px) {
           section {
@@ -674,7 +706,7 @@ const HomePage: React.FC = () => {
             >
               <h3 style={{
                 fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
-                fontSize: 22, fontWeight: 700,
+                fontSize: 22, fontWeight: 500,
                 color: '#1d1d1f',
                 marginBottom: 8,
                 letterSpacing: '-0.02em',
@@ -727,7 +759,7 @@ const HomePage: React.FC = () => {
             >
               <h3 style={{
                 fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
-                fontSize: 22, fontWeight: 700,
+                fontSize: 22, fontWeight: 500,
                 color: '#fff',
                 marginBottom: 8,
                 letterSpacing: '-0.02em',
@@ -779,7 +811,7 @@ const HomePage: React.FC = () => {
             >
               <h3 style={{
                 fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
-                fontSize: 22, fontWeight: 700,
+                fontSize: 22, fontWeight: 500,
                 color: '#1d1d1f',
                 marginBottom: 8,
                 letterSpacing: '-0.02em',
@@ -835,7 +867,7 @@ const HomePage: React.FC = () => {
             <h2 style={{
               fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
               fontSize: 'clamp(26px, 3.5vw, 42px)',
-              fontWeight: 700,
+              fontWeight: 500,
               lineHeight: 1.1,
               letterSpacing: '-0.02em',
               color: '#1d1d1f',
@@ -967,36 +999,23 @@ const HomePage: React.FC = () => {
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 32 }}>
             {[
-              { value: '3', label: 'Vai trò người dùng', sub: 'Student · Tutor · Admin', accent: '#0062FF' },
-              { value: '10+', label: 'Môn học đa dạng', sub: 'Toán, Lý, Hóa, Anh...', accent: '#0062FF' },
-              { value: '5', label: 'Trạng thái phiên học', sub: 'Pending → Completed', accent: '#0062FF' },
-              { value: '3', label: 'Loại khiếu nại', sub: 'Hủy muộn, hành vi, tranh chấp', accent: '#0062FF' },
+              { raw: 3, label: 'Vai trò người dùng', sub: 'Student · Tutor · Admin', accent: '#0062FF' },
+              { raw: 10, label: 'Môn học đa dạng', sub: 'Toán, Lý, Hóa, Anh...', accent: '#0062FF', suffix: '+' },
+              { raw: 5, label: 'Trạng thái phiên học', sub: 'Pending → Completed', accent: '#0062FF' },
+              { raw: 3, label: 'Loại khiếu nại', sub: 'Hủy muộn, hành vi, tranh chấp', accent: '#0062FF' },
             ].map((stat, i) => (
               <div key={i}>
-                <p style={{
-                  fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
-                  fontSize: 52,
-                  fontWeight: 400,
-                  background: `linear-gradient(135deg, ${stat.accent}, ${stat.accent}aa)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  lineHeight: 1,
-                  marginBottom: 8,
-                  letterSpacing: '-2px',
-                }}>{stat.value}</p>
-                <p style={{
-                  fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
-                  fontSize: 15, fontWeight: 600,
-                  color: '#1d1d1f',
-                  marginBottom: 4,
-                }}>{stat.label}</p>
-                <p style={{
-                  fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
-                  fontSize: 12, fontWeight: 400,
-                  color: '#6e6e73',
-                  margin: 0,
-                }}>{stat.sub}</p>
+                <CountUpStat
+                  raw={stat.raw}
+                  suffix={stat.suffix}
+                  label={stat.label}
+                  sub={stat.sub}
+                  fontSize={52}
+                  fontWeight={400}
+                  numberColor={stat.accent}
+                  labelSize={15}
+                  useGradient
+                />
               </div>
             ))}
           </div>
@@ -1337,11 +1356,11 @@ const HomePage: React.FC = () => {
             boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
           }}>
             {[
-              { value: '60 phút', label: 'JWT Access Token', color: '#0062FF' },
-              { value: '7 ngày', label: 'Refresh Token', color: '#0062FF' },
-              { value: '5 lần', label: 'Sai → Khóa', color: '#0062FF' },
-              { value: '24 giờ', label: 'Phản hồi khiếu nại', color: '#0062FF' },
-              { value: '90 ngày', label: 'Chu kỳ tính điểm', color: '#0062FF' },
+              { raw: 60, label: 'JWT Access Token', suffix: ' phút', color: '#0062FF' },
+              { raw: 7, label: 'Refresh Token', suffix: ' ngày', color: '#0062FF' },
+              { raw: 5, label: 'Sai → Khóa', suffix: ' lần', color: '#0062FF' },
+              { raw: 24, label: 'Phản hồi khiếu nại', suffix: ' giờ', color: '#0062FF' },
+              { raw: 90, label: 'Chu kỳ tính điểm', suffix: ' ngày', color: '#0062FF' },
             ].map((metric, i) => (
               <div
                 key={i}
@@ -1351,19 +1370,16 @@ const HomePage: React.FC = () => {
                   borderRight: i < 4 ? '1px solid rgba(0,0,0,0.06)' : 'none',
                 }}
               >
-                <p style={{
-                  fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
-                  fontSize: 24, fontWeight: 400,
-                  color: metric.color,
-                  marginBottom: 4,
-                  letterSpacing: '-0.5px',
-                }}>{metric.value}</p>
-                <p style={{
-                  fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
-                  fontSize: 11, fontWeight: 400,
-                  color: '#6e6e73',
-                  margin: 0,
-                }}>{metric.label}</p>
+                <CountUpStat
+                  raw={metric.raw}
+                  suffix={metric.suffix}
+                  label={metric.label}
+                  fontSize={24}
+                  fontWeight={400}
+                  numberColor={metric.color}
+                  labelSize={11}
+                  useGradient={false}
+                />
               </div>
             ))}
           </div>
@@ -1464,6 +1480,104 @@ const HomePage: React.FC = () => {
 
       {/* Footer */}
       <LandingFooter />
+    </div>
+  );
+};
+
+// ── CountUpStat: wrapper that triggers the count-up on scroll into view ──
+interface CountUpStatProps {
+  raw: number;
+  suffix?: string;
+  label: string;
+  sub?: string;
+  fontSize: number;
+  fontWeight: number;
+  numberColor: string;
+  labelSize: number;
+  useGradient?: boolean;
+}
+
+const CountUpStat: React.FC<CountUpStatProps> = ({
+  raw,
+  suffix = '',
+  label,
+  sub,
+  fontSize,
+  fontWeight,
+  numberColor,
+  labelSize,
+  useGradient = false,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [triggered, setTriggered] = useState(false);
+  const count = useCountUp(raw, countDuration(raw), triggered);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTriggered(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const formatted = useGradient
+    ? count.toLocaleString('vi-VN')
+    : count.toLocaleString('vi-VN');
+
+  const numberStyle: React.CSSProperties = {
+    fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
+    fontSize,
+    fontWeight,
+    lineHeight: 1,
+    margin: 0,
+    letterSpacing: fontSize >= 40 ? '-2px' : fontSize >= 24 ? '-0.5px' : '-0.02em',
+    ...(useGradient
+      ? {
+          background: `linear-gradient(135deg, ${numberColor}, ${numberColor}aa)`,
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          marginBottom: 8,
+        }
+      : {
+          color: numberColor,
+          marginBottom: sub ? 4 : 0,
+        }),
+  };
+
+  return (
+    <div ref={ref}>
+      <p style={numberStyle}>
+        {formatted}{suffix}
+      </p>
+      <p style={{
+        fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
+        fontSize: labelSize,
+        fontWeight: labelSize >= 15 ? 600 : 400,
+        color: labelSize >= 15 ? '#1d1d1f' : '#86868b',
+        margin: labelSize < 15 ? '6px 0 0' : '0 0 4px',
+      }}>
+        {label}
+      </p>
+      {sub && (
+        <p style={{
+          fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
+          fontSize: 12,
+          fontWeight: 400,
+          color: '#6e6e73',
+          margin: 0,
+        }}>
+          {sub}
+        </p>
+      )}
     </div>
   );
 };

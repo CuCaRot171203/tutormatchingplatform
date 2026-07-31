@@ -1,113 +1,223 @@
-import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Statistic, Typography, List, Avatar, Button, Skeleton, message } from 'antd';
-import { 
-  WalletOutlined, 
-  CalendarOutlined, 
-  ClockCircleOutlined,
+import React from 'react';
+import { Row, Col, Card, Typography, List, Avatar, Button, Alert, Tag } from 'antd';
+import {
+  WalletOutlined,
+  CalendarOutlined,
+  CheckCircleOutlined,
   SearchOutlined,
   RightOutlined,
+  BellOutlined,
+  ClockCircleOutlined,
+  TrophyOutlined,
+  FireOutlined,
+  CloseCircleOutlined,
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../stores';
-import { creditService, sessionService } from '../../services';
-import { Loading, SessionCard, StatusBadge } from '../../components/common';
-import type { Session } from '../../types';
-import { formatCurrency, getDateRange } from '../../utils';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+import {
+  MOCK_USER,
+  MOCK_SESSIONS,
+  MOCK_DASHBOARD_STATS,
+  MOCK_NOTIFICATIONS,
+} from '../../data/mockData';
+import type { Session } from '../../types';
+
+dayjs.extend(relativeTime);
 
 const { Title, Text } = Typography;
 
+// Design Tokens
+const T = {
+  primary: '#0062FF',
+  text: '#1d1d1f',
+  gray: '#6e6e73',
+  border: 'rgba(0, 0, 0, 0.10)',
+  white: '#ffffff',
+  bgGray: 'rgba(0, 0, 0, 0.04)',
+  success: '#149e61',
+  successBg: 'rgba(20, 158, 97, 0.08)',
+  error: '#dc2626',
+  errorBg: 'rgba(220, 38, 38, 0.08)',
+  warning: '#d97706',
+  warningBg: 'rgba(217, 119, 6, 0.08)',
+  purple: '#7132f5',
+  purpleBg: 'rgba(113, 50, 245, 0.08)',
+};
+
+const formatCurrency = (value: number) =>
+  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', minimumFractionDigits: 0 }).format(value);
+
+const formatDateRange = (start: string, end: string) => {
+  const s = dayjs(start);
+  const e = dayjs(end);
+  return `${s.format('DD/MM/YYYY')} • ${s.format('HH:mm')} – ${e.format('HH:mm')}`;
+};
+
+const statusConfig: Record<string, { color: string; bg: string; label: string }> = {
+  Confirmed: { color: '#0062FF', bg: 'rgba(0, 98, 255, 0.08)', label: 'Đã xác nhận' },
+  Pending: { color: '#d97706', bg: 'rgba(217, 119, 6, 0.08)', label: 'Chờ xác nhận' },
+  PendingChangeConfirmation: { color: '#7132f5', bg: 'rgba(113, 50, 245, 0.08)', label: 'Chờ đổi lịch' },
+  Completed: { color: '#149e61', bg: 'rgba(20, 158, 97, 0.08)', label: 'Hoàn thành' },
+  Cancelled: { color: '#dc2626', bg: 'rgba(220, 38, 38, 0.08)', label: 'Đã hủy' },
+};
+
 const StudentDashboard: React.FC = () => {
-  const { user } = useAuthStore();
   const navigate = useNavigate();
-  const [balance, setBalance] = useState<number>(0);
-  const [sessions, setSessions] = useState<Session[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [balanceData, sessionsData] = await Promise.all([
-          creditService.getBalance(),
-          sessionService.getMySessions(),
-        ]);
-        setBalance(balanceData);
-        setSessions(sessionsData);
-      } catch (error) {
-        console.error('Failed to fetch dashboard data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const user = MOCK_USER;
+  const stats = MOCK_DASHBOARD_STATS;
+  const sessions = MOCK_SESSIONS;
+  const notifications = MOCK_NOTIFICATIONS;
 
   const upcomingSessions = sessions
-    .filter(s => s.status === 'Confirmed' || s.status === 'Pending')
+    .filter((s) => s.status === 'Confirmed' || s.status === 'Pending')
+    .slice(0, 5);
+
+  const recentCompleted = sessions
+    .filter((s) => s.status === 'Completed')
     .slice(0, 3);
 
-  const completedSessions = sessions.filter(s => s.status === 'Completed').length;
-  const totalSessions = sessions.length;
-
-  if (loading) {
-    return <Loading fullPage />;
-  }
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
     <div>
+      {/* System Notification Banner */}
+      {unreadCount > 0 && (
+        <Alert
+          message={
+            <span style={{ fontSize: 14 }}>
+              Bạn có <strong>{unreadCount} thông báo mới</strong> chưa đọc.{' '}
+              <Button type="link" size="small" style={{ padding: 0, height: 'auto', fontSize: 14 }}
+                onClick={() => navigate('/student/profile')}>
+                Xem ngay
+              </Button>
+            </span>
+          }
+          type="info"
+          showIcon
+          icon={<BellOutlined />}
+          style={{ borderRadius: 10, marginBottom: 20 }}
+          closable
+        />
+      )}
+
       {/* Welcome Header */}
       <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ margin: 0, fontWeight: 700, color: '#101114' }}>
-          Xin chào, {user?.fullName}! 👋
+        <Title level={2} style={{ margin: 0, fontWeight: 700, color: T.text }}>
+          Xin chào, {user.fullName}!
         </Title>
-        <Text type="secondary" style={{ fontSize: 16 }}>
-          Chào mừng bạn quay trở lại TutorMatch
+        <Text type="secondary" style={{ fontSize: 15 }}>
+          Chào mừng bạn quay trở lại TutorMatch — Học tập hiệu quả hơn mỗi ngày
         </Text>
       </div>
 
       {/* Stats Cards */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
-        <Col xs={24} sm={8}>
-          <Card variant="borderless" style={{ borderRadius: 12, boxShadow: 'rgba(0, 0, 0, 0.03) 0px 4px 24px' }}>
-            <Statistic
-              title={<Text type="secondary">Số dư ví</Text>}
-              value={balance}
-              precision={0}
-              prefix={<WalletOutlined style={{ color: '#7132f5' }} />}
-              valueStyle={{ color: '#7132f5', fontWeight: 700 }}
-              formatter={(value) => formatCurrency(Number(value))}
-            />
-            <Link to="/student/wallet">
-              <Button type="link" style={{ padding: 0, color: '#7132f5' }}>
-                Nạp thêm <RightOutlined style={{ fontSize: 10 }} />
-              </Button>
-            </Link>
+        {/* Balance */}
+        <Col xs={24} sm={12} lg={6}>
+          <Card
+            variant="borderless"
+            style={{
+              borderRadius: 12,
+              boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px',
+              background: 'linear-gradient(135deg, #0062FF 0%, #0050d6 100%)',
+              minHeight: 120,
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>Số dư ví</Text>
+                <div style={{ fontSize: 24, fontWeight: 700, color: '#fff', lineHeight: 1.3, marginTop: 4 }}>
+                  {formatCurrency(stats.balance)}
+                </div>
+                <Link to="/student/wallet">
+                  <Button
+                    type="text"
+                    size="small"
+                    style={{ color: 'rgba(255,255,255,0.85)', padding: 0, marginTop: 6, fontSize: 13 }}
+                    icon={<RightOutlined style={{ fontSize: 10 }} />}
+                  >
+                    Nạp thêm
+                  </Button>
+                </Link>
+              </div>
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                backgroundColor: 'rgba(255,255,255,0.15)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <WalletOutlined style={{ color: '#fff', fontSize: 20 }} />
+              </div>
+            </div>
           </Card>
         </Col>
-        <Col xs={24} sm={8}>
-          <Card variant="borderless" style={{ borderRadius: 12, boxShadow: 'rgba(0, 0, 0, 0.03) 0px 4px 24px' }}>
-            <Statistic
-              title={<Text type="secondary">Tổng buổi học</Text>}
-              value={totalSessions}
-              prefix={<CalendarOutlined style={{ color: '#7132f5' }} />}
-              valueStyle={{ color: '#101114', fontWeight: 700 }}
-            />
-            <Link to="/student/sessions">
-              <Button type="link" style={{ padding: 0, color: '#7132f5' }}>
-                Xem tất cả <RightOutlined style={{ fontSize: 10 }} />
-              </Button>
-            </Link>
+
+        {/* Total Sessions */}
+        <Col xs={24} sm={12} lg={6}>
+          <Card variant="borderless" style={{ borderRadius: 12, boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px', minHeight: 120 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <Text type="secondary" style={{ fontSize: 13 }}>Tổng buổi học</Text>
+                <div style={{ fontSize: 28, fontWeight: 700, color: T.text, lineHeight: 1.3, marginTop: 4 }}>
+                  {stats.totalSessions}
+                </div>
+                <Text type="secondary" style={{ fontSize: 12 }}>
+                  {stats.completedSessions} hoàn thành
+                </Text>
+              </div>
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                backgroundColor: T.purpleBg,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <CalendarOutlined style={{ color: T.purple, fontSize: 20 }} />
+              </div>
+            </div>
           </Card>
         </Col>
-        <Col xs={24} sm={8}>
-          <Card variant="borderless" style={{ borderRadius: 12, boxShadow: 'rgba(0, 0, 0, 0.03) 0px 4px 24px' }}>
-            <Statistic
-              title={<Text type="secondary">Buổi đã hoàn thành</Text>}
-              value={completedSessions}
-              prefix={<ClockCircleOutlined style={{ color: '#149e61' }} />}
-              valueStyle={{ color: '#149e61', fontWeight: 700 }}
-            />
+
+        {/* Upcoming */}
+        <Col xs={24} sm={12} lg={6}>
+          <Card variant="borderless" style={{ borderRadius: 12, boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px', minHeight: 120 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <Text type="secondary" style={{ fontSize: 13 }}>Buổi học sắp tới</Text>
+                <div style={{ fontSize: 28, fontWeight: 700, color: T.primary, lineHeight: 1.3, marginTop: 4 }}>
+                  {stats.upcomingSessions}
+                </div>
+                <Text type="secondary" style={{ fontSize: 12 }}>{stats.pendingChangeSessions} chờ đổi lịch</Text>
+              </div>
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                backgroundColor: 'rgba(0, 98, 255, 0.08)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <ClockCircleOutlined style={{ color: T.primary, fontSize: 20 }} />
+              </div>
+            </div>
+          </Card>
+        </Col>
+
+        {/* Goals */}
+        <Col xs={24} sm={12} lg={6}>
+          <Card variant="borderless" style={{ borderRadius: 12, boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px', minHeight: 120 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <Text type="secondary" style={{ fontSize: 13 }}>Mục tiêu học tập</Text>
+                <div style={{ fontSize: 28, fontWeight: 700, color: T.success, lineHeight: 1.3, marginTop: 4 }}>
+                  {stats.completedGoals}/{stats.activeGoals + stats.completedGoals}
+                </div>
+                <Text type="secondary" style={{ fontSize: 12 }}>{stats.activeGoals} đang tiến hành</Text>
+              </div>
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                backgroundColor: T.successBg,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <TrophyOutlined style={{ color: T.success, fontSize: 20 }} />
+              </div>
+            </div>
           </Card>
         </Col>
       </Row>
@@ -115,14 +225,14 @@ const StudentDashboard: React.FC = () => {
       <Row gutter={[16, 16]}>
         {/* Upcoming Sessions */}
         <Col xs={24} lg={16}>
-          <Card 
-            variant="borderless" 
-            style={{ borderRadius: 12, boxShadow: 'rgba(0, 0, 0, 0.03) 0px 4px 24px' }}
+          <Card
+            variant="borderless"
+            style={{ borderRadius: 12, boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px' }}
             title={
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 600 }}>Buổi học sắp tới</span>
+                <span style={{ fontWeight: 600, fontSize: 15 }}>Buổi học sắp tới</span>
                 <Link to="/student/sessions">
-                  <Button type="link" style={{ padding: 0 }}>Xem tất cả</Button>
+                  <Button type="link" style={{ padding: 0, fontSize: 13 }}>Xem tất cả</Button>
                 </Link>
               </div>
             }
@@ -130,103 +240,172 @@ const StudentDashboard: React.FC = () => {
             {upcomingSessions.length > 0 ? (
               <List
                 dataSource={upcomingSessions}
-                renderItem={(session) => (
-                  <List.Item style={{ padding: '12px 0', borderBottom: '1px solid #f0f0f0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%' }}>
-                      <Avatar 
-                        src={session.tutorAvatar} 
-                        icon={<CalendarOutlined />} 
-                        style={{ backgroundColor: '#7132f5' }}
-                      />
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                          <Text strong>{session.tutorName}</Text>
-                          <StatusBadge status={session.status} size="small" />
+                renderItem={(session) => {
+                  const cfg = statusConfig[session.status] || statusConfig.Pending;
+                  return (
+                    <List.Item style={{ padding: '14px 0', borderBottom: '1px solid #f0f0f0' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%' }}>
+                        <Avatar
+                          size={44}
+                          style={{ backgroundColor: T.purple, flexShrink: 0, fontSize: 16, fontWeight: 600 }}
+                        >
+                          {session.tutorName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
+                        </Avatar>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                            <Text strong style={{ fontSize: 14 }}>{session.tutorName}</Text>
+                            <div style={{
+                              padding: '2px 8px', borderRadius: 6,
+                              backgroundColor: cfg.bg, color: cfg.color,
+                              fontSize: 12, fontWeight: 500,
+                            }}>
+                              {cfg.label}
+                            </div>
+                          </div>
+                          <Text type="secondary" style={{ fontSize: 13 }}>
+                            {session.subjectName} • {formatDateRange(session.startTime, session.endTime)}
+                          </Text>
                         </div>
-                        <Text type="secondary" style={{ fontSize: 13 }}>
-                          {session.subjectName} • {getDateRange(session.startTime, session.endTime)}
-                        </Text>
+                        <Link to={`/student/session/${session.id}`}>
+                          <Button type="primary" ghost size="small" style={{ borderRadius: 8, fontSize: 12 }}>
+                            Chi tiết
+                          </Button>
+                        </Link>
                       </div>
-                      <Link to={`/student/session/${session.id}`}>
-                        <Button type="primary" ghost size="small">Chi tiết</Button>
-                      </Link>
-                    </div>
-                  </List.Item>
-                )}
+                    </List.Item>
+                  );
+                }}
               />
             ) : (
-              <div style={{ textAlign: 'center', padding: '32px 0' }}>
-                <CalendarOutlined style={{ fontSize: 48, color: '#9497a9', marginBottom: 16 }} />
-                <Text type="secondary" style={{ display: 'block' }}>
+              <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                <CalendarOutlined style={{ fontSize: 48, color: '#d1d1d6', marginBottom: 16 }} />
+                <Text type="secondary" style={{ display: 'block', fontSize: 14 }}>
                   Chưa có buổi học nào được đặt
                 </Text>
                 <Link to="/student/search-tutors">
-                  <Button type="primary" style={{ marginTop: 16 }}>
+                  <Button type="primary" style={{ marginTop: 16, borderRadius: 10 }}>
                     Tìm gia sư ngay
                   </Button>
                 </Link>
               </div>
             )}
           </Card>
+
+          {/* Recent Completed Sessions */}
+          {recentCompleted.length > 0 && (
+            <Card
+              variant="borderless"
+              style={{
+                borderRadius: 12, boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px',
+                marginTop: 16,
+              }}
+              title={<span style={{ fontWeight: 600, fontSize: 15 }}>Hoàn thành gần đây</span>}
+            >
+              <Row gutter={[12, 12]}>
+                {recentCompleted.map((session) => (
+                  <Col xs={24} sm={8} key={session.id}>
+                    <div style={{
+                      border: '1px solid #f0f0f0',
+                      borderRadius: 10,
+                      padding: '14px 16px',
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+                        <Text strong style={{ fontSize: 13 }}>{session.subjectName}</Text>
+                        <CheckCircleOutlined style={{ color: T.success, fontSize: 14 }} />
+                      </div>
+                      <Text type="secondary" style={{ fontSize: 12, display: 'block', marginBottom: 4 }}>
+                        {session.tutorName}
+                      </Text>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text type="secondary" style={{ fontSize: 12 }}>
+                          {dayjs(session.startTime).format('DD/MM')}
+                        </Text>
+                        {session.score !== undefined && (
+                          <Tag color="green" style={{ borderRadius: 6, fontSize: 12, margin: 0 }}>
+                            {session.score} đ
+                          </Tag>
+                        )}
+                      </div>
+                    </div>
+                  </Col>
+                ))}
+              </Row>
+            </Card>
+          )}
         </Col>
 
-        {/* Quick Actions */}
+        {/* Right Column */}
         <Col xs={24} lg={8}>
-          <Card 
-            variant="borderless" 
-            style={{ borderRadius: 12, boxShadow: 'rgba(0, 0, 0, 0.03) 0px 4px 24px' }}
-            title={<span style={{ fontWeight: 600 }}>Thao tác nhanh</span>}
+          {/* Quick Actions */}
+          <Card
+            variant="borderless"
+            style={{ borderRadius: 12, boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px' }}
+            title={<span style={{ fontWeight: 600, fontSize: 15 }}>Thao tác nhanh</span>}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <Link to="/student/search-tutors">
-                <Button 
-                  block 
-                  icon={<SearchOutlined />}
-                  style={{ 
-                    height: 48, 
-                    textAlign: 'left', 
-                    borderRadius: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                  }}
-                >
-                  Tìm kiếm gia sư
-                </Button>
-              </Link>
-              <Link to="/student/wallet">
-                <Button 
-                  block 
-                  icon={<WalletOutlined />}
-                  style={{ 
-                    height: 48, 
-                    textAlign: 'left', 
-                    borderRadius: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                  }}
-                >
-                  Nạp Credit
-                </Button>
-              </Link>
-              <Link to="/student/progress">
-                <Button 
-                  block 
-                  icon={<ClockCircleOutlined />}
-                  style={{ 
-                    height: 48, 
-                    textAlign: 'left', 
-                    borderRadius: 10,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 12,
-                  }}
-                >
-                  Xem tiến độ học tập
-                </Button>
-              </Link>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { icon: <SearchOutlined />, label: 'Tìm kiếm gia sư', path: '/student/search-tutors', color: T.primary },
+                { icon: <CalendarOutlined />, label: 'Xem lịch học', path: '/student/sessions', color: T.purple },
+                { icon: <TrophyOutlined />, label: 'Tiến độ học tập', path: '/student/progress', color: T.success },
+                { icon: <WalletOutlined />, label: 'Nạp Credit', path: '/student/wallet', color: T.warning },
+              ].map(({ icon, label, path, color }) => (
+                <Link key={path} to={path}>
+                  <Button
+                    block
+                    icon={icon}
+                    style={{
+                      height: 40,
+                      textAlign: 'left',
+                      borderRadius: 10,
+                      fontSize: 14, 
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 12,
+                      fontWeight: 500,
+                      border: `1px solid ${T.border}`,
+                    }}
+                  >
+                    {label}
+                  </Button>
+                </Link>
+              ))}
             </div>
+          </Card>
+
+          {/* Recent Notifications */}
+          <Card
+            variant="borderless"
+            style={{ borderRadius: 12, boxShadow: 'rgba(0,0,0,0.03) 0px 4px 24px', marginTop: 16 }}
+            title={<span style={{ fontWeight: 600, fontSize: 15 }}>Thông báo gần đây</span>}
+          >
+            <List
+              size="small"
+              dataSource={notifications.slice(0, 5)}
+              renderItem={(item) => (
+                <List.Item style={{ padding: '10px 0', borderBottom: '1px solid #f0f0f0' }}>
+                  <div style={{ display: 'flex', gap: 10, width: '100%', alignItems: 'flex-start' }}>
+                    {!item.isRead && (
+                      <div style={{
+                        width: 8, height: 8, borderRadius: '50%',
+                        backgroundColor: T.primary,
+                        marginTop: 6, flexShrink: 0,
+                      }} />
+                    )}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <Text
+                        strong={!item.isRead}
+                        style={{ fontSize: 13, display: 'block' }}
+                      >
+                        {item.title}
+                      </Text>
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        {dayjs(item.createdAt).fromNow()}
+                      </Text>
+                    </div>
+                  </div>
+                </List.Item>
+              )}
+            />
           </Card>
         </Col>
       </Row>

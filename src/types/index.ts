@@ -73,6 +73,9 @@ export interface TutorProfile {
   qualifications?: string;
   status: ProfileStatus;
   reputationScore: number;
+  totalSessions?: number;
+  responseRate?: number;
+  yearsExperience?: number;
   subjects: TutorSubject[];
   freeSchedulesJson?: string;
   timezoneOffset?: number;

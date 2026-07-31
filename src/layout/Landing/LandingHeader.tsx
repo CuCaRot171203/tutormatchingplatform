@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores';
 
 const NAV_LINKS = [
@@ -11,6 +11,7 @@ const NAV_LINKS = [
 
 const LandingHeader: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
+  const location = useLocation();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
@@ -19,6 +20,11 @@ const LandingHeader: React.FC = () => {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [location.pathname]);
 
   const handleDashboard = () => {
     if (user?.role === 'Student') navigate('/student/dashboard');
@@ -50,24 +56,7 @@ const LandingHeader: React.FC = () => {
       {/* Left: Logo + Nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0 }}>
-          <div style={{
-            width: 32,
-            height: 32,
-            background: 'linear-gradient(135deg, #0062FF 0%, #7B61FF 100%)',
-            borderRadius: 8,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(0, 98, 255, 0.3)',
-          }}>
-            <span style={{
-              color: '#fff',
-              fontSize: 13,
-              fontWeight: 800,
-              fontFamily: "'SF Pro Display', system-ui, sans-serif",
-              letterSpacing: '-0.02em',
-            }}>TM</span>
-          </div>
+          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 32, height: 32, objectFit: 'contain' }} />
           <span style={{
             color: '#1d1d1f',
             fontSize: 15,
@@ -79,32 +68,40 @@ const LandingHeader: React.FC = () => {
 
         {/* Desktop Nav Links */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              style={{
-                padding: '6px 14px',
-                fontSize: 13,
-                color: '#6e6e73',
-                textDecoration: 'none',
-                borderRadius: 8,
-                fontWeight: 400,
-                transition: 'all 0.2s ease',
-                fontFamily: "'SF Pro Text', system-ui, sans-serif",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = '#1d1d1f';
-                e.currentTarget.style.background = 'rgba(0,0,0,0.05)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = '#6e6e73';
-                e.currentTarget.style.background = 'transparent';
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = location.pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                to={link.href}
+                style={{
+                  padding: '6px 14px',
+                  fontSize: 13,
+                  color: isActive ? '#0062FF' : '#6e6e73',
+                  textDecoration: 'none',
+                  borderRadius: 8,
+                  fontWeight: isActive ? 600 : 400,
+                  transition: 'all 0.2s ease',
+                  fontFamily: "'SF Pro Text', system-ui, sans-serif",
+                  background: isActive ? 'rgba(0, 98, 255, 0.08)' : 'transparent',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.color = '#1d1d1f';
+                    e.currentTarget.style.background = 'rgba(0,0,0,0.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.color = '#6e6e73';
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
       </div>
 

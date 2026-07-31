@@ -125,22 +125,7 @@ const LandingFooter: React.FC = () => {
           {/* Brand column */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 160 }}>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-              <div style={{
-                width: 28,
-                height: 28,
-                background: 'linear-gradient(135deg, #0062FF 0%, #7B61FF 100%)',
-                borderRadius: 7,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 3px 10px rgba(0, 98, 255, 0.3)',
-              }}>
-                <span style={{
-                  color: '#fff', fontSize: 11, fontWeight: 800,
-                  fontFamily: "'SF Pro Display', system-ui, sans-serif",
-                  letterSpacing: '-0.02em',
-                }}>TM</span>
-              </div>
+          <img src="/src/assets/branding/Logo.png" alt="Logo" style={{ width: 28, height: 28, objectFit: 'contain' }} />
               <span style={{
                 color: '#1d1d1f', fontSize: 14, fontWeight: 600,
                 fontFamily: "'SF Pro Display', system-ui, sans-serif",
