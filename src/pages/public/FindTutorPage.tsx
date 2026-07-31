@@ -149,13 +149,6 @@ const FindTutorPage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <p style={{
-              fontSize: 12, fontWeight: 600, letterSpacing: '0.08em',
-              textTransform: 'uppercase', color: '#0062FF',
-              marginBottom: 12,
-            }}>
-              Nền tảng kết nối gia sư
-            </p>
             <h1 style={{
               fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
               fontSize: 'clamp(32px, 4vw, 52px)',
