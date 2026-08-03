@@ -22,6 +22,7 @@ import {
   BookOutlined,
   VideoCameraOutlined,
   StarOutlined,
+  LockOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../../stores';
@@ -29,6 +30,7 @@ import { notificationService } from '../../services';
 import type { Notification } from '../../types';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import CustomScrollbar from '../../components/CustomScrollbar/CustomScrollbar';
 
 dayjs.extend(relativeTime);
 
@@ -50,6 +52,8 @@ const studentMenuItems: MenuItem[] = [
   { key: 'wallet',    icon: <WalletOutlined />,         label: 'Ví Credit',            path: '/student/wallet' },
   { key: 'complaints',icon: <ExclamationCircleOutlined />, label: 'Khiếu nại',         path: '/student/complaints' },
   { key: 'profile',  icon: <UserOutlined />,           label: 'Hồ sơ',               path: '/student/profile' },
+  { key: 'profile-edit', icon: <SettingOutlined />,     label: 'Chỉnh sửa hồ sơ',    path: '/student/profile/edit' },
+  { key: 'change-password', icon: <LockOutlined />,     label: 'Đổi mật khẩu',       path: '/student/profile/change-password' },
 ];
 
 const tutorMenuItems: MenuItem[] = [
@@ -61,6 +65,7 @@ const tutorMenuItems: MenuItem[] = [
   { key: 'feedback',  icon: <StarOutlined />,          label: 'Phản hồi',            path: '/tutor/feedback' },
   { key: 'wallet',    icon: <WalletOutlined />,        label: 'Ví Credit',           path: '/tutor/wallet' },
   { key: 'profile',  icon: <UserOutlined />,          label: 'Hồ sơ',               path: '/tutor/profile' },
+  { key: 'profile-edit', icon: <SettingOutlined />,    label: 'Chỉnh sửa hồ sơ',   path: '/tutor/profile/edit' },
 ];
 
 const adminMenuItems: MenuItem[] = [
@@ -192,12 +197,18 @@ export const MainLayout: React.FC = () => {
   );
 
   const userMenuItems = [
-    {
-      key: 'profile',
-      icon: <UserOutlined />,
-      label: 'Hồ sơ',
-      onClick: () => navigate(user?.role === 'Student' ? '/student/profile' : user?.role === 'Tutor' ? '/tutor/profile' : '/admin/dashboard'),
-    },
+  {
+    key: 'profile',
+    icon: <UserOutlined />,
+    label: 'Hồ sơ',
+    onClick: () => navigate(
+      user?.role === 'Student'
+        ? '/student/profile/edit'
+        : user?.role === 'Tutor'
+        ? '/tutor/profile/edit'
+        : '/admin/dashboard'
+    ),
+  },
     {
       key: 'settings',
       icon: <SettingOutlined />,
@@ -216,13 +227,14 @@ export const MainLayout: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider 
-        trigger={null} 
-        collapsible 
+      <Sider
+        trigger={null}
+        collapsible
         collapsed={collapsed}
         style={{
           backgroundColor: '#ffffff',
           boxShadow: '2px 0 8px rgba(0, 0, 0, 0.05)',
+          overflow: 'hidden',
         }}
         width={240}
         collapsedWidth={80}
@@ -235,6 +247,7 @@ export const MainLayout: React.FC = () => {
           justifyContent: collapsed ? 'center' : 'flex-start',
           padding: collapsed ? 0 : '0 20px',
           borderBottom: '1px solid #dedee5',
+          flexShrink: 0,
         }}>
           <img src={logoUrl} alt="Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
           {!collapsed && (
@@ -250,22 +263,24 @@ export const MainLayout: React.FC = () => {
           )}
         </div>
 
-        {/* Menu */}
-        <Menu
-          mode="inline"
-          selectedKeys={[getSelectedKey()]}
-          onClick={handleMenuClick}
-          style={{ 
-            border: 'none', 
-            marginTop: 8,
-            backgroundColor: 'transparent',
-          }}
-          items={menuItems.map((item) => ({
-            key: item.key,
-            icon: item.icon,
-            label: item.label,
-          }))}
-        />
+        {/* Menu with Custom Scrollbar */}
+        <CustomScrollbar style={{ flex: 1, overflow: 'hidden' }} direction="down">
+          <Menu
+            mode="inline"
+            selectedKeys={[getSelectedKey()]}
+            onClick={handleMenuClick}
+            style={{
+              border: 'none',
+              marginTop: 8,
+              backgroundColor: 'transparent',
+            }}
+            items={menuItems.map((item) => ({
+              key: item.key,
+              icon: item.icon,
+              label: item.label,
+            }))}
+          />
+        </CustomScrollbar>
       </Sider>
 
       <Layout>
@@ -327,16 +342,17 @@ export const MainLayout: React.FC = () => {
         </Header>
 
         {/* Content */}
-        <Content style={{
-          margin: 24,
-          padding: 24,
-          backgroundColor: '#f8f9fa',
-          borderRadius: 12,
-          minHeight: 280,
-          overflow: 'auto',
-        }}>
-          <Outlet />
-        </Content>
+        <CustomScrollbar style={{ flex: 1, overflow: 'hidden' }}>
+          <Content style={{
+            margin: 24,
+            padding: 24,
+            backgroundColor: '#f8f9fa',
+            borderRadius: 12,
+            minHeight: 280,
+          }}>
+            <Outlet />
+          </Content>
+        </CustomScrollbar>
       </Layout>
     </Layout>
   );

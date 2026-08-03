@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Typography, message } from 'antd';
+import { Button, Form, Input, Typography, notification } from 'antd';
 import { LockOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { authService } from '../../services';
@@ -22,10 +22,10 @@ const ResetPasswordPage: React.FC = () => {
     setLoading(true);
     try {
       const response = await authService.resetPassword(values);
-      message.success(response.message);
+      notification.success({ message: 'Thành công!', description: response.message, placement: 'topRight' });
       navigate('/login');
     } catch {
-      message.error('Mã đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.');
+      notification.error({ message: 'Thất bại', description: 'Mã đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.', placement: 'topRight' });
     } finally {
       setLoading(false);
     }

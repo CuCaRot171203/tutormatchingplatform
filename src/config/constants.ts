@@ -1,5 +1,5 @@
-// For development: leave empty to use Vite proxy (see vite.config.ts)
-// For production: set VITE_API_URL environment variable to your production API URL
+// Set VITE_API_URL in .env to your API base URL (e.g. http://localhost:5256 for development)
+// Leave empty only if using Vite proxy (not recommended — configure .env instead)
 export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const API_ENDPOINTS = {

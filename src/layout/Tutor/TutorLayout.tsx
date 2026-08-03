@@ -12,10 +12,13 @@ import {
   WalletOutlined,
   UserOutlined,
   LeftOutlined,
+  BellOutlined,
+  FlagOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import TutorHeader from './TutorHeader';
 import { useSidebarStore } from '../../stores';
+import CustomScrollbar from '../../components/CustomScrollbar/CustomScrollbar';
 
 const { Sider, Content } = Layout;
 
@@ -31,9 +34,11 @@ const tutorMenuItems: MenuItem[] = [
   { key: 'sessions',  icon: <SolutionOutlined />,       label: 'Lịch dạy',          path: '/tutor/sessions' },
   { key: 'schedule',  icon: <ClockCircleOutlined />,    label: 'Lịch rảnh',         path: '/tutor/schedule' },
   { key: 'students',  icon: <TeamOutlined />,           label: 'Học sinh',          path: '/tutor/students' },
-  { key: 'progress',  icon: <BarChartOutlined />,       label: 'Tiến độ học tập',  path: '/tutor/progress' },
-  { key: 'feedback',  icon: <StarOutlined />,           label: 'Phản hồi',          path: '/tutor/feedback' },
+  { key: 'progress',    icon: <BarChartOutlined />,       label: 'Tiến độ học tập',  path: '/tutor/progress' },
+  { key: 'milestones',  icon: <FlagOutlined />,           label: 'Mục tiêu học sinh', path: '/tutor/milestones' },
+  { key: 'feedback',   icon: <StarOutlined />,           label: 'Phản hồi',          path: '/tutor/feedback' },
   { key: 'wallet',    icon: <WalletOutlined />,         label: 'Ví Credit',         path: '/tutor/wallet' },
+  { key: 'notifications', icon: <BellOutlined />,      label: 'Thông báo',         path: '/tutor/notifications' },
   { key: 'profile',   icon: <UserOutlined />,           label: 'Hồ sơ',             path: '/tutor/profile' },
 ];
 
@@ -44,6 +49,7 @@ const TutorLayout: React.FC = () => {
 
   const getSelectedKey = (): string => {
     const currentPath = location.pathname;
+    if (currentPath.match(/^\/tutor\/milestone\//)) return 'milestones';
     for (const item of tutorMenuItems) {
       if (currentPath.startsWith(item.path)) return item.key;
     }
@@ -70,7 +76,7 @@ const TutorLayout: React.FC = () => {
         style={{
           background: '#ffffff',
           borderRight: '1px solid #e8eaed',
-          overflow: 'auto',
+          overflow: 'hidden',
           height: '100vh',
           position: 'fixed',
           left: 0, top: 0, bottom: 0,
@@ -87,6 +93,7 @@ const TutorLayout: React.FC = () => {
           justifyContent: collapsed ? 'center' : 'flex-start',
           padding: collapsed ? '0 0' : '0 16px',
           borderBottom: '1px solid #e8eaed',
+          flexShrink: 0,
         }}>
           <div style={{
             display: 'flex', alignItems: 'center',
@@ -102,28 +109,30 @@ const TutorLayout: React.FC = () => {
           </div>
         </div>
 
-        {/* Menu */}
-        <Menu
-          mode="inline"
-          selectedKeys={[getSelectedKey()]}
-          onClick={handleMenuClick}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            marginTop: 8,
-            fontFamily: "'IBM Plex Sans', sans-serif",
-          }}
-          items={menuItems}
-        />
+        {/* Menu with Custom Scrollbar */}
+        <CustomScrollbar style={{ flex: 1, overflow: 'hidden' }} direction="down">
+          <Menu
+            mode="inline"
+            selectedKeys={[getSelectedKey()]}
+            onClick={handleMenuClick}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              marginTop: 8,
+              fontFamily: "'IBM Plex Sans', sans-serif",
+            }}
+            items={menuItems}
+          />
+        </CustomScrollbar>
 
         {/* Toggle button at bottom of sidebar */}
         <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
           borderTop: '1px solid #e8eaed',
           padding: '12px 16px',
           width: '100%',
           display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start',
           gap: 10,
+          flexShrink: 0,
         }}>
           {collapsed ? (
             <Tooltip title="Mở rộng" placement="right">
@@ -156,9 +165,11 @@ const TutorLayout: React.FC = () => {
         }}
       >
         <TutorHeader />
-        <Content style={{ padding: 24, minHeight: 280 }}>
-          <Outlet />
-        </Content>
+        <CustomScrollbar style={{ flex: 1, overflow: 'hidden' }}>
+          <Content style={{ padding: 24 }}>
+            <Outlet />
+          </Content>
+        </CustomScrollbar>
       </Layout>
     </Layout>
   );

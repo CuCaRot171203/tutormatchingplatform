@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CalculatorOutlined, ExperimentOutlined, GlobalOutlined, BookOutlined, ReadOutlined, ApiOutlined, LaptopOutlined, HistoryOutlined, StarOutlined, ThunderboltOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 import { useAuthStore } from '../stores';
 import { LandingHeader, LandingFooter } from '../layout/Landing';
 
@@ -48,6 +49,14 @@ import landing1 from '../assets/image/landing-1.png';
 import landing2 from '../assets/image/landing-2.png';
 import landing3 from '../assets/image/landing-3.png';
 import landing4 from '../assets/image/landing-4.png';
+import subjectToan from '../assets/image/subject/01-toan.png';
+import subjectVatLy from '../assets/image/subject/02-vat-ly.png';
+import subjectHoaHoc from '../assets/image/subject/03-hoa-hoc.png';
+import subjectAnhVan from '../assets/image/subject/04-anh-van.png';
+import subjectNguVan from '../assets/image/subject/05-ngu-van.png';
+import subjectSinhHoc from '../assets/image/subject/06-sinh-hoc.png';
+import subjectTinHoc from '../assets/image/subject/07-tin-hoc.png';
+import subjectLichSu from '../assets/image/subject/08-lich-su.png';
 
 const HERO_IMAGES = [
   { src: landing1, alt: 'Học sinh & gia sư học trực tuyến' },
@@ -56,9 +65,30 @@ const HERO_IMAGES = [
   { src: landing4, alt: 'Học nhóm và thảo luận' },
 ];
 
+const SUBJECT_SLIDES = [
+  { image: subjectToan,   Icon: CalculatorOutlined,      label: 'Toán học', desc: 'Đại số · Giải tích · Xác suất', tag: 'Từ Đại số đến Giải tích' },
+  { image: subjectVatLy,   Icon: ExperimentOutlined,      label: 'Vật lý',   desc: 'Cơ học · Điện · Quang',         tag: 'Khám phá thế giới xung quanh' },
+  { image: subjectHoaHoc,  Icon: ReadOutlined,            label: 'Hóa học',  desc: 'Phản ứng · Bảng tuần hoàn',       tag: 'Phản ứng & Công thức' },
+  { image: subjectAnhVan,  Icon: GlobalOutlined,           label: 'Tiếng Anh', desc: 'Nghe · Nói · Đọc · Viết',        tag: 'Giao tiếp tự tin' },
+  { image: subjectNguVan,  Icon: BookOutlined,            label: 'Ngữ văn',  desc: 'Văn học · Bài văn · Ngữ pháp',   tag: 'Cảm thụ & Sáng tạo' },
+  { image: subjectSinhHoc, Icon: ApiOutlined,             label: 'Sinh học', desc: 'Tế bào · Di truyền · Hệ sinh thái', tag: 'Sự sống & Di truyền' },
+  { image: subjectTinHoc,  Icon: LaptopOutlined,           label: 'Tin học',  desc: 'Lập trình · Thuật toán · Công nghệ', tag: 'Lập trình & Công nghệ' },
+  { image: subjectLichSu,  Icon: HistoryOutlined,          label: 'Lịch sử',  desc: 'Việt Nam · Thế giới · Bối cảnh', tag: 'Quá khứ & Hiện tại' },
+];
+
+const SLIDE_INTERVAL = 8000;
+
 const HomePage: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
   const navigate = useNavigate();
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % SUBJECT_SLIDES.length);
+    }, SLIDE_INTERVAL);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleDashboard = () => {
     if (user?.role === 'Student') navigate('/student/dashboard');
@@ -846,6 +876,8 @@ const HomePage: React.FC = () => {
         </div>
       </motion.section>
 
+      
+
       {/* =========================================
           TILE 5: FEATURES — 2 rows × 4 cols (white bg)
       ========================================= */}
@@ -968,6 +1000,208 @@ const HomePage: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+      </motion.section>
+
+      {/* =========================================
+          TILE 5: SUBJECT CAROUSEL — Auto-sliding
+          icons left (full half), ad copy right
+      ========================================= */}
+      <motion.section
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+        style={{
+          backgroundColor: '#ffffff',
+          padding: '80px 0',
+          overflow: 'hidden',
+          borderTop: '1px solid rgba(0,0,0,0.06)',
+          borderBottom: '1px solid rgba(0,0,0,0.06)',
+        }}
+      >
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '50% 1fr',
+          alignItems: 'stretch',
+        }}>
+          {/* ── Left: subject image — full section height ── */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlide}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 1.04 }}
+              transition={{ duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+                borderRadius: 0,
+                overflow: 'hidden',
+                backgroundColor: '#eef2ff',
+              }}
+            >
+              <img
+                src={SUBJECT_SLIDES[currentSlide].image}
+                alt={SUBJECT_SLIDES[currentSlide].label}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  display: 'block',
+                }}
+              />
+
+              {/* Text overlay at bottom-right */}
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                padding: '16px 20px',
+                backgroundColor: 'rgba(0,98,255,0.9)',
+                backdropFilter: 'blur(8px)',
+                borderTopLeftRadius: 16,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                gap: 2,
+              }}>
+                <span style={{
+                  fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
+                  fontSize: 18,
+                  fontWeight: 600,
+                  color: '#ffffff',
+                  letterSpacing: '-0.01em',
+                }}>
+                  {SUBJECT_SLIDES[currentSlide].label}
+                </span>
+                <span style={{
+                  fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
+                  fontSize: 12,
+                  color: 'rgba(255,255,255,0.8)',
+                  letterSpacing: '0.03em',
+                }}>
+                  {SUBJECT_SLIDES[currentSlide].desc}
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* ── Right: ad copy ── */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`copy-${currentSlide}`}
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -24 }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              style={{ padding: '80px 60px' }}
+            >
+              
+
+              <h2 style={{
+                fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
+                fontSize: 'clamp(28px, 3vw, 44px)',
+                fontWeight: 500,
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em',
+                color: '#1d1d1f',
+                marginBottom: 16,
+              }}>
+                Học {SUBJECT_SLIDES[currentSlide].label}<br />cùng gia sư xuất sắc
+              </h2>
+
+              <p style={{
+                fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
+                fontSize: 16,
+                fontWeight: 400,
+                color: '#6e6e73',
+                lineHeight: 1.7,
+                marginBottom: 32,
+              }}>
+                Hệ thống gia sư chuyên nghiệp, được kiểm duyệt kỹ lưỡng, sẵn sàng đồng hành giúp bạn chinh phục mọi kiến thức.
+              </p>
+
+              {/* selling points with antd icons */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px 24px', marginBottom: 36 }}>
+                {[
+                  { Icon: BookOutlined, label: '8+ môn học' },
+                  { Icon: StarOutlined, label: 'Gia sư chất lượng' },
+                  { Icon: ThunderboltOutlined, label: 'Đặt lịch nhanh' },
+                  { Icon: SafetyCertificateOutlined, label: 'Thanh toán an toàn' },
+                ].map((pt) => (
+                  <div key={pt.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    {React.createElement(pt.Icon, {
+                      style: { fontSize: 16, color: '#0062FF' },
+                    })}
+                    <span style={{
+                      fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
+                      fontSize: 14,
+                      color: '#1d1d1f',
+                      fontWeight: 500,
+                    }}>{pt.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                to="/subjects"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  backgroundColor: '#0062FF',
+                  color: '#ffffff',
+                  padding: '14px 28px',
+                  borderRadius: 14,
+                  fontFamily: "'SF Pro Text', system-ui, -apple-system, sans-serif",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  textDecoration: 'none',
+                  transition: 'background-color 0.2s ease, transform 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#0052cc';
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-2px)';
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.backgroundColor = '#0062FF';
+                  (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(0)';
+                }}
+              >
+                Khám phá tất cả môn học
+                <span style={{ fontSize: 16 }}>→</span>
+              </Link>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* dot indicators */}
+        <div style={{
+          display: 'flex',
+          gap: 8,
+          justifyContent: 'center',
+          marginTop: 32,
+        }}>
+          {SUBJECT_SLIDES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlide(idx)}
+              style={{
+                width: idx === currentSlide ? 28 : 8,
+                height: 8,
+                borderRadius: 4,
+                border: 'none',
+                backgroundColor: idx === currentSlide ? '#0062FF' : '#d1d5db',
+                cursor: 'pointer',
+                padding: 0,
+                transition: 'all 0.35s ease',
+                outline: 'none',
+              }}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
         </div>
       </motion.section>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, Typography, Alert, Divider, message } from 'antd';
+import { Form, Input, Button, Checkbox, Typography, Alert, Divider, notification } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../stores';
@@ -10,7 +10,6 @@ const { Text } = Typography;
 
 const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuthStore();
@@ -19,12 +18,16 @@ const LoginPage: React.FC = () => {
 
   const onFinish = async (values: LoginRequest) => {
     setLoading(true);
-    setError(null);
 
     try {
       const response = await authService.login(values);
       login(response.user, response.token, response.refreshToken);
-      message.success('Đăng nhập thành công!');
+      notification.success({
+        message: 'Đăng nhập thành công',
+        description: `Chào mừng trở lại, ${response.user.fullName || response.user.email}!`,
+        placement: 'topRight',
+        duration: 3,
+      });
 
       if (from) {
         navigate(from);
@@ -45,11 +48,26 @@ const LoginPage: React.FC = () => {
       }
     } catch (err: any) {
       if (err.response?.status === 401) {
-        setError('Email hoặc mật khẩu không chính xác');
+        notification.error({
+          message: 'Đăng nhập thất bại',
+          description: 'Email hoặc mật khẩu không chính xác. Vui lòng thử lại.',
+          placement: 'topRight',
+          duration: 4,
+        });
       } else if (err.response?.status === 403) {
-        setError('Tài khoản của bạn đã bị khóa. Vui lòng liên hệ hỗ trợ.');
+        notification.warning({
+          message: 'Tài khoản bị khóa',
+          description: 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ hỗ trợ.',
+          placement: 'topRight',
+          duration: 5,
+        });
       } else {
-        setError('Đã xảy ra lỗi. Vui lòng thử lại sau.');
+        notification.error({
+          message: 'Lỗi đăng nhập',
+          description: 'Đã xảy ra lỗi. Vui lòng thử lại sau.',
+          placement: 'topRight',
+          duration: 4,
+        });
       }
     } finally {
       setLoading(false);
@@ -79,21 +97,6 @@ const LoginPage: React.FC = () => {
           Đăng nhập để tiếp tục với TutorMatch
         </p>
       </div>
-
-      {error && (
-        <Alert
-          message={error}
-          type="error"
-          showIcon
-          style={{
-            marginBottom: 20,
-            background: 'rgba(220, 38, 38, 0.06)',
-            border: '1px solid rgba(220, 38, 38, 0.15)',
-            borderRadius: 12,
-            color: '#dc2626',
-          }}
-        />
-      )}
 
       <Form
         name="login"

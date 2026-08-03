@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, Typography, Alert, Radio, message } from 'antd';
+import { Form, Input, Button, Checkbox, Typography, Alert, Radio, notification } from 'antd';
 import { MailOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../stores';
@@ -26,7 +26,7 @@ const RegisterPage: React.FC = () => {
       } as RegisterRequest);
 
       login(response.user, response.token, response.refreshToken);
-      message.success('Đăng ký thành công!');
+      notification.success({ message: 'Đăng ký thành công!', placement: 'topRight' });
 
       switch (role) {
         case 'Student':

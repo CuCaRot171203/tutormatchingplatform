@@ -1,10 +1,14 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logoUrl from '../../assets/branding/Logo.png';
 
-export const AuthLayout: React.FC = () => {
+interface AuthLayoutProps {
+  children: React.ReactNode;
+}
+
+export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
-    <div style={{
+    <div className="body-scroll" style={{
       minHeight: '100vh',
       background: '#ffffff',
       position: 'relative',
@@ -80,7 +84,7 @@ export const AuthLayout: React.FC = () => {
           padding: '36px 32px',
           boxShadow: '0 4px 32px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)',
         }}>
-          <Outlet />
+          {children}
         </div>
 
         {/* Footer */}

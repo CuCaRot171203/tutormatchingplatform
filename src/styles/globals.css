@@ -300,11 +300,26 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* Hide default scrollbar on Windows/Chrome while keeping functionality */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 50, 245, 0.45) rgba(148, 151, 169, 0.08);
+}
+
 body {
   font-family: 'IBM Plex Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #f8f9fa;
   color: var(--kraken-text);
   line-height: 1.38;
+  /* Hide default scrollbar — PerfectScrollbar takes over */
+  overflow: hidden;
+}
+
+/* Allow body scroll on auth/public pages that don't use CustomScrollbar */
+body.body-scroll {
+  overflow: auto;
 }
 
 a {
@@ -317,24 +332,197 @@ a:hover {
   color: var(--kraken-purple-dark);
 }
 
-/* Scrollbar Styling */
+/* ============================================
+   CUSTOM SCROLLBAR — TutorMatch Design System
+   Elegant, consistent scrollbar for all pages
+   ============================================ */
+
+/* ── Global body scrollbar ── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--kraken-gray-light) var(--kraken-bg-gray);
+}
+
+/* ── WebKit scrollbar (Chrome, Safari, Edge) ── */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--kraken-bg-gray);
-  border-radius: var(--radius-full);
+  background: transparent;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--kraken-gray-light);
-  border-radius: var(--radius-full);
+  background: linear-gradient(
+    180deg,
+    rgba(113, 50, 245, 0.45) 0%,
+    rgba(133, 91, 251, 0.55) 100%
+  );
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--kraken-gray);
+  background: linear-gradient(
+    180deg,
+    rgba(113, 50, 245, 0.7) 0%,
+    rgba(133, 91, 251, 0.85) 100%
+  );
+  box-shadow: 0 0 8px rgba(113, 50, 245, 0.4);
+  transform: scaleX(1.15);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(
+    180deg,
+    rgba(87, 65, 216, 0.9) 0%,
+    rgba(113, 50, 245, 1) 100%
+  );
+  transform: scaleX(1.25);
+  box-shadow: 0 0 12px rgba(113, 50, 245, 0.5);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+/* ── Firefox thin scrollbar ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(113, 50, 245, 0.45) rgba(148, 151, 169, 0.08);
+}
+
+/* ── Perfect Scrollbar overrides ── */
+.ps {
+  position: relative;
+  overflow: hidden !important;
+  contain: none;
+}
+
+.ps__rail-y {
+  opacity: 1 !important;
+  background: transparent !important;
+  width: 6px !important;
+  right: 3px !important;
+  transition: opacity 0.3s ease;
+}
+
+.ps__rail-x {
+  opacity: 1 !important;
+  background: transparent !important;
+  height: 6px !important;
+  bottom: 3px !important;
+  transition: opacity 0.3s ease;
+}
+
+.ps__rail-y:hover,
+.ps__rail-y:focus,
+.ps__rail-y.ps--clicking {
+  opacity: 1 !important;
+}
+
+.ps__rail-x:hover,
+.ps__rail-x:focus,
+.ps__rail-x.ps--clicking {
+  opacity: 1 !important;
+}
+
+.ps__thumb-y {
+  background: linear-gradient(
+    180deg,
+    rgba(113, 50, 245, 0.45) 0%,
+    rgba(133, 91, 251, 0.6) 100%
+  ) !important;
+  border-radius: 9999px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+  width: 6px !important;
+  right: 0 !important;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.ps__thumb-x {
+  background: linear-gradient(
+    90deg,
+    rgba(113, 50, 245, 0.45) 0%,
+    rgba(133, 91, 251, 0.6) 100%
+  ) !important;
+  border-radius: 9999px !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+  height: 6px !important;
+  bottom: 0 !important;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.ps__thumb-y:hover,
+.ps__thumb-y.ps--clicking {
+  background: linear-gradient(
+    180deg,
+    rgba(113, 50, 245, 0.7) 0%,
+    rgba(133, 91, 251, 0.85) 100%
+  ) !important;
+  box-shadow: 0 0 8px rgba(113, 50, 245, 0.4) !important;
+  transform: scaleX(1.15);
+}
+
+.ps__thumb-x:hover,
+.ps__thumb-x.ps--clicking {
+  background: linear-gradient(
+    90deg,
+    rgba(113, 50, 245, 0.7) 0%,
+    rgba(133, 91, 251, 0.85) 100%
+  ) !important;
+  box-shadow: 0 0 8px rgba(113, 50, 245, 0.4) !important;
+  transform: scaleY(1.15);
+}
+
+.ps__thumb-y:active {
+  background: linear-gradient(
+    180deg,
+    rgba(87, 65, 216, 0.9) 0%,
+    rgba(113, 50, 245, 1) 100%
+  ) !important;
+  transform: scaleX(1.25) !important;
+  box-shadow: 0 0 12px rgba(113, 50, 245, 0.5) !important;
+}
+
+.ps__thumb-x:active {
+  background: linear-gradient(
+    90deg,
+    rgba(87, 65, 216, 0.9) 0%,
+    rgba(113, 50, 245, 1) 100%
+  ) !important;
+  transform: scaleY(1.25) !important;
+  box-shadow: 0 0 12px rgba(113, 50, 245, 0.5) !important;
+}
+
+/* ── Perfect Scrollbar scroll-up/down classes ── */
+.ps--scrolling-y > .ps__rail-y {
+  opacity: 1 !important;
+}
+
+.ps--scrolling-x > .ps__rail-x {
+  opacity: 1 !important;
+}
+
+.ps--scrolling-down.ps--scrolling-y > .ps__rail-y,
+.ps--scrolling-up.ps--scrolling-y > .ps__rail-y,
+.ps--scrolling-left.ps--scrolling-x > .ps__rail-x,
+.ps--scrolling-right.ps--scrolling-x > .ps__rail-x {
+  opacity: 1 !important;
+}
+
+/* ── Scrollbar container class ── */
+.custom-scrollbar-container {
+  height: 100%;
+  position: relative;
+}
+
+.custom-scrollbar > * {
+  max-height: 100%;
 }
 
 /* Layout Utilities */

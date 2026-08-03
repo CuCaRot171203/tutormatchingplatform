@@ -6,11 +6,12 @@ import {
   HomeOutlined, UserAddOutlined, BookOutlined,
   DollarCircleOutlined, ExclamationCircleOutlined,
   TeamOutlined, VideoCameraOutlined, UserOutlined,
-  LeftOutlined,
+  LeftOutlined, BellOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import AdminHeader from './AdminHeader';
 import { useSidebarStore } from '../../stores';
+import CustomScrollbar from '../../components/CustomScrollbar/CustomScrollbar';
 
 const { Sider, Content } = Layout;
 
@@ -38,7 +39,8 @@ const adminMenuItems: MenuItem[] = [
   },
   { key: 'users',           icon: <TeamOutlined />,             label: 'Quản lý người dùng',  path: '/admin/users' },
   { key: 'sessions',        icon: <VideoCameraOutlined />,       label: 'Giám sát phiên',       path: '/admin/sessions' },
-  { key: 'profile',         icon: <UserOutlined />,             label: 'Hồ sơ',                path: '/admin/profile' },
+  { key: 'notifications',   icon: <BellOutlined />,             label: 'Thông báo',            path: '/admin/notifications' },
+  { key: 'profile',        icon: <UserOutlined />,              label: 'Hồ sơ',                path: '/admin/profile' },
 ];
 
 const AdminLayout: React.FC = () => {
@@ -113,6 +115,11 @@ const AdminLayout: React.FC = () => {
       label: 'Giám sát phiên',
     },
     {
+      key: 'notifications',
+      icon: <BellOutlined />,
+      label: 'Thông báo',
+    },
+    {
       key: 'profile',
       icon: <UserOutlined />,
       label: 'Hồ sơ',
@@ -128,7 +135,7 @@ const AdminLayout: React.FC = () => {
         style={{
           background: '#ffffff',
           borderRight: '1px solid #e8eaed',
-          overflow: 'auto',
+          overflow: 'hidden',
           height: '100vh',
           position: 'fixed',
           left: 0, top: 0, bottom: 0,
@@ -145,6 +152,7 @@ const AdminLayout: React.FC = () => {
           justifyContent: collapsed ? 'center' : 'flex-start',
           padding: collapsed ? '0 0' : '0 16px',
           borderBottom: '1px solid #e8eaed',
+          flexShrink: 0,
         }}>
           <div style={{
             display: 'flex', alignItems: 'center',
@@ -160,28 +168,30 @@ const AdminLayout: React.FC = () => {
           </div>
         </div>
 
-        {/* Menu */}
-        <Menu
-          mode="inline"
-          selectedKeys={[getSelectedKey()]}
-          onClick={handleMenuClick}
-          style={{
-            background: 'transparent',
-            border: 'none',
-            marginTop: 8,
-            fontFamily: "'IBM Plex Sans', sans-serif",
-          }}
-          items={menuItems as MenuProps['items']}
-        />
+        {/* Menu with Custom Scrollbar */}
+        <CustomScrollbar style={{ flex: 1, overflow: 'hidden' }} direction="down">
+          <Menu
+            mode="inline"
+            selectedKeys={[getSelectedKey()]}
+            onClick={handleMenuClick}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              marginTop: 8,
+              fontFamily: "'IBM Plex Sans', sans-serif",
+            }}
+            items={menuItems as MenuProps['items']}
+          />
+        </CustomScrollbar>
 
         {/* Toggle button at bottom of sidebar */}
         <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0,
           borderTop: '1px solid #e8eaed',
           padding: '12px 16px',
           width: '100%',
           display: 'flex', alignItems: 'center', justifyContent: collapsed ? 'center' : 'flex-start',
           gap: 10,
+          flexShrink: 0,
         }}>
           {collapsed ? (
             <Tooltip title="Mở rộng" placement="right">
@@ -214,9 +224,11 @@ const AdminLayout: React.FC = () => {
         }}
       >
         <AdminHeader />
-        <Content style={{ padding: 24, minHeight: 280 }}>
-          <Outlet />
-        </Content>
+        <CustomScrollbar style={{ flex: 1, overflow: 'hidden' }}>
+          <Content style={{ padding: 24 }}>
+            <Outlet />
+          </Content>
+        </CustomScrollbar>
       </Layout>
     </Layout>
   );

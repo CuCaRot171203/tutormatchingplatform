@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Button, Form, Input, Typography, message } from 'antd';
+import { Alert, Button, Form, Input, Typography, notification } from 'antd';
 import { MailOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services';
@@ -15,12 +15,12 @@ const ForgotPasswordPage: React.FC = () => {
     setLoading(true);
     try {
       const response = await authService.forgotPassword({ email });
-      message.success(response.message);
+      notification.success({ message: 'Thành công!', description: response.message, placement: 'topRight' });
       if (response.resetToken) {
         setResetToken(response.resetToken);
       }
     } catch {
-      message.error('Không thể gửi yêu cầu đặt lại mật khẩu.');
+      notification.error({ message: 'Thất bại', description: 'Không thể gửi yêu cầu đặt lại mật khẩu.', placement: 'topRight' });
     } finally {
       setLoading(false);
     }
