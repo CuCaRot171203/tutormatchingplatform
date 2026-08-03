@@ -63,7 +63,7 @@ const Profile: React.FC = () => {
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ margin: 0, fontWeight: 700, color: T.text }}>Hồ sơ của tôi</Title>
+        <Title level={2} style={{ margin: 0, fontWeight: 500, color: T.text }}>Hồ sơ của tôi</Title>
         <Text type="secondary">Quản lý thông tin cá nhân của bạn</Text>
       </div>
 
@@ -79,7 +79,7 @@ const Profile: React.FC = () => {
                 size={120}
                 src={user.avatarUrl}
                 icon={<UserOutlined />}
-                style={{ backgroundColor: T.purple, fontSize: 40, fontWeight: 700 }}
+                style={{ backgroundColor: T.purple, fontSize: 40, fontWeight: 500 }}
               >
                 {user.fullName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
               </Avatar>
@@ -104,7 +104,7 @@ const Profile: React.FC = () => {
             <Row gutter={[8, 8]}>
               <Col span={12}>
                 <div style={{ padding: '12px 8px', backgroundColor: T.bgGray, borderRadius: 10 }}>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: T.primary }}>
+                  <div style={{ fontSize: 18, fontWeight: 500, color: T.primary }}>
                     {formatCurrency(user.creditBalance)}
                   </div>
                   <Text type="secondary" style={{ fontSize: 12 }}>Số dư ví</Text>
@@ -112,7 +112,7 @@ const Profile: React.FC = () => {
               </Col>
               <Col span={12}>
                 <div style={{ padding: '12px 8px', backgroundColor: T.bgGray, borderRadius: 10 }}>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: T.success }}>
+                  <div style={{ fontSize: 18, fontWeight: 500, color: T.success }}>
                     <CheckCircleOutlined />
                   </div>
                   <Text type="secondary" style={{ fontSize: 12 }}>Đã xác minh</Text>

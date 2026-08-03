@@ -203,7 +203,7 @@ const StatCard: React.FC<{
     <div>
       <p style={{ margin: 0, fontSize: 12, color: T.textSecondary }}>{label}</p>
       <p style={{
-        margin: 0, fontSize: 22, fontWeight: 700, color: T.text,
+        margin: 0, fontSize: 22, fontWeight: 500, color: T.text,
         fontFamily: "'SF Pro Display', system-ui, sans-serif", letterSpacing: '-0.5px',
       }}>
         {value}
@@ -450,7 +450,7 @@ const TutorMilestones: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <h1 style={{
-              fontSize: 24, fontWeight: 700, color: T.text,
+              fontSize: 24, fontWeight: 500, color: T.text,
               margin: '0 0 4px',
               fontFamily: "'SF Pro Display', system-ui, sans-serif",
               letterSpacing: '-0.3px',
@@ -639,7 +639,7 @@ const TutorMilestones: React.FC = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                     <Avatar
                       size={40}
-                      style={{ background: T.primary, fontSize: 14, fontWeight: 700, flexShrink: 0 }}
+                      style={{ background: T.primary, fontSize: 14, fontWeight: 500, flexShrink: 0 }}
                     >
                       {student.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                     </Avatar>

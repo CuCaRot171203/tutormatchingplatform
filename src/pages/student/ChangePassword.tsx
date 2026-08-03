@@ -357,7 +357,7 @@ const StudentChangePassword: React.FC = () => {
                     background: T.greenLight,
                     color: T.green,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 10, fontWeight: 700,
+                    fontSize: 10, fontWeight: 500,
                     flexShrink: 0, marginTop: 1,
                     fontFamily: "'SF Pro Text', sans-serif",
                   }}>
@@ -394,7 +394,7 @@ const StudentChangePassword: React.FC = () => {
                 background: T.orange,
                 color: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 14, fontWeight: 700,
+                fontSize: 14, fontWeight: 500,
                 flexShrink: 0,
                 fontFamily: "'SF Pro Text', sans-serif",
               }}>

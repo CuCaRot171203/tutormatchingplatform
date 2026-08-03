@@ -218,7 +218,7 @@ const TutorSessions: React.FC = () => {
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>Lịch dạy của tôi</h1>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>Lịch dạy của tôi</h1>
         <Text type="secondary">Quản lý các buổi dạy của bạn</Text>
       </div>
 
@@ -327,7 +327,7 @@ const TutorSessions: React.FC = () => {
             {selectedSessionForDrawer.score !== undefined && selectedSessionForDrawer.score !== null && (
               <div style={{ marginTop: 16, background: T.primaryLight, borderRadius: 12, padding: '16px' }}>
                 <Text type="secondary" style={{ fontSize: 13, display: 'block', marginBottom: 8 }}>Kết quả buổi học</Text>
-                <div style={{ fontSize: 36, fontWeight: 700, color: T.primary, lineHeight: 1 }}>{selectedSessionForDrawer.score}/10</div>
+                <div style={{ fontSize: 36, fontWeight: 500, color: T.primary, lineHeight: 1 }}>{selectedSessionForDrawer.score}/10</div>
                 {selectedSessionForDrawer.tutorComment && (
                   <Paragraph style={{ color: T.textMuted, margin: '8px 0 0', fontSize: 13 }}>
                     <strong>Nhận xét:</strong> {selectedSessionForDrawer.tutorComment}

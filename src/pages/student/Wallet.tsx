@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Card, Typography, Row, Col, Table, InputNumber, Button,
-  Modal, App, Segmented, Space,
+  Modal, App, Segmented, Space, Carousel,
 } from 'antd';
 import {
   WalletOutlined, LoadingOutlined, HistoryOutlined,
-  ArrowUpOutlined, ArrowDownOutlined, BankOutlined,
+  ArrowUpOutlined, ArrowDownOutlined,
+  CheckCircleFilled, CopyOutlined, QrcodeOutlined,
+  ReloadOutlined, ClockCircleOutlined,
+  LeftOutlined, RightOutlined,
 } from '@ant-design/icons';
+import { QRCodeCanvas } from 'qrcode.react';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell,
@@ -16,6 +20,10 @@ import type { ColumnsType } from 'antd/es/table';
 
 import { MOCK_TRANSACTIONS, MOCK_DASHBOARD_STATS } from '../../data/mockData';
 import type { CreditTransaction } from '../../types';
+import slidePay1 from '../../assets/image/payment/TTP_pay_1.png';
+import slidePay2 from '../../assets/image/payment/TTP_pay_2.png';
+import slidePay3 from '../../assets/image/payment/TTP_pay_3.png';
+import slidePay4 from '../../assets/image/payment/TTP_pay_4.png';
 
 const { Title, Text } = Typography;
 
@@ -54,6 +62,37 @@ const SPENDING_BY_MONTH = [
 const SPENDING_CATEGORIES = [
   { name: 'Phí buổi học',  value: 2790000, color: '#0066cc' },
   { name: 'Phí hủy muộn',  value:  300000, color: '#dc2626' },
+];
+
+const slides = [
+  {
+    img: slidePay1,
+    slogan: 'Thanh toán dễ dàng, bảo mật tuyệt đối',
+    sub: 'Hỗ trợ nhiều phương thức thanh toán an toàn và tiện lợi',
+    cta: 'Nạp ngay',
+    ctaAction: 'deposit',
+  },
+  {
+    img: slidePay2,
+    slogan: 'Nạp Credit nhanh chóng trong vài giây',
+    sub: 'Chuyển khoản qua PayOS — xử lý tức thì, không chờ đợi',
+    cta: 'Nạp Credit',
+    ctaAction: 'deposit',
+  },
+  {
+    img: slidePay3,
+    slogan: 'Quản lý tài chính học tập thông minh',
+    sub: 'Theo dõi chi tiêu và lịch sử giao dịch minh bạch',
+    cta: 'Xem lịch sử',
+    ctaAction: 'history',
+  },
+  {
+    img: slidePay4,
+    slogan: 'Đầu tư vào tri thức — Nhận lại tương lai',
+    sub: 'Mỗi buổi học là một bước tiến gần hơn tới mục tiêu của bạn',
+    cta: 'Bắt đầu ngay',
+    ctaAction: 'deposit',
+  },
 ];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -102,50 +141,51 @@ const Wallet: React.FC = () => {
   const { notification } = App.useApp();
   const [balance] = useState<number>(MOCK_DASHBOARD_STATS.balance);
   const [transactions] = useState<CreditTransaction[]>(MOCK_TRANSACTIONS);
-  const [depositModalVisible, setDepositModalVisible] = useState(false);
   const [amount, setAmount] = useState<number>(500000);
-  const [note, setNote] = useState<string>('');
-  const [submitting, setSubmitting] = useState(false);
   const [timeRange, setTimeRange] = useState<string>('all');
 
-  const handleDeposit = async () => {
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setSubmitting(false);
-    setDepositModalVisible(false);
-    notification.success({
-      message: 'Yêu cầu nạp tiền đã được gửi!',
-      description: `Yêu cầu nạp ${fmtCurrency(amount)} đã được gửi đến admin. Credit sẽ được cộng sau khi được duyệt.`,
-      placement: 'topRight',
-      duration: 4,
-    });
-    setAmount(500000);
-    setNote('');
-  };
+  // ─── PayOS QR State ─────────────────────────────────────────────────────────
+  const [qrModalVisible, setQrModalVisible] = useState(false);
+  const [qrSuccessVisible, setQrSuccessVisible] = useState(false);
+  const [countdownSeconds, setCountdownSeconds] = useState(15 * 60);
+  const [qrDescription, setQrDescription] = useState('');
+  const [qrOrderCode, setQrOrderCode] = useState('');
 
-  const confirmDeposit = () => {
-    if (amount < 10000) return;
-    Modal.confirm({
-      title: 'Xác nhận nạp Credit',
-      icon: <BankOutlined style={{ color: T.primary }} />,
-      content: (
-        <div>
-          <p style={{ fontSize: 14, color: T.ink }}>
-            Bạn muốn nạp <strong>{fmtCurrency(amount)}</strong> vào ví của mình?
-          </p>
-          <div style={{
-            marginTop: 12, padding: '10px 14px',
-            background: T.parchment, borderRadius: 8,
-            fontSize: 12, color: T.inkMuted80,
-          }}>
-            Sau khi gửi yêu cầu, vui lòng chờ admin xác nhận. Credit sẽ được cộng sau khi được duyệt.
-          </div>
-        </div>
-      ),
-      okText: 'Xác nhận nạp',
-      cancelText: 'Hủy',
-      onOk: handleDeposit,
-      okButtonProps: { loading: submitting },
+  const buildQrData = useCallback(() => {
+    setQrDescription(`NAP_TUTORMATCH_${Date.now()}`);
+    setQrOrderCode(`TM${Date.now()}`);
+    setCountdownSeconds(15 * 60);
+  }, []);
+
+  useEffect(() => {
+    if (!qrModalVisible) return;
+    buildQrData();
+  }, [qrModalVisible, buildQrData]);
+
+  useEffect(() => {
+    if (!qrModalVisible || countdownSeconds <= 0) return;
+    const timer = setInterval(() => {
+      setCountdownSeconds((s) => {
+        if (s <= 1) {
+          clearInterval(timer);
+          setQrModalVisible(false);
+          notification.info({
+            message: 'Mã QR đã hết hạn',
+            description: 'Vui lòng tạo mã mới để tiếp tục nạp tiền.',
+            placement: 'topRight',
+            duration: 4,
+          });
+          return 0;
+        }
+        return s - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [qrModalVisible, countdownSeconds]);
+
+  const copyToClipboard = (text: string, label = 'Đã sao chép!') => {
+    navigator.clipboard.writeText(text).then(() => {
+      notification.success({ message: label, duration: 2, placement: 'topRight' });
     });
   };
 
@@ -219,6 +259,108 @@ const Wallet: React.FC = () => {
 
   return (
     <div style={{ padding: '0 0 48px' }}>
+      {/* Hero Slideshow 3:1 */}
+      <div style={{ position: 'relative', marginBottom: 28, borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
+        <Carousel
+          autoplay
+          autoplaySpeed={5000}
+          dots
+          effect="fade"
+          arrows
+          prevArrow={<LeftOutlined style={{ color: '#fff', fontSize: 20, zIndex: 2 }} />}
+          nextArrow={<RightOutlined style={{ color: '#fff', fontSize: 20, zIndex: 2 }} />}
+        >
+          {slides.map((slide, idx) => (
+            <div key={idx} style={{ position: 'relative' }}>
+              <div style={{
+                width: '100%',
+                paddingTop: '33.33%',
+                background: '#000',
+                position: 'relative',
+                overflow: 'hidden',
+              }}>
+                <img
+                  src={slide.img}
+                  alt={slide.slogan}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
+                  }}
+                />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(135deg, rgba(0,102,204,0.78) 0%, rgba(20,158,97,0.62) 100%)',
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  padding: '32px 48px',
+                }}>
+                  <div style={{ maxWidth: 620 }}>
+                    <div style={{
+                      display: 'inline-block',
+                      background: 'rgba(255,255,255,0.2)',
+                      backdropFilter: 'blur(8px)',
+                      borderRadius: 20,
+                      padding: '4px 16px',
+                      marginBottom: 16,
+                    }}>
+                      <Text style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>
+                        💳 TutorMatch — Thanh toán & Ví Credit
+                      </Text>
+                    </div>
+                    <Title level={2} style={{ color: '#fff', margin: '0 0 12px', fontWeight: 700, lineHeight: 1.3 }}>
+                      {slide.slogan}
+                    </Title>
+                    <Text style={{ color: 'rgba(255,255,255,0.88)', fontSize: 15, display: 'block', marginBottom: 24 }}>
+                      {slide.sub}
+                    </Text>
+                    <Button
+                      type="primary"
+                      size="large"
+                      style={{
+                        borderRadius: 10,
+                        fontWeight: 600,
+                        height: 44,
+                        paddingInline: 28,
+                        background: '#fff',
+                        color: T.primary,
+                        border: 'none',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+                        fontSize: 15,
+                      }}
+                      onClick={() => {
+                        if (slide.ctaAction === 'deposit') {
+                          setAmount(500000);
+                          setTimeout(() => {
+                            const modalEl = document.querySelector('.ant-modal-wrap') as HTMLElement;
+                            if (!modalEl) {
+                              const btn = document.querySelector('button') as HTMLElement;
+                              btn?.click();
+                            }
+                          }, 100);
+                        }
+                      }}
+                    >
+                      {slide.cta} <RightOutlined style={{ fontSize: 12 }} />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+      </div>
+
       {/* Page Header */}
       <div style={{ marginBottom: 32 }}>
         <Title level={2} style={{
@@ -307,7 +449,7 @@ const Wallet: React.FC = () => {
               type="primary"
               size="large"
               icon={<LoadingOutlined />}
-              onClick={() => setDepositModalVisible(true)}
+              onClick={() => setQrModalVisible(true)}
               style={{
                 borderRadius: 9999, height: 48, paddingLeft: 28, paddingRight: 28,
                 fontSize: 15, fontWeight: 500, flexShrink: 0,
@@ -480,98 +622,264 @@ const Wallet: React.FC = () => {
         />
       </div>
 
-      {/* ── Deposit Modal ──────────────────────────────────────────────────── */}
+      {/* ── PayOS QR Modal ─────────────────────────────────────────────────── */}
       <Modal
         title={
           <div style={{ fontWeight: 600, fontSize: 16, color: T.ink, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <BankOutlined style={{ color: T.primary }} />
-            Nạp Credit
+            <QrcodeOutlined style={{ color: T.primary }} />
+            Nạp Credit qua PayOS
           </div>
         }
-        open={depositModalVisible}
-        onCancel={() => setDepositModalVisible(false)}
+        open={qrModalVisible}
+        onCancel={() => setQrModalVisible(false)}
         footer={null}
-        width={480}
+        width={780}
         destroyOnClose
-        styles={{ body: { padding: '8px 0' } }}
+        styles={{ body: { padding: '16px 20px' } }}
       >
-        <Text style={{ display: 'block', marginBottom: 20, fontSize: 14, color: T.inkMuted48 }}>
-          Nhập số tiền bạn muốn nạp. Yêu cầu sẽ được gửi đến admin để duyệt.
-        </Text>
+        {/* ── Horizontal layout: left = QR, right = info ─────────────────────── */}
+        <Row gutter={[28, 0]} align="top">
 
-        {/* Quick amount chips */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 20, flexWrap: 'wrap' }}>
-          {[100000, 200000, 500000, 1000000, 2000000].map((v) => (
-            <button
-              key={v}
-              onClick={() => setAmount(v)}
-              style={{
-                border: amount === v ? `2px solid ${T.primary}` : `1px solid ${T.hairline}`,
-                background: amount === v ? 'rgba(0,102,204,0.06)' : T.canvas,
-                color: amount === v ? T.primary : T.ink,
-                borderRadius: 8, padding: '6px 14px',
-                fontSize: 13, cursor: 'pointer', fontWeight: 500,
-                fontFamily: 'inherit',
-              }}
+          {/* ── Left: QR Code ──────────────────────────────────────────────── */}
+          <Col xs={24} sm={11}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: 8 }}>
+
+              {/* PayOS brand */}
+              <div style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
+                background: T.parchment, borderRadius: 9999,
+                padding: '5px 14px', marginBottom: 20,
+              }}>
+                <QrcodeOutlined style={{ color: T.primary, fontSize: 13 }} />
+                <Text style={{ fontSize: 12, color: T.inkMuted48, fontWeight: 500 }}>
+                  Thanh toán qua PayOS
+                </Text>
+              </div>
+
+              {/* QR code card */}
+              <div style={{
+                padding: 20, background: T.canvas,
+                borderRadius: 18, border: `1px solid ${T.hairline}`,
+                marginBottom: 20,
+              }}>
+                <QRCodeCanvas
+                  value={`https://img.vietqr.io/image/${'TPB'}-${'1234567890'}-${encodeURIComponent('CONG TY TNHH TUTORMATCH')}.png?amount=${amount}&addInfo=${encodeURIComponent(qrDescription)}&accountName=${encodeURIComponent('CONG TY TNHH TUTORMATCH')}`}
+                  size={200}
+                  bgColor="#ffffff"
+                  fgColor="#1d1d1f"
+                  level="M"
+                  includeMargin={false}
+                />
+              </div>
+
+              {/* Countdown */}
+              <div style={{ width: '100%', marginBottom: 12 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 8 }}>
+                  <ClockCircleOutlined style={{ color: countdownSeconds < 120 ? T.error : T.inkMuted48, fontSize: 13 }} />
+                  <Text style={{ fontSize: 13, color: countdownSeconds < 120 ? T.error : T.inkMuted48 }}>
+                    Mã QR hết hạn sau{' '}
+                    <strong style={{ fontFamily: 'monospace' }}>
+                      {String(Math.floor(countdownSeconds / 60)).padStart(2, '0')}:
+                      {String(countdownSeconds % 60).padStart(2, '0')}
+                    </strong>
+                  </Text>
+                </div>
+                <div style={{ height: 5, background: T.parchment, borderRadius: 3, overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%',
+                    width: `${(countdownSeconds / (15 * 60)) * 100}%`,
+                    background: countdownSeconds < 120 ? T.error : T.primary,
+                    borderRadius: 3,
+                    transition: 'width 1s linear, background 0.3s ease',
+                  }} />
+                </div>
+              </div>
+
+              {/* Refresh button */}
+              <Button
+                icon={<ReloadOutlined />}
+                onClick={buildQrData}
+                style={{ borderRadius: 9999, fontSize: 13 }}
+              >
+                Làm mới mã QR
+              </Button>
+            </div>
+          </Col>
+
+          {/* Vertical divider */}
+          <Col xs={24} sm={1} style={{ display: 'flex', alignItems: 'stretch' }}>
+            <div style={{ width: 1, background: T.hairline, alignSelf: 'stretch' }} />
+          </Col>
+
+          {/* ── Right: bank info & confirm ────────────────────────────────────── */}
+          <Col xs={24} sm={12}>
+            <div style={{ paddingLeft: 8 }}>
+
+              {/* Amount selection label */}
+              <Text style={{ display: 'block', marginBottom: 12, fontSize: 14, fontWeight: 500, color: T.ink }}>
+                Chọn hoặc nhập số tiền nạp
+              </Text>
+
+              {/* Quick amount chips */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+                {[100000, 200000, 500000, 1000000, 2000000].map((v) => (
+                  <button
+                    key={v}
+                    onClick={() => setAmount(v)}
+                    style={{
+                      border: amount === v ? `2px solid ${T.primary}` : `1px solid ${T.hairline}`,
+                      background: amount === v ? 'rgba(0,102,204,0.06)' : T.canvas,
+                      color: amount === v ? T.primary : T.ink,
+                      borderRadius: 8, padding: '7px 16px',
+                      fontSize: 13, cursor: 'pointer', fontWeight: 600,
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    {fmtCurrency(v)}
+                  </button>
+                ))}
+              </div>
+
+              {/* Custom amount input */}
+              <div style={{ marginBottom: 18 }}>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  size="large"
+                  min={10000}
+                  step={10000}
+                  value={amount}
+                  onChange={(value) => setAmount(value || 0)}
+                  formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                  parser={(value) => value?.replace(/,/g, '') as unknown as number}
+                />
+              </div>
+
+              {/* Bank info card */}
+              <div style={{
+                background: T.parchment, borderRadius: 14,
+                padding: '16px 18px', marginBottom: 18,
+              }}>
+                <Text style={{ display: 'block', marginBottom: 12, fontSize: 12, fontWeight: 600, color: T.inkMuted48, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Thông tin chuyển khoản
+                </Text>
+                {[
+                  { label: 'Chủ tài khoản', value: 'CONG TY TNHH TUTORMATCH', copy: true },
+                  { label: 'Số tài khoản', value: '1234567890', copy: true },
+                  { label: 'Ngân hàng', value: 'TPBank (TPB)', copy: false },
+                  { label: 'Nội dung CK', value: qrDescription || '—', copy: true, highlight: true },
+                ].map((row) => (
+                  <div key={row.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '7px 0', borderBottom: `1px solid ${T.hairline}` }}>
+                    <Text style={{ fontSize: 13, color: T.inkMuted48 }}>{row.label}</Text>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, maxWidth: '60%', justifyContent: 'flex-end' }}>
+                      <Text style={{
+                        fontSize: 13, fontWeight: row.highlight ? 600 : 400,
+                        color: row.highlight ? T.primary : T.ink,
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>
+                        {row.value}
+                      </Text>
+                      {row.copy && (
+                        <CopyOutlined
+                          style={{ color: T.inkMuted48, fontSize: 12, cursor: 'pointer', flexShrink: 0 }}
+                          onClick={() => copyToClipboard(row.value, 'Đã sao chép!')}
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Amount total highlight */}
+              <div style={{
+                background: `linear-gradient(135deg, ${T.primary} 0%, #0050d6 100%)`,
+                borderRadius: 14, padding: '14px 18px',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                marginBottom: 18,
+              }}>
+                <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>
+                  Số tiền thanh toán
+                </Text>
+                <Text style={{
+                  fontSize: 22, fontWeight: 600, color: '#fff',
+                  letterSpacing: '-0.3px',
+                  fontFamily: '"SF Pro Display", system-ui, -apple-system, sans-serif',
+                }}>
+                  {fmtCurrency(amount)}
+                </Text>
+              </div>
+
+              {/* Confirm button */}
+              <Button
+                type="primary"
+                size="large"
+                block
+                onClick={() => {
+                  setQrModalVisible(false);
+                  setQrSuccessVisible(true);
+                }}
+                disabled={amount < 10000}
+                style={{ borderRadius: 12, height: 50, fontSize: 15, fontWeight: 500, background: T.primary }}
+              >
+                Xác nhận đã chuyển khoản
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </Modal>
+
+      {/* ── QR Payment Success Modal ────────────────────────────────────────── */}
+      <Modal
+        open={qrSuccessVisible}
+        onCancel={() => setQrSuccessVisible(false)}
+        footer={null}
+        width={400}
+        centered
+        destroyOnClose
+      >
+        <div style={{ textAlign: 'center', padding: '8px 0 16px' }}>
+          <div style={{
+            width: 72, height: 72, borderRadius: '50%',
+            background: T.successBg,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '0 auto 20px',
+          }}>
+            <CheckCircleFilled style={{ fontSize: 40, color: T.success }} />
+          </div>
+
+          <Title level={4} style={{ margin: '0 0 8px', fontWeight: 600, color: T.ink }}>
+            Xác nhận thanh toán
+          </Title>
+          <Text style={{ display: 'block', marginBottom: 24, fontSize: 14, color: T.inkMuted48 }}>
+            Yêu cầu nạp <strong style={{ color: T.ink }}>{fmtCurrency(amount)}</strong> đã được gửi.
+            <br />Credit sẽ được cộng sau khi admin xác nhận.
+          </Text>
+
+          <Space style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
+            <Button
+              size="large"
+              onClick={() => setQrSuccessVisible(false)}
+              style={{ borderRadius: 9999, paddingLeft: 24, paddingRight: 24 }}
             >
-              {fmtCurrency(v)}
-            </button>
-          ))}
+              Đóng
+            </Button>
+            <Button
+              type="primary"
+              size="large"
+              onClick={() => {
+                setQrSuccessVisible(false);
+                notification.success({
+                  message: 'Đã xác nhận!',
+                  description: `Yêu cầu nạp ${fmtCurrency(amount)} đang chờ admin duyệt.`,
+                  placement: 'topRight',
+                  duration: 4,
+                });
+              }}
+              style={{ borderRadius: 9999, paddingLeft: 24, paddingRight: 24, background: T.primary }}
+            >
+              Theo dõi ví
+            </Button>
+          </Space>
         </div>
-
-        <div style={{ marginBottom: 16 }}>
-          <label style={{ display: 'block', marginBottom: 8, fontWeight: 500, fontSize: 14, color: T.ink }}>
-            Số tiền (VNĐ)
-          </label>
-          <InputNumber
-            style={{ width: '100%' }}
-            size="large"
-            min={10000}
-            step={10000}
-            value={amount}
-            onChange={(value) => setAmount(value || 0)}
-            formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={(value) => value?.replace(/,/g, '') as unknown as number}
-          />
-        </div>
-
-        <div style={{ marginBottom: 20 }}>
-          <label style={{ display: 'block', marginBottom: 8, fontWeight: 500, fontSize: 14, color: T.ink }}>
-            Ghi chú (tùy chọn)
-          </label>
-          <InputNumber
-            style={{ width: '100%', fontSize: 14 }}
-            size="large"
-            placeholder="Nội dung chuyển khoản hoặc ghi chú..."
-            value={note || undefined}
-            onChange={(value) => setNote(value?.toString() || '')}
-            formatter={(value) => value?.toString() || ''}
-            parser={(value) => value?.toString() || ''}
-          />
-        </div>
-
-        <div style={{
-          marginBottom: 20, padding: '12px 16px',
-          background: T.parchment, borderRadius: 8,
-          fontSize: 13, color: T.inkMuted80,
-          border: `1px solid ${T.dividerSoft}`,
-        }}>
-          <strong style={{ color: T.ink }}>Lưu ý:</strong> Sau khi gửi yêu cầu, vui lòng chờ admin xác nhận. Credit sẽ được cộng sau khi được duyệt.
-        </div>
-
-        <Space style={{ display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-          <Button onClick={() => setDepositModalVisible(false)} size="large">Hủy</Button>
-          <Button
-            type="primary"
-            size="large"
-            onClick={confirmDeposit}
-            loading={submitting}
-            disabled={amount < 10000}
-            style={{ minWidth: 140, background: T.primary }}
-          >
-            Nạp tiền
-          </Button>
-        </Space>
       </Modal>
     </div>
   );

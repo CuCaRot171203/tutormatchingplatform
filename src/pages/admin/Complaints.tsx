@@ -445,7 +445,7 @@ const StatCard = ({
       {icon}
     </div>
     <div>
-      <div style={{ fontSize: 22, fontWeight: 700, color: T.text, fontFamily: FONT_HEAD, letterSpacing: '-0.5px', lineHeight: 1.1 }}>
+      <div style={{ fontSize: 22, fontWeight: 500, color: T.text, fontFamily: FONT_HEAD, letterSpacing: '-0.5px', lineHeight: 1.1 }}>
         {value}
       </div>
       <div style={{ fontSize: 12, fontWeight: 500, color: T.textMuted, marginTop: 4, fontFamily: FONT_BODY }}>
@@ -675,7 +675,7 @@ const Complaints: React.FC = () => {
             background: `${record.reporterAvatarColor}14`,
             color: record.reporterAvatarColor,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontWeight: 700, fontSize: 13, flexShrink: 0, fontFamily: FONT_HEAD,
+            fontWeight: 500, fontSize: 13, flexShrink: 0, fontFamily: FONT_HEAD,
           }}>
             {record.reporterAvatar}
           </div>
@@ -701,7 +701,7 @@ const Complaints: React.FC = () => {
             background: `${record.reportedAvatarColor}14`,
             color: record.reportedAvatarColor,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontWeight: 700, fontSize: 13, flexShrink: 0, fontFamily: FONT_HEAD,
+            fontWeight: 500, fontSize: 13, flexShrink: 0, fontFamily: FONT_HEAD,
           }}>
             {record.reportedAvatar}
           </div>
@@ -809,7 +809,7 @@ const Complaints: React.FC = () => {
       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h1 style={{
-            margin: 0, fontSize: 22, fontWeight: 700,
+            margin: 0, fontSize: 22, fontWeight: 500,
             color: T.text, letterSpacing: '-0.3px', fontFamily: FONT_HEAD,
           }}>
             Khiếu nại
@@ -1023,7 +1023,7 @@ const Complaints: React.FC = () => {
                 <ExclamationCircleOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: T.text, fontFamily: FONT_HEAD }}>
+                <div style={{ fontSize: 16, fontWeight: 500, color: T.text, fontFamily: FONT_HEAD }}>
                   Chi tiết khiếu nại #{selectedComplaint.id}
                 </div>
                 <div style={{ fontSize: 12, color: T.textMuted, marginTop: 2, fontFamily: FONT_BODY }}>
@@ -1073,7 +1073,7 @@ const Complaints: React.FC = () => {
                       background: `${selectedComplaint.reporterAvatarColor}14`,
                       color: selectedComplaint.reporterAvatarColor,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontWeight: 700, fontSize: 12, fontFamily: FONT_HEAD,
+                      fontWeight: 500, fontSize: 12, fontFamily: FONT_HEAD,
                     }}>
                       {selectedComplaint.reporterAvatar}
                     </div>
@@ -1098,7 +1098,7 @@ const Complaints: React.FC = () => {
                       background: `${selectedComplaint.reportedAvatarColor}14`,
                       color: selectedComplaint.reportedAvatarColor,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontWeight: 700, fontSize: 12, fontFamily: FONT_HEAD,
+                      fontWeight: 500, fontSize: 12, fontFamily: FONT_HEAD,
                     }}>
                       {selectedComplaint.reportedAvatar}
                     </div>
@@ -1216,7 +1216,7 @@ const Complaints: React.FC = () => {
                 <CheckOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: T.text, fontFamily: FONT_HEAD }}>
+                <div style={{ fontSize: 16, fontWeight: 500, color: T.text, fontFamily: FONT_HEAD }}>
                   Xử lý khiếu nại
                 </div>
                 <div style={{ fontSize: 12, color: T.textMuted, marginTop: 2, fontFamily: FONT_BODY }}>
@@ -1360,7 +1360,7 @@ const Complaints: React.FC = () => {
                 <CloseOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: T.text, fontFamily: FONT_HEAD }}>
+                <div style={{ fontSize: 16, fontWeight: 500, color: T.text, fontFamily: FONT_HEAD }}>
                   Bỏ qua khiếu nại
                 </div>
                 <div style={{ fontSize: 12, color: T.textMuted, marginTop: 2, fontFamily: FONT_BODY }}>
@@ -1382,7 +1382,7 @@ const Complaints: React.FC = () => {
                     background: `${selectedComplaint.reporterAvatarColor}14`,
                     color: selectedComplaint.reporterAvatarColor,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontWeight: 700, fontSize: 12, fontFamily: FONT_HEAD,
+                    fontWeight: 500, fontSize: 12, fontFamily: FONT_HEAD,
                   }}>
                     {selectedComplaint.reporterAvatar}
                   </div>

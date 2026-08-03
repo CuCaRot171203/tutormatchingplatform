@@ -93,7 +93,7 @@ const Schedule: React.FC = () => {
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>Quản lý lịch rảnh</h1>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>Quản lý lịch rảnh</h1>
         <Text type="secondary">Cập nhật lịch có thể nhận dạy</Text>
       </div>
 

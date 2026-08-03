@@ -58,7 +58,7 @@ const AboutPage: React.FC = () => {
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ffffff' }} />
                     </div>
                     <div style={{ paddingBottom: 28 }}>
-                      <span style={{ fontSize: 11, fontWeight: 700, color: '#0062FF', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: "'SF Pro Display', system-ui, sans-serif", display: 'block', marginBottom: 4 }}>{item.year}</span>
+                      <span style={{ fontSize: 11, fontWeight: 500, color: '#0062FF', letterSpacing: '0.06em', textTransform: 'uppercase', fontFamily: "'SF Pro Display', system-ui, sans-serif", display: 'block', marginBottom: 4 }}>{item.year}</span>
                       <h4 style={{ fontSize: 14, fontWeight: 600, color: '#1d1d1f', marginBottom: 4, fontFamily: "'SF Pro Text', system-ui, sans-serif" }}>{item.title}</h4>
                       <p style={{ fontSize: 13, color: '#6e6e73', lineHeight: 1.5, margin: 0, fontFamily: "'SF Pro Text', system-ui, sans-serif" }}>{item.desc}</p>
                     </div>

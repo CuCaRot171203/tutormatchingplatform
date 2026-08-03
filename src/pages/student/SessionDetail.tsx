@@ -167,7 +167,7 @@ const SessionDetail: React.FC = () => {
                   {session.score !== undefined && session.score !== null && (
                     <div style={{ marginBottom: 8 }}>
                       <Text strong>Điểm số: </Text>
-                      <Text style={{ fontSize: 20, fontWeight: 700, color: '#7132f5' }}>
+                      <Text style={{ fontSize: 20, fontWeight: 500, color: '#7132f5' }}>
                         {session.score}/10
                       </Text>
                     </div>

@@ -207,7 +207,7 @@ const ProgressPage: React.FC = () => {
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ margin: 0, fontWeight: 700, color: T.text }}>Tiến độ học tập</Title>
+        <Title level={2} style={{ margin: 0, fontWeight: 500, color: T.text }}>Tiến độ học tập</Title>
         <Text type="secondary">Theo dõi mục tiêu và thành tích của bạn</Text>
       </div>
 
@@ -236,7 +236,7 @@ const ProgressPage: React.FC = () => {
                    label.includes('TB') ? <TrophyOutlined /> : <TrophyOutlined />}
                 </div>
                 <div>
-                  <div style={{ fontSize: 24, fontWeight: 700, color, lineHeight: 1.2 }}>{value}</div>
+                  <div style={{ fontSize: 24, fontWeight: 500, color, lineHeight: 1.2 }}>{value}</div>
                   <Text type="secondary" style={{ fontSize: 13 }}>{label}</Text>
                 </div>
               </div>

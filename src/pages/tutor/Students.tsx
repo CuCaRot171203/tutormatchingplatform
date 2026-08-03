@@ -163,7 +163,7 @@ const Students: React.FC = () => {
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>Học sinh của tôi</h1>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>Học sinh của tôi</h1>
         <Text type="secondary">Danh sách học sinh đã hoàn thành buổi học</Text>
       </div>
 
@@ -227,7 +227,7 @@ const Students: React.FC = () => {
                   {selectedStudent.name[0]}
                 </Avatar>
                 <div>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: '#fff' }}>{selectedStudent.name}</div>
+                  <div style={{ fontSize: 18, fontWeight: 500, color: '#fff' }}>{selectedStudent.name}</div>
                   <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', marginTop: 2 }}>{selectedStudent.grade}</div>
                 </div>
               </div>
@@ -248,19 +248,19 @@ const Students: React.FC = () => {
               <Row gutter={12}>
                 <Col span={8}>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 22, fontWeight: 700, color: T.primary }}>{selectedStudent.sessionCount}</div>
+                    <div style={{ fontSize: 22, fontWeight: 500, color: T.primary }}>{selectedStudent.sessionCount}</div>
                     <div style={{ fontSize: 12, color: T.textMuted }}>Buổi học</div>
                   </div>
                 </Col>
                 <Col span={8}>
                   <div style={{ textAlign: 'center', borderLeft: `1px solid ${T.border}`, borderRight: `1px solid ${T.border}` }}>
-                    <div style={{ fontSize: 22, fontWeight: 700, color: T.green }}>{selectedStudent.totalHours.toFixed(1)}h</div>
+                    <div style={{ fontSize: 22, fontWeight: 500, color: T.green }}>{selectedStudent.totalHours.toFixed(1)}h</div>
                     <div style={{ fontSize: 12, color: T.textMuted }}>Tổng giờ</div>
                   </div>
                 </Col>
                 <Col span={8}>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: 22, fontWeight: 700, color: T.yellow }}>
+                    <div style={{ fontSize: 22, fontWeight: 500, color: T.yellow }}>
                       {selectedStudent.averageScore?.toFixed(1) ?? '—'}
                     </div>
                     <div style={{ fontSize: 12, color: T.textMuted }}>Điểm TB</div>

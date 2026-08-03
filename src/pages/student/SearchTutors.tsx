@@ -139,7 +139,7 @@ const SearchTutors: React.FC = () => {
             style={{
               backgroundColor: T.purple,
               fontSize: 16,
-              fontWeight: 700,
+              fontWeight: 500,
               flexShrink: 0,
             }}
           >
@@ -301,7 +301,7 @@ const SearchTutors: React.FC = () => {
     <div>
       {/* Page Header */}
       <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ margin: 0, fontWeight: 700, color: T.text }}>
+        <Title level={2} style={{ margin: 0, fontWeight: 500, color: T.text }}>
           Tìm kiếm gia sư
         </Title>
         <Text type="secondary" style={{ fontSize: 14 }}>
@@ -427,7 +427,7 @@ const SearchTutors: React.FC = () => {
               value={filters.search}
               onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
               size="large"
-              style={{ borderRadius: 10 }}
+              style={{ borderRadius: 10, fontSize: 14 }}
               allowClear
             />
           </div>
@@ -485,7 +485,7 @@ const SearchTutors: React.FC = () => {
       {/* ─── Book Session Modal ──────────────────────────────────── */}
       <Modal
         title={
-          <div style={{ fontWeight: 700, fontSize: 15 }}>
+          <div style={{ fontWeight: 500, fontSize: 15 }}>
             <BookOutlined style={{ color: T.primary, marginRight: 8 }} />
             Đặt buổi học
           </div>
@@ -515,7 +515,7 @@ const SearchTutors: React.FC = () => {
             >
               <Avatar
                 size={44}
-                style={{ backgroundColor: T.purple, fontWeight: 700, fontSize: 15 }}
+                style={{ backgroundColor: T.purple, fontWeight: 500, fontSize: 15 }}
               >
                 {selectedTutor.fullName.split(' ').map((n) => n[0]).join('').slice(0, 2)}
               </Avatar>
@@ -536,9 +536,9 @@ const SearchTutors: React.FC = () => {
                 name="subjectId"
                 rules={[{ required: true, message: 'Vui lòng chọn môn học!' }]}
               >
-                <Select placeholder="Chọn môn học">
+                <Select placeholder="Chọn môn học" style={{ fontSize: 12}}>
                   {selectedTutor.subjects.map((s) => (
-                    <Select.Option key={s.subjectId} value={s.subjectId}>
+                    <Select.Option key={s.subjectId} value={s.subjectId} style={{ fontSize: 12}}>
                       {s.subjectName}{' '}
                       <Text type="secondary" style={{ fontSize: 12 }}>
                         — {formatCurrency(s.hourlyRate)}/giờ
@@ -628,7 +628,7 @@ const SearchTutors: React.FC = () => {
       {/* ─── Tutor Detail Modal ──────────────────────────────────── */}
       <Modal
         title={
-          <div style={{ fontWeight: 700, fontSize: 15 }}>
+          <div style={{ fontWeight: 500, fontSize: 15 }}>
             <UserOutlined style={{ color: T.primary, marginRight: 8 }} />
             Hồ sơ gia sư
           </div>
@@ -670,7 +670,7 @@ const SearchTutors: React.FC = () => {
                 size={64}
                 style={{
                   backgroundColor: T.purple,
-                  fontWeight: 700,
+                  fontWeight: 500,
                   fontSize: 22,
                   flexShrink: 0,
                 }}
@@ -697,7 +697,7 @@ const SearchTutors: React.FC = () => {
               <Col span={8}>
                 <div style={{ textAlign: 'center', padding: 12, border: `1px solid ${T.border}`, borderRadius: 10 }}>
                   <ClockCircleOutlined style={{ color: T.primary, fontSize: 16, marginBottom: 4 }} />
-                  <div style={{ fontSize: 16, fontWeight: 700, color: T.text }}>
+                  <div style={{ fontSize: 16, fontWeight: 500, color: T.text }}>
                     {selectedTutor.yearsExperience ?? 0}
                   </div>
                   <Text type="secondary" style={{ fontSize: 12 }}>Năm kinh nghiệm</Text>
@@ -706,7 +706,7 @@ const SearchTutors: React.FC = () => {
               <Col span={8}>
                 <div style={{ textAlign: 'center', padding: 12, border: `1px solid ${T.border}`, borderRadius: 10 }}>
                   <TeamOutlined style={{ color: T.purple, fontSize: 16, marginBottom: 4 }} />
-                  <div style={{ fontSize: 16, fontWeight: 700, color: T.text }}>
+                  <div style={{ fontSize: 16, fontWeight: 500, color: T.text }}>
                     {selectedTutor.totalSessions ?? 0}
                   </div>
                   <Text type="secondary" style={{ fontSize: 12 }}>Buổi dạy</Text>
@@ -721,7 +721,7 @@ const SearchTutors: React.FC = () => {
                       marginBottom: 4,
                     }}
                   />
-                  <div style={{ fontSize: 16, fontWeight: 700, color: T.text }}>
+                  <div style={{ fontSize: 16, fontWeight: 500, color: T.text }}>
                     {selectedTutor.responseRate ?? 100}%
                   </div>
                   <Text type="secondary" style={{ fontSize: 12 }}>Phản hồi</Text>

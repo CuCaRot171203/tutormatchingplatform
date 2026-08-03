@@ -173,7 +173,7 @@ const BookSession: React.FC = () => {
         variant="borderless" 
         style={{ borderRadius: 12, boxShadow: 'rgba(0, 0, 0, 0.03) 0px 4px 24px' }}
       >
-        <Title level={3} style={{ fontWeight: 700, marginBottom: 24 }}>
+        <Title level={3} style={{ fontWeight: 500, marginBottom: 24 }}>
           Đặt lịch học với {tutor?.fullName}
         </Title>
 

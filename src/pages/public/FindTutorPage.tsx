@@ -538,7 +538,7 @@ const FindTutorPage: React.FC = () => {
                 </div>
                 <p style={{
                   fontFamily: "'SF Pro Display', system-ui, sans-serif",
-                  fontSize: 36, fontWeight: 700, color: 'rgba(0,98,255,0.12)',
+                  fontSize: 36, fontWeight: 500, color: 'rgba(0,98,255,0.12)',
                   letterSpacing: '-2px', marginBottom: 8, lineHeight: 1,
                 }}>
                   {item.step}

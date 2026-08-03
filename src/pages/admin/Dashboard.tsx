@@ -268,7 +268,7 @@ const AdminDashboard: React.FC = () => {
       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
           <h1 style={{
-            margin: 0, fontSize: 22, fontWeight: 700,
+            margin: 0, fontSize: 22, fontWeight: 500,
             color: T.text, letterSpacing: '-0.3px',
           }}>
             Tổng quan hệ thống
@@ -376,7 +376,7 @@ const AdminDashboard: React.FC = () => {
                     </PieChart>
                   </ResponsiveContainer>
                   <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center', pointerEvents: 'none' }}>
-                    <div style={{ fontSize: 18, fontWeight: 700, color: T.text, lineHeight: 1 }}>{subjectData.length}</div>
+                    <div style={{ fontSize: 18, fontWeight: 500, color: T.text, lineHeight: 1 }}>{subjectData.length}</div>
                     <div style={{ fontSize: 10, color: T.textSubtle }}>Môn</div>
                   </div>
                 </div>
@@ -388,7 +388,7 @@ const AdminDashboard: React.FC = () => {
                         <div style={{ width: 8, height: 8, borderRadius: '50%', background: s.color }} />
                         <span style={{ fontSize: 12, color: T.textMuted }}>{s.name}</span>
                       </div>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: s.color }}>{s.value}%</span>
+                      <span style={{ fontSize: 12, fontWeight: 500, color: s.color }}>{s.value}%</span>
                     </div>
                   ))}
                 </div>
@@ -433,7 +433,7 @@ const AdminDashboard: React.FC = () => {
                       <div style={{
                         minWidth: 22, height: 22, borderRadius: 9999,
                         background: `${item.color}18`, color: item.color,
-                        fontSize: 11, fontWeight: 700,
+                        fontSize: 11, fontWeight: 500,
                         display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px',
                       }}>
                         {item.count}
@@ -551,7 +551,7 @@ const AdminDashboard: React.FC = () => {
                             width: 32, height: 32, borderRadius: '50%',
                             background: T.accentLight, color: T.accent,
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            fontWeight: 700, fontSize: 12, flexShrink: 0,
+                            fontWeight: 500, fontSize: 12, flexShrink: 0,
                           }}>
                             {s.avatar}
                           </div>
@@ -602,7 +602,7 @@ const AdminDashboard: React.FC = () => {
                       width: 38, height: 38, borderRadius: 10,
                       background: T.accentLight, color: T.accent,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontWeight: 700, fontSize: 14,
+                      fontWeight: 500, fontSize: 14,
                     }}>
                       {t.avatar}
                     </div>
@@ -623,7 +623,7 @@ const AdminDashboard: React.FC = () => {
                     ) : (
                       <>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 3, justifyContent: 'flex-end' }}>
-                          <span style={{ fontSize: 13, fontWeight: 700, color: T.orange }}>★ {t.rating}</span>
+                          <span style={{ fontSize: 13, fontWeight: 500, color: T.orange }}>★ {t.rating}</span>
                         </div>
                         <div style={{ fontSize: 11, color: T.textSubtle, marginTop: 2 }}>{t.students} học sinh</div>
                       </>

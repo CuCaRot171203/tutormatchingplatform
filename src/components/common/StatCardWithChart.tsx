@@ -67,7 +67,7 @@ const StatCardWithChart: React.FC<StatCardWithChartProps> = ({
       <div>
         <div style={{
           fontFamily: "'SF Pro Display', 'SF Pro Text', system-ui, -apple-system, sans-serif",
-          fontSize: 28, fontWeight: 700,
+          fontSize: 28, fontWeight: 500,
           color: '#1d1d1f', letterSpacing: '-0.5px', lineHeight: 1,
         }}>
           {value}

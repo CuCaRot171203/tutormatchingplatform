@@ -102,7 +102,7 @@ const TutorLayout: React.FC = () => {
             <img src={logoUrl} alt="Logo" style={{ width: 36, height: 36, objectFit: 'contain' }} />
             {!collapsed && (
               <div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#1a1d26', fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: '-0.3px', lineHeight: 1.3 }}>TutorMatch</div>
+                <div style={{ fontSize: 15, fontWeight: 500, color: '#1a1d26', fontFamily: "'IBM Plex Sans', sans-serif", letterSpacing: '-0.3px', lineHeight: 1.3 }}>TutorMatch</div>
                 <div style={{ fontSize: 10, color: '#9ca3af', fontFamily: "'IBM Plex Sans', sans-serif" }}>Gia sư</div>
               </div>
             )}

@@ -82,7 +82,7 @@ const LoginPage: React.FC = () => {
           margin: '0 0 6px',
           color: '#1d1d1f',
           fontSize: 22,
-          fontWeight: 700,
+          fontWeight: 500,
           letterSpacing: '-0.3px',
           fontFamily: "'SF Pro Display', system-ui, sans-serif",
         }}>

@@ -279,7 +279,7 @@ const AdminProfile: React.FC = () => {
       <div style={{ marginBottom: 20 }}>
         <h1 style={{
           fontFamily: FONT_HEAD,
-          fontSize: 22, fontWeight: 700,
+          fontSize: 22, fontWeight: 500,
           color: T.text, margin: '0 0 2px',
           letterSpacing: '-0.3px',
         }}>
@@ -317,7 +317,7 @@ const AdminProfile: React.FC = () => {
               background: `${mockAdmin.avatarColor}18`,
               color: mockAdmin.avatarColor,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 700, fontSize: 28,
+              fontWeight: 500, fontSize: 28,
               fontFamily: FONT_HEAD,
               border: `3px solid ${mockAdmin.avatarColor}30`,
             }}>
@@ -351,7 +351,7 @@ const AdminProfile: React.FC = () => {
           {/* Name */}
           <div style={{
             fontFamily: FONT_HEAD,
-            fontSize: 17, fontWeight: 700,
+            fontSize: 17, fontWeight: 500,
             color: T.text,
             textAlign: 'center',
             marginBottom: 6,

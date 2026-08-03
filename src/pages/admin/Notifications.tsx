@@ -259,7 +259,7 @@ const PriorityAlert: React.FC<{ count: number; onMarkAll: () => void }> = ({ cou
       </div>
       <div>
         <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.75)', fontFamily: "'IBM Plex Sans', sans-serif" }}>Cần xử lý ngay</p>
-        <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#fff', fontFamily: "'SF Pro Display', system-ui, sans-serif", letterSpacing: '-0.5px' }}>
+        <p style={{ margin: 0, fontSize: 22, fontWeight: 500, color: '#fff', fontFamily: "'SF Pro Display', system-ui, sans-serif", letterSpacing: '-0.5px' }}>
           {count} thông báo ưu tiên cao
         </p>
       </div>
@@ -312,7 +312,7 @@ const UnreadSummary: React.FC<{ unread: number; onMarkAll: () => void }> = ({ un
       </div>
       <div>
         <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.75)', fontFamily: "'IBM Plex Sans', sans-serif" }}>Tin nhắn chưa đọc</p>
-        <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#fff', fontFamily: "'SF Pro Display', system-ui, sans-serif", letterSpacing: '-0.5px' }}>
+        <p style={{ margin: 0, fontSize: 22, fontWeight: 500, color: '#fff', fontFamily: "'SF Pro Display', system-ui, sans-serif", letterSpacing: '-0.5px' }}>
           {unread} thông báo mới
         </p>
       </div>
@@ -597,7 +597,7 @@ const AdminNotifications: React.FC = () => {
       <div style={{ marginBottom: 24 }}>
         <h1 style={{
           fontSize: 24,
-          fontWeight: 700,
+          fontWeight: 500,
           color: T.text,
           margin: '0 0 4px',
           fontFamily: "'SF Pro Display', system-ui, sans-serif",
@@ -636,7 +636,7 @@ const AdminNotifications: React.FC = () => {
             </div>
             <div>
               <p style={{
-                fontSize: 22, fontWeight: 700, margin: 0,
+                fontSize: 22, fontWeight: 500, margin: 0,
                 color: stat.color,
                 fontFamily: "'SF Pro Display', system-ui, sans-serif",
                 letterSpacing: '-0.5px',

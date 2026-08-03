@@ -192,7 +192,7 @@ const TutorProgress: React.FC = () => {
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>Tiến độ học tập</h1>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>Tiến độ học tập</h1>
         <Text type="secondary">Theo dõi mục tiêu và tiến độ học tập của học sinh</Text>
       </div>
 
@@ -205,7 +205,7 @@ const TutorProgress: React.FC = () => {
                 <BookOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.text }}>{totalMilestones}</div>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.text }}>{totalMilestones}</div>
                 <div style={{ fontSize: 13, color: T.textMuted }}>Tổng mục tiêu</div>
               </div>
             </div>
@@ -218,7 +218,7 @@ const TutorProgress: React.FC = () => {
                 <CheckCircleOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.green }}>{completedMilestones}</div>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.green }}>{completedMilestones}</div>
                 <div style={{ fontSize: 13, color: T.textMuted }}>Đã hoàn thành</div>
               </div>
             </div>
@@ -231,7 +231,7 @@ const TutorProgress: React.FC = () => {
                 <ClockCircleOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.orange }}>{inProgressMilestones}</div>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.orange }}>{inProgressMilestones}</div>
                 <div style={{ fontSize: 13, color: T.textMuted }}>Đang học</div>
               </div>
             </div>
@@ -244,7 +244,7 @@ const TutorProgress: React.FC = () => {
                 <RiseOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.blue }}>{avgCompletion}%</div>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.blue }}>{avgCompletion}%</div>
                 <div style={{ fontSize: 13, color: T.textMuted }}>Tiến độ TB</div>
               </div>
             </div>

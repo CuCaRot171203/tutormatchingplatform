@@ -1313,7 +1313,7 @@ const HomePage: React.FC = () => {
                     boxShadow: `0 0 6px ${item.color}66`,
                   }} />
                   <span style={{
-                    fontSize: 11, fontWeight: 700,
+                    fontSize: 11, fontWeight: 500,
                     color: item.color,
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',

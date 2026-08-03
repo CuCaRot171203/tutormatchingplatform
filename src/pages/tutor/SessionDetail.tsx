@@ -206,7 +206,7 @@ const TutorSessionDetail: React.FC = () => {
                     <div>
                       <div style={{ marginBottom: 8 }}>
                         <Text strong>Điểm số: </Text>
-                        <Text style={{ fontSize: 24, fontWeight: 700, color: '#7132f5' }}>
+                        <Text style={{ fontSize: 24, fontWeight: 500, color: '#7132f5' }}>
                           {session.score}/10
                         </Text>
                       </div>

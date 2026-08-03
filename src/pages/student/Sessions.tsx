@@ -229,7 +229,7 @@ const StudentSessions: React.FC = () => {
     <div>
       {/* Header */}
       <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ margin: 0, fontWeight: 700, color: T.text }}>Lịch học của tôi</Title>
+        <Title level={2} style={{ margin: 0, fontWeight: 500, color: T.text }}>Lịch học của tôi</Title>
         <Text type="secondary">Theo dõi và quản lý các buổi học của bạn</Text>
       </div>
 
@@ -243,7 +243,7 @@ const StudentSessions: React.FC = () => {
                 prefix={<SearchOutlined style={{ color: T.gray }} />}
                 value={filters.search}
                 onChange={(e) => setFilters((f) => ({ ...f, search: e.target.value }))}
-                allowClear size="large" style={{ borderRadius: 10 }}
+                allowClear size="large" style={{ borderRadius: 10, fontSize: 14 }}
               />
             </Col>
             <Col xs={12} sm={6} md={4}>
@@ -263,6 +263,7 @@ const StudentSessions: React.FC = () => {
                 icon={<ReloadOutlined />}
                 onClick={() => setFilters({ search: '', subject: 'All', status: 'All' })}
                 size="large"
+                style={{ fontSize: 14 }}
               >
                 Đặt lại
               </Button>
@@ -310,7 +311,7 @@ const StudentSessions: React.FC = () => {
       {/* Reschedule Modal */}
       <Modal
         title={
-          <div style={{ fontWeight: 700, fontSize: 16 }}>
+          <div style={{ fontWeight: 500, fontSize: 16 }}>
             <SwapOutlined style={{ color: T.purple, marginRight: 8 }} />
             Đề xuất đổi lịch
           </div>
@@ -365,7 +366,7 @@ const StudentSessions: React.FC = () => {
       {/* Cancel Modal */}
       <ConfirmModal
         title={
-          <div style={{ fontWeight: 700, fontSize: 16 }}>
+          <div style={{ fontWeight: 500, fontSize: 16 }}>
             <StopOutlined style={{ color: T.error, marginRight: 8 }} />
             Hủy buổi học
           </div>

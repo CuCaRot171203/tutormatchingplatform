@@ -270,7 +270,7 @@ const Subjects: React.FC = () => {
         <span style={{
           fontFamily: FONT_BODY,
           fontSize: 12,
-          fontWeight: 700,
+          fontWeight: 500,
           color: count > 0 ? T.accent : T.textSubtle,
         }}>
           {count}
@@ -393,7 +393,7 @@ const Subjects: React.FC = () => {
         <h1 style={{
           fontFamily: FONT_HEAD,
           fontSize: 18,
-          fontWeight: 700,
+          fontWeight: 500,
           color: T.text,
           margin: '0 0 2px',
           letterSpacing: '-0.3px',
@@ -441,7 +441,7 @@ const Subjects: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-              <span style={{ fontFamily: FONT_HEAD, fontSize: 14, fontWeight: 700, color: stat.color }}>
+              <span style={{ fontFamily: FONT_HEAD, fontSize: 14, fontWeight: 500, color: stat.color }}>
                 {stat.value}
               </span>
             </div>
@@ -539,7 +539,7 @@ const Subjects: React.FC = () => {
                   style={{
                     ...(rest as React.TdHTMLAttributes<HTMLTableCellElement>).style,
                     fontFamily: FONT_HEAD,
-                    fontWeight: 700,
+                    fontWeight: 500,
                     fontSize: 11,
                     color: T.textMuted,
                     background: '#f8f9fb',
@@ -562,7 +562,7 @@ const Subjects: React.FC = () => {
           <div style={{
             fontFamily: FONT_HEAD,
             fontSize: 15,
-            fontWeight: 700,
+            fontWeight: 500,
             color: T.text,
             letterSpacing: '-0.2px',
             paddingRight: 24,

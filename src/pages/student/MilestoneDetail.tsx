@@ -171,7 +171,7 @@ const ProgressRing: React.FC<{ percent: number; size?: number; color: string }> 
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
       }}>
-        <span style={{ fontSize: size === 120 ? 28 : 20, fontWeight: 700, color: T.text,
+        <span style={{ fontSize: size === 120 ? 28 : 20, fontWeight: 500, color: T.text,
           fontFamily: "'SF Pro Display', system-ui, sans-serif", letterSpacing: '-1px' }}>
           {percent}%
         </span>
@@ -344,7 +344,7 @@ const StudentMilestoneDetail: React.FC = () => {
             </div>
 
             <Title level={3} style={{
-              margin: '0 0 10px', fontWeight: 700, color: T.text,
+              margin: '0 0 10px', fontWeight: 500, color: T.text,
               fontFamily: "'SF Pro Display', system-ui, sans-serif",
               letterSpacing: '-0.3px', lineHeight: 1.3,
             }}>
@@ -420,7 +420,7 @@ const StudentMilestoneDetail: React.FC = () => {
                 <span style={{
                   padding: '1px 8px', borderRadius: 20,
                   background: T.primaryLight, color: T.primary,
-                  fontSize: 11, fontWeight: 700,
+                  fontSize: 11, fontWeight: 500,
                 }}>
                   {milestone.relatedSessions.length}
                 </span>

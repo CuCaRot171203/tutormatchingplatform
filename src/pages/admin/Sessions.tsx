@@ -81,7 +81,7 @@ const PersonCell = ({ name, letter, color }: { name: string; letter: string; col
       background: `${color}18`,
       color: color,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontWeight: 700, fontSize: 12, flexShrink: 0,
+      fontWeight: 500, fontSize: 12, flexShrink: 0,
       fontFamily: FONT_HEAD,
     }}>
       {letter}
@@ -128,7 +128,7 @@ const StatCard = ({ label, value, color }: { label: string; value: number | stri
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       flexShrink: 0,
     }}>
-      <span style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 700, color }}>{value}</span>
+      <span style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 500, color }}>{value}</span>
     </div>
     <div>
       <div style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, color: T.textSubtle, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -387,7 +387,7 @@ const AdminSessions: React.FC = () => {
       <div style={{ marginBottom: 20 }}>
         <h1 style={{
           fontFamily: FONT_HEAD,
-          fontSize: 22, fontWeight: 700,
+          fontSize: 22, fontWeight: 500,
           color: T.text, margin: '0 0 2px',
           letterSpacing: '-0.3px',
         }}>
@@ -469,7 +469,7 @@ const AdminSessions: React.FC = () => {
                 <th {...rest} style={{
                   ...(rest as React.TdHTMLAttributes<HTMLTableCellElement>).style,
                   fontFamily: FONT_HEAD,
-                  fontWeight: 700,
+                  fontWeight: 500,
                   fontSize: 11,
                   color: T.textMuted,
                   background: '#f8f9fb',
@@ -488,7 +488,7 @@ const AdminSessions: React.FC = () => {
         open={detailModalOpen}
         onCancel={handleCloseDetail}
         title={
-          <div style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 700, color: T.text, letterSpacing: '-0.2px', paddingRight: 24 }}>
+          <div style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 500, color: T.text, letterSpacing: '-0.2px', paddingRight: 24 }}>
             Chi tiết phiên học #{detailSession?.id?.toString().padStart(3, '0')}
           </div>
         }
@@ -583,7 +583,7 @@ const AdminSessions: React.FC = () => {
                   <div style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, color: T.textSubtle, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
                     <DollarOutlined style={{ marginRight: 4 }} />Phí
                   </div>
-                  <span style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 700, color: T.accent }}>
+                  <span style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, color: T.accent }}>
                     {detailSession.fee.toLocaleString('vi-VN')}đ
                   </span>
                 </div>

@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Card, Table, Tag, Button, Input, Select, Row, Col,
-  Typography, Avatar, Statistic, message, Modal,
+  Typography, Avatar, Statistic, message, Modal, Carousel,
 } from 'antd';
 import {
   AreaChart, Area, BarChart, Bar,
@@ -11,7 +11,11 @@ import {
   WalletOutlined, ArrowUpOutlined, ArrowDownOutlined,
   SearchOutlined, FilterOutlined, HistoryOutlined,
   CreditCardOutlined, GiftOutlined, ExclamationCircleOutlined,
+  LeftOutlined, RightOutlined,
 } from '@ant-design/icons';
+import tutorImg1 from '../../assets/image/tutor/TTP_TUTOR_1.png';
+import tutorImg2 from '../../assets/image/tutor/TTP_TUTOR_2.png';
+import tutorImg3 from '../../assets/image/tutor/TTP_TUTOR_3.png';
 import { mockTransactions, monthlyTrendData } from '../../data/tutorMockData';
 import type { CreditTransaction, CreditTransactionType } from '../../types';
 import dayjs from 'dayjs';
@@ -58,6 +62,7 @@ const ChartTooltip = ({ active, payload, label }: any) => {
 };
 
 const TutorWallet: React.FC = () => {
+  const carouselRef = useRef<any>(null);
   const [searchText, setSearchText] = useState('');
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const [detailModal, setDetailModal] = useState<CreditTransaction | null>(null);
@@ -130,7 +135,7 @@ const TutorWallet: React.FC = () => {
         return (
           <Text style={{
             color: isPositive ? T.green : T.red,
-            fontWeight: 700, fontSize: 14,
+            fontWeight: 500, fontSize: 14,
           }}>
             {isPositive ? '+' : '-'}{fmtVnd(amount)}
           </Text>
@@ -150,13 +155,38 @@ const TutorWallet: React.FC = () => {
     },
   ];
 
+  const tutorImages = [
+    { src: tutorImg1, slogan: 'Quản lý tài chính thông minh', sub: 'Theo dõi thu nhập dễ dàng' },
+    { src: tutorImg2, slogan: 'Rút tiền nhanh chóng, an toàn', sub: 'Hệ thống bảo mật hàng đầu' },
+    { src: tutorImg3, slogan: 'Minh bạch mọi giao dịch', sub: 'Lịch sử rõ ràng, chi tiết' },
+  ];
+
   return (
     <div style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>Ví Credit</h1>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>Ví Credit</h1>
         <Text type="secondary">Theo dõi thu nhập và lịch sử giao dịch</Text>
+      </div>
+
+      {/* Banner Slider */}
+      <div style={{ position: 'relative', marginBottom: 20, borderRadius: 14, overflow: 'hidden' }}>
+        <Carousel ref={carouselRef} autoplay autoplaySpeed={4000} dotPosition="bottom" dots draggable>
+          {tutorImages.map((item, index) => (
+            <div key={index} style={{ position: 'relative' }}>
+              <img src={item.src} alt={`Wallet banner ${index + 1}`} style={{ width: '100%', aspectRatio: '3/1', objectFit: 'cover', display: 'block' }} />
+              <div style={{ position: 'absolute', bottom: 20, left: 24, zIndex: 2 }}>
+                <div style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)', borderRadius: 10, padding: '12px 18px', display: 'inline-block', maxWidth: 420 }}>
+                  <div style={{ color: '#ffffff', fontSize: 15, fontWeight: 700, lineHeight: 1.4 }}>{item.slogan}</div>
+                  <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 400, marginTop: 3 }}>{item.sub}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+        <Button icon={<LeftOutlined />} onClick={() => carouselRef.current?.prev()} style={{ position: 'absolute', top: '50%', left: 16, transform: 'translateY(-50%)', borderRadius: '50%', width: 40, height: 40, border: 'none', background: 'rgba(255,255,255,0.85)', color: T.text, boxShadow: '0 2px 8px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }} />
+        <Button icon={<RightOutlined />} onClick={() => carouselRef.current?.next()} style={{ position: 'absolute', top: '50%', right: 16, transform: 'translateY(-50%)', borderRadius: '50%', width: 40, height: 40, border: 'none', background: 'rgba(255,255,255,0.85)', color: T.text, boxShadow: '0 2px 8px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }} />
       </div>
 
       {/* Balance + Stats */}
@@ -178,7 +208,7 @@ const TutorWallet: React.FC = () => {
               </div>
               <div>
                 <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', marginBottom: 4 }}>Số dư hiện tại</div>
-                <div style={{ fontSize: 30, fontWeight: 700, color: '#fff', letterSpacing: '-0.5px' }}>
+                <div style={{ fontSize: 30, fontWeight: 500, color: '#fff', letterSpacing: '-0.5px' }}>
                   {fmtVnd(balance)}
                 </div>
               </div>
@@ -198,7 +228,7 @@ const TutorWallet: React.FC = () => {
               </div>
               <div>
                 <div style={{ fontSize: 12, color: T.textMuted }}>Đã nạp</div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: T.green }}>{fmtVnd(deposits)}</div>
+                <div style={{ fontSize: 20, fontWeight: 500, color: T.green }}>{fmtVnd(deposits)}</div>
               </div>
             </div>
           </div>
@@ -211,7 +241,7 @@ const TutorWallet: React.FC = () => {
               </div>
               <div>
                 <div style={{ fontSize: 12, color: T.textMuted }}>Phí buổi dạy</div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: T.primary }}>{fmtVnd(sessionFees)}</div>
+                <div style={{ fontSize: 20, fontWeight: 500, color: T.primary }}>{fmtVnd(sessionFees)}</div>
               </div>
             </div>
           </div>
@@ -224,7 +254,7 @@ const TutorWallet: React.FC = () => {
               </div>
               <div>
                 <div style={{ fontSize: 12, color: T.textMuted }}>Tổng giao dịch</div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: T.text }}>{totalTransactions}</div>
+                <div style={{ fontSize: 20, fontWeight: 500, color: T.text }}>{totalTransactions}</div>
               </div>
             </div>
           </div>
@@ -303,7 +333,7 @@ const TutorWallet: React.FC = () => {
             }}>
               <div style={{ fontSize: 13, color: T.textMuted }}>{typeConfig[detailModal.type].label}</div>
               <div style={{
-                fontSize: 28, fontWeight: 700, marginTop: 4,
+                fontSize: 28, fontWeight: 500, marginTop: 4,
                 color: (detailModal.type === 'Deposit' || detailModal.type === 'Refund') ? T.green : T.primary,
               }}>
                 {(detailModal.type === 'Deposit' || detailModal.type === 'Refund') ? '+' : '-'}{fmtVnd(detailModal.amount)}

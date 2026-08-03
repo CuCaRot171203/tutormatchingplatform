@@ -102,7 +102,7 @@ const UserCell = ({ name, email, letter, color }: { name: string; email: string;
       background: `${color}18`,
       color: color,
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontWeight: 700, fontSize: 13, flexShrink: 0,
+      fontWeight: 500, fontSize: 13, flexShrink: 0,
       fontFamily: FONT_HEAD,
     }}>
       {letter}
@@ -144,7 +144,7 @@ const StatCard = ({ label, value, color }: { label: string; value: number | stri
       width: 36, height: 36, borderRadius: 10, background: `${color}14`,
       display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
     }}>
-      <span style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 700, color }}>{value}</span>
+      <span style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 500, color }}>{value}</span>
     </div>
     <div>
       <div style={{ fontFamily: FONT_BODY, fontSize: 10, fontWeight: 600, color: T.textSubtle, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -186,7 +186,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
       open={open}
       onCancel={onCancel}
       title={
-        <div style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 700, color: T.text, letterSpacing: '-0.2px', paddingRight: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ fontFamily: FONT_HEAD, fontSize: 15, fontWeight: 500, color: T.text, letterSpacing: '-0.2px', paddingRight: 24, display: 'flex', alignItems: 'center', gap: 8 }}>
           {config.icon}
           {config.title}
         </div>
@@ -214,7 +214,7 @@ const ActionModal: React.FC<ActionModalProps> = ({
               width: 44, height: 44, borderRadius: 12,
               background: `${user.avatarColor}18`, color: user.avatarColor,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontWeight: 700, fontSize: 16, flexShrink: 0, fontFamily: FONT_HEAD,
+              fontWeight: 500, fontSize: 16, flexShrink: 0, fontFamily: FONT_HEAD,
             }}>
               {user.avatar}
             </div>
@@ -432,7 +432,7 @@ const Users: React.FC = () => {
       align: 'right' as const,
       sorter: (a: User, b: User) => a.creditBalance - b.creditBalance,
       render: (balance: number) => (
-        <span style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 700, color: balance > 0 ? T.accent : T.textSubtle }}>
+        <span style={{ fontFamily: FONT_BODY, fontSize: 13, fontWeight: 500, color: balance > 0 ? T.accent : T.textSubtle }}>
           {balance > 0 ? `${balance.toLocaleString('vi-VN')}đ` : '—'}
         </span>
       ),
@@ -571,7 +571,7 @@ const Users: React.FC = () => {
     <div>
       {/* ── Page Header ────────────────────────────────────────────────────── */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ fontFamily: FONT_HEAD, fontSize: 22, fontWeight: 700, color: T.text, margin: '0 0 2px', letterSpacing: '-0.3px' }}>
+        <h1 style={{ fontFamily: FONT_HEAD, fontSize: 22, fontWeight: 500, color: T.text, margin: '0 0 2px', letterSpacing: '-0.3px' }}>
           Quản lý người dùng
         </h1>
         <p style={{ fontFamily: FONT_BODY, fontSize: 12, color: T.textMuted, margin: 0 }}>
@@ -650,7 +650,7 @@ const Users: React.FC = () => {
               cell: ({ children, ...rest }: React.ThHTMLAttributes<HTMLTableCellElement>) => (
                 <th {...rest} style={{
                   ...(rest as React.TdHTMLAttributes<HTMLTableCellElement>).style,
-                  fontFamily: FONT_HEAD, fontWeight: 700, fontSize: 11,
+                  fontFamily: FONT_HEAD, fontWeight: 500, fontSize: 11,
                   color: T.textMuted, background: '#f8f9fb', padding: '7px 12px',
                 }}>
                   {children}

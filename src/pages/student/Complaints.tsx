@@ -276,7 +276,7 @@ const StudentComplaints: React.FC = () => {
       {/* Header */}
       <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <Title level={2} style={{ margin: 0, fontWeight: 700, color: T.text }}>Khiếu nại của tôi</Title>
+          <Title level={2} style={{ margin: 0, fontWeight: 500, color: T.text }}>Khiếu nại của tôi</Title>
           <Text type="secondary">Quản lý và theo dõi các khiếu nại đã gửi</Text>
         </div>
         <Button
@@ -317,7 +317,7 @@ const StudentComplaints: React.FC = () => {
                   {icon}
                 </div>
                 <div>
-                  <div style={{ fontSize: 28, fontWeight: 700, color, lineHeight: 1 }}>{stat}</div>
+                  <div style={{ fontSize: 28, fontWeight: 500, color, lineHeight: 1 }}>{stat}</div>
                   <Text type="secondary" style={{ fontSize: 13 }}>{label}</Text>
                 </div>
               </div>
@@ -396,7 +396,7 @@ const StudentComplaints: React.FC = () => {
       {/* Create Complaint Modal */}
       <Modal
         title={
-          <div style={{ fontWeight: 700, fontSize: 16 }}>
+          <div style={{ fontWeight: 500, fontSize: 16 }}>
             <ExclamationCircleOutlined style={{ color: T.warning, marginRight: 8 }} />
             Gửi khiếu nại
           </div>
@@ -452,7 +452,7 @@ const StudentComplaints: React.FC = () => {
 
       {/* Complaint Detail Modal */}
       <Modal
-        title={<div style={{ fontWeight: 700, fontSize: 16 }}>Chi tiết khiếu nại #{selectedComplaint?.id}</div>}
+        title={<div style={{ fontWeight: 500, fontSize: 16 }}>Chi tiết khiếu nại #{selectedComplaint?.id}</div>}
         open={detailModalVisible}
         onCancel={() => { setDetailModalVisible(false); setSelectedComplaint(null); }}
         footer={

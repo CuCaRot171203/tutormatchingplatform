@@ -1,6 +1,4 @@
-import React, { useRef } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import 'react-perfect-scrollbar/dist/css/styles.css';
+import React from 'react';
 
 interface CustomScrollbarProps {
   children: React.ReactNode;
@@ -8,15 +6,6 @@ interface CustomScrollbarProps {
   style?: React.CSSProperties;
   /** Vertical scroll only (default). 'both' enables horizontal too. */
   direction?: 'up' | 'down' | 'left' | 'right' | 'both';
-  /** Suppress the default horizontal/vertical scrollbar for specific axes */
-  suppressScrollX?: boolean;
-  suppressScrollY?: boolean;
-  /** Smooth rail on hover (default: true) */
-  fadeRailOnHover?: boolean;
-  /** Click on track to scroll (default: true) */
-  clickOnTrack?: boolean;
-  /** Wheel event propagation — pass true for nested scroll areas (default: false) */
-  wheelPropagation?: boolean;
 }
 
 const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
@@ -24,37 +13,21 @@ const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
   className,
   style,
   direction = 'down',
-  suppressScrollX = direction !== 'both' && direction !== 'left' && direction !== 'right',
-  suppressScrollY = direction !== 'down' && direction !== 'up' && direction !== 'both',
-  wheelPropagation = false,
 }) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const containerRef = useRef<any>(null);
-
-  const isHorizontal = direction === 'left' || direction === 'right' || direction === 'both';
+  const overflowX = (direction === 'left' || direction === 'right' || direction === 'both') ? 'auto' : 'hidden';
+  const overflowY = (direction === 'down' || direction === 'up' || direction === 'both') ? 'auto' : 'hidden';
 
   return (
     <div
       className={`custom-scrollbar-container ${className ?? ''}`}
       style={{
-        overflow: 'hidden',
+        overflowX,
+        overflowY,
         height: '100%',
-        position: 'relative',
         ...style,
       }}
     >
-      <PerfectScrollbar
-        ref={containerRef}
-        options={{
-          suppressScrollX,
-          suppressScrollY,
-          wheelPropagation,
-          minScrollbarLength: 40,
-        }}
-        className={`custom-scrollbar ${isHorizontal ? 'is-horizontal' : ''}`}
-      >
-        {children}
-      </PerfectScrollbar>
+      {children}
     </div>
   );
 };

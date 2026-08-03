@@ -317,7 +317,7 @@ const SubjectsPage: React.FC = () => {
                   style={{
                     fontFamily: "'SF Pro Display', system-ui, -apple-system, sans-serif",
                     fontSize: 'clamp(36px, 5vw, 56px)',
-                    fontWeight: 700,
+                    fontWeight: 500,
                     letterSpacing: '-0.5px',
                     lineHeight: 1.0,
                     color: '#ffffff',

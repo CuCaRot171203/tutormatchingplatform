@@ -343,7 +343,7 @@ const StatCard = ({
       {icon}
     </div>
     <div>
-      <div style={{ fontSize: 22, fontWeight: 700, color: T.text, fontFamily: FONT_HEAD, letterSpacing: '-0.5px', lineHeight: 1.1 }}>
+      <div style={{ fontSize: 22, fontWeight: 500, color: T.text, fontFamily: FONT_HEAD, letterSpacing: '-0.5px', lineHeight: 1.1 }}>
         {value}
       </div>
       <div style={{ fontSize: 12, fontWeight: 500, color: T.textMuted, marginTop: 4, fontFamily: FONT_BODY }}>
@@ -483,7 +483,7 @@ const CreditRequests: React.FC = () => {
             background: `${record.avatarColor}14`,
             color: record.avatarColor,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontWeight: 700, fontSize: 14, flexShrink: 0, fontFamily: FONT_HEAD,
+            fontWeight: 500, fontSize: 14, flexShrink: 0, fontFamily: FONT_HEAD,
           }}>
             {record.avatar}
           </div>
@@ -504,7 +504,7 @@ const CreditRequests: React.FC = () => {
       width: 150,
       render: (_: any, record: CreditRequest) => (
         <div>
-          <div style={{ fontSize: 15, fontWeight: 700, color: T.green, fontFamily: FONT_HEAD }}>
+          <div style={{ fontSize: 15, fontWeight: 500, color: T.green, fontFamily: FONT_HEAD }}>
             {fmtCurrency(record.amount)}
           </div>
           {record.bonusCredits > 0 && (
@@ -610,7 +610,7 @@ const CreditRequests: React.FC = () => {
       <div style={{ marginBottom: 24, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
         <div>
           <h1 style={{
-            margin: 0, fontSize: 22, fontWeight: 700,
+            margin: 0, fontSize: 22, fontWeight: 500,
             color: T.text, letterSpacing: '-0.3px', fontFamily: FONT_HEAD,
           }}>
             Yêu cầu nạp tiền
@@ -831,7 +831,7 @@ const CreditRequests: React.FC = () => {
                 <CheckOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: T.text, fontFamily: FONT_HEAD }}>
+                <div style={{ fontSize: 16, fontWeight: 500, color: T.text, fontFamily: FONT_HEAD }}>
                   Duyệt yêu cầu nạp tiền
                 </div>
                 <div style={{ fontSize: 12, color: T.textMuted, marginTop: 2, fontFamily: FONT_BODY }}>
@@ -855,7 +855,7 @@ const CreditRequests: React.FC = () => {
                   background: `${selectedRequest.avatarColor}14`,
                   color: selectedRequest.avatarColor,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontWeight: 700, fontSize: 15, flexShrink: 0, fontFamily: FONT_HEAD,
+                  fontWeight: 500, fontSize: 15, flexShrink: 0, fontFamily: FONT_HEAD,
                 }}>
                   {selectedRequest.avatar}
                 </div>
@@ -878,7 +878,7 @@ const CreditRequests: React.FC = () => {
                   <div style={{ fontSize: 11, fontWeight: 600, color: T.textMuted, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px', fontFamily: FONT_BODY }}>
                     Số tiền yêu cầu
                   </div>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: T.green, fontFamily: FONT_HEAD }}>
+                  <div style={{ fontSize: 18, fontWeight: 500, color: T.green, fontFamily: FONT_HEAD }}>
                     {fmtCurrency(selectedRequest.amount)}
                   </div>
                 </div>
@@ -889,7 +889,7 @@ const CreditRequests: React.FC = () => {
                   <div style={{ fontSize: 11, fontWeight: 600, color: T.textMuted, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px', fontFamily: FONT_BODY }}>
                     Bonus
                   </div>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: T.accent, fontFamily: FONT_HEAD }}>
+                  <div style={{ fontSize: 18, fontWeight: 500, color: T.accent, fontFamily: FONT_HEAD }}>
                     + {fmtCurrency(selectedRequest.bonusCredits)}
                   </div>
                 </div>
@@ -1022,7 +1022,7 @@ const CreditRequests: React.FC = () => {
                 <CloseOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 16, fontWeight: 700, color: T.text, fontFamily: FONT_HEAD }}>
+                <div style={{ fontSize: 16, fontWeight: 500, color: T.text, fontFamily: FONT_HEAD }}>
                   Từ chối yêu cầu nạp tiền
                 </div>
                 <div style={{ fontSize: 12, color: T.textMuted, marginTop: 2, fontFamily: FONT_BODY }}>
@@ -1060,7 +1060,7 @@ const CreditRequests: React.FC = () => {
                     background: `${selectedRequest.avatarColor}14`,
                     color: selectedRequest.avatarColor,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontWeight: 700, fontSize: 12, fontFamily: FONT_HEAD,
+                    fontWeight: 500, fontSize: 12, fontFamily: FONT_HEAD,
                   }}>
                     {selectedRequest.avatar}
                   </div>
@@ -1068,7 +1068,7 @@ const CreditRequests: React.FC = () => {
                     {selectedRequest.userName}
                   </div>
                 </div>
-                <div style={{ fontSize: 15, fontWeight: 700, color: T.red, fontFamily: FONT_HEAD }}>
+                <div style={{ fontSize: 15, fontWeight: 500, color: T.red, fontFamily: FONT_HEAD }}>
                   {fmtCurrency(selectedRequest.amount)}
                 </div>
               </div>

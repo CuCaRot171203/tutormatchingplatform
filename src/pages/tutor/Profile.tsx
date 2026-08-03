@@ -105,7 +105,7 @@ const TutorProfile: React.FC = () => {
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>Hồ sơ gia sư</h1>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>Hồ sơ gia sư</h1>
         <Text type="secondary">Quản lý thông tin và môn học của bạn</Text>
       </div>
 
@@ -129,7 +129,7 @@ const TutorProfile: React.FC = () => {
                   <CameraOutlined />
                 </div>
               </div>
-              <Title level={4} style={{ margin: '12px 0 4px', fontWeight: 700 }}>{mockTutorProfile.fullName}</Title>
+              <Title level={4} style={{ margin: '12px 0 4px', fontWeight: 500 }}>{mockTutorProfile.fullName}</Title>
               <Text type="secondary">{mockTutorProfile.email}</Text>
               <div style={{ marginTop: 10 }}>
                 {mockTutorProfile.status === 'Approved' ? (
@@ -289,7 +289,7 @@ const TutorProfile: React.FC = () => {
                       width: 36, height: 36, borderRadius: 10,
                       background: `${T.primary}15`, color: T.primary,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 16, fontWeight: 700,
+                      fontSize: 16, fontWeight: 500,
                     }}>
                       {sub.subjectName[0]}
                     </div>
@@ -319,7 +319,7 @@ const TutorProfile: React.FC = () => {
                         <div style={{
                           padding: '4px 12px', borderRadius: 20,
                           background: T.greenLight, color: T.green,
-                          fontWeight: 700, fontSize: 14,
+                          fontWeight: 500, fontSize: 14,
                         }}>
                           {fmtVnd(sub.hourlyRate)}/giờ
                         </div>

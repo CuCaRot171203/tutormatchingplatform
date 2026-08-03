@@ -173,7 +173,7 @@ const LandingFooter: React.FC = () => {
           {Object.entries(FOOTER_LINKS).map(([title, links]) => (
             <div key={title}>
               <p style={{
-                fontSize: 11, fontWeight: 700,
+                fontSize: 11, fontWeight: 500,
                 color: '#1d1d1f',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
@@ -204,7 +204,7 @@ const LandingFooter: React.FC = () => {
           {Object.entries(FOOTER_LINKS_2).map(([title, links]) => (
             <div key={title}>
               <p style={{
-                fontSize: 11, fontWeight: 700,
+                fontSize: 11, fontWeight: 500,
                 color: '#1d1d1f',
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',

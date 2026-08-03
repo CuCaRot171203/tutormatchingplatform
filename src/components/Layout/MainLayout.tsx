@@ -254,7 +254,7 @@ export const MainLayout: React.FC = () => {
             <span style={{
               marginLeft: 12,
               fontSize: 16,
-              fontWeight: 700,
+              fontWeight: 500,
               color: '#101114',
               letterSpacing: '-0.5px',
             }}>

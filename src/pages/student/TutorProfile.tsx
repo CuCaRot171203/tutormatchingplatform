@@ -129,19 +129,19 @@ const TutorProfilePage: React.FC = () => {
               marginBottom: 24
             }}>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: '#7132f5' }}>
+                <div style={{ fontSize: 24, fontWeight: 500, color: '#7132f5' }}>
                   {tutor.reputationScore.toFixed(1)}
                 </div>
                 <Text type="secondary" style={{ fontSize: 12 }}>Điểm uy tín</Text>
               </div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: '#7132f5' }}>
+                <div style={{ fontSize: 24, fontWeight: 500, color: '#7132f5' }}>
                   {feedbacks.length}
                 </div>
                 <Text type="secondary" style={{ fontSize: 12 }}>Đánh giá</Text>
               </div>
               <div>
-                <div style={{ fontSize: 24, fontWeight: 700, color: '#7132f5' }}>
+                <div style={{ fontSize: 24, fontWeight: 500, color: '#7132f5' }}>
                   {tutor.subjects.length}
                 </div>
                 <Text type="secondary" style={{ fontSize: 12 }}>Môn dạy</Text>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Card, Typography, List, Avatar, Button, Alert, Tag } from 'antd';
+import { Row, Col, Card, Typography, List, Avatar, Button, Alert, Tag, Carousel } from 'antd';
 import {
   WalletOutlined,
   CalendarOutlined,
@@ -11,6 +11,8 @@ import {
   TrophyOutlined,
   FireOutlined,
   CloseCircleOutlined,
+  LeftOutlined,
+  RightOutlined as RightArrowIcon,
 } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
@@ -23,10 +25,37 @@ import {
   MOCK_NOTIFICATIONS,
 } from '../../data/mockData';
 import type { Session } from '../../types';
+import slideImg1 from '../../assets/image/student/TTP_student_1.png';
+import slideImg2 from '../../assets/image/student/TTP_student_2.png';
+import slideImg3 from '../../assets/image/student/TTP_student_3.png';
 
 dayjs.extend(relativeTime);
 
 const { Title, Text } = Typography;
+
+const slides = [
+  {
+    img: slideImg1,
+    slogan: 'Mục tiêu của bạn, chúng tôi đồng hành',
+    sub: 'Đặt lịch học với gia sư chất lượng cao ngay hôm nay',
+    cta: 'Tìm gia sư ngay',
+    ctaLink: '/student/search-tutors',
+  },
+  {
+    img: slideImg2,
+    slogan: 'Học mọi lúc, mọi nơi cùng gia sư hàng đầu',
+    sub: 'Hàng nghìn buổi học đã được thực hiện thành công',
+    cta: 'Xem buổi học',
+    ctaLink: '/student/sessions',
+  },
+  {
+    img: slideImg3,
+    slogan: 'Kết nối — Học hỏi — Phát triển',
+    sub: 'Nền tảng học tập trực tuyến hàng đầu Việt Nam',
+    cta: 'Khám phá ngay',
+    ctaLink: '/student/progress',
+  },
+];
 
 // Design Tokens
 const T = {
@@ -82,6 +111,99 @@ const StudentDashboard: React.FC = () => {
 
   return (
     <div>
+      {/* Hero Slideshow 3:1 */}
+      <div style={{ position: 'relative', marginBottom: 24, borderRadius: 16, overflow: 'hidden', boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
+        <Carousel
+          autoplay
+          autoplaySpeed={5000}
+          dots
+          effect="fade"
+          arrows
+          prevArrow={<LeftOutlined style={{ color: '#fff', fontSize: 20, zIndex: 2 }} />}
+          nextArrow={<RightArrowIcon style={{ color: '#fff', fontSize: 20, zIndex: 2 }} />}
+        >
+          {slides.map((slide, idx) => (
+            <div key={idx} style={{ position: 'relative' }}>
+              <div style={{
+                width: '100%',
+                paddingTop: '33.33%', // 3:1 ratio
+                background: '#000',
+                position: 'relative',
+                overflow: 'hidden',
+              }}>
+                <img
+                  src={slide.img}
+                  alt={slide.slogan}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
+                  }}
+                />
+                {/* Gradient overlay */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(135deg, rgba(0,98,255,0.72) 0%, rgba(113,50,245,0.55) 100%)',
+                }} />
+                {/* Content */}
+                <div style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  padding: '32px 48px',
+                }}>
+                  <div style={{ maxWidth: 600 }}>
+                    <div style={{
+                      display: 'inline-block',
+                      background: 'rgba(255,255,255,0.2)',
+                      backdropFilter: 'blur(8px)',
+                      borderRadius: 20,
+                      padding: '4px 16px',
+                      marginBottom: 16,
+                    }}>
+                      <Text style={{ color: '#fff', fontSize: 13, fontWeight: 500 }}>
+                        🎓 TutorMatch — Nền tảng gia sư thông minh
+                      </Text>
+                    </div>
+                    <Title level={2} style={{ color: '#fff', margin: '0 0 12px', fontWeight: 700, lineHeight: 1.3 }}>
+                      {slide.slogan}
+                    </Title>
+                    <Text style={{ color: 'rgba(255,255,255,0.88)', fontSize: 15, display: 'block', marginBottom: 24 }}>
+                      {slide.sub}
+                    </Text>
+                    <Link to={slide.ctaLink}>
+                      <Button
+                        type="primary"
+                        size="large"
+                        style={{
+                          borderRadius: 10,
+                          fontWeight: 600,
+                          height: 44,
+                          paddingInline: 28,
+                          background: '#fff',
+                          color: T.primary,
+                          border: 'none',
+                          boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
+                        }}
+                      >
+                        {slide.cta} <RightOutlined style={{ fontSize: 12 }} />
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+      </div>
+
       {/* System Notification Banner */}
       {unreadCount > 0 && (
         <Alert
@@ -104,7 +226,7 @@ const StudentDashboard: React.FC = () => {
 
       {/* Welcome Header */}
       <div style={{ marginBottom: 24 }}>
-        <Title level={2} style={{ margin: 0, fontWeight: 700, color: T.text }}>
+        <Title level={2} style={{ margin: 0, fontWeight: 500, color: T.text }}>
           Xin chào, {user.fullName}!
         </Title>
         <Text type="secondary" style={{ fontSize: 15 }}>
@@ -128,7 +250,7 @@ const StudentDashboard: React.FC = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13 }}>Số dư ví</Text>
-                <div style={{ fontSize: 24, fontWeight: 700, color: '#fff', lineHeight: 1.3, marginTop: 4 }}>
+                <div style={{ fontSize: 24, fontWeight: 500, color: '#fff', lineHeight: 1.3, marginTop: 4 }}>
                   {formatCurrency(stats.balance)}
                 </div>
                 <Link to="/student/wallet">
@@ -159,7 +281,7 @@ const StudentDashboard: React.FC = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <Text type="secondary" style={{ fontSize: 13 }}>Tổng buổi học</Text>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.text, lineHeight: 1.3, marginTop: 4 }}>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.text, lineHeight: 1.3, marginTop: 4 }}>
                   {stats.totalSessions}
                 </div>
                 <Text type="secondary" style={{ fontSize: 12 }}>
@@ -183,7 +305,7 @@ const StudentDashboard: React.FC = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <Text type="secondary" style={{ fontSize: 13 }}>Buổi học sắp tới</Text>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.primary, lineHeight: 1.3, marginTop: 4 }}>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.primary, lineHeight: 1.3, marginTop: 4 }}>
                   {stats.upcomingSessions}
                 </div>
                 <Text type="secondary" style={{ fontSize: 12 }}>{stats.pendingChangeSessions} chờ đổi lịch</Text>
@@ -205,7 +327,7 @@ const StudentDashboard: React.FC = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
               <div>
                 <Text type="secondary" style={{ fontSize: 13 }}>Mục tiêu học tập</Text>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.success, lineHeight: 1.3, marginTop: 4 }}>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.success, lineHeight: 1.3, marginTop: 4 }}>
                   {stats.completedGoals}/{stats.activeGoals + stats.completedGoals}
                 </div>
                 <Text type="secondary" style={{ fontSize: 12 }}>{stats.activeGoals} đang tiến hành</Text>

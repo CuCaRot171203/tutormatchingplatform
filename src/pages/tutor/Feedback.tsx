@@ -145,7 +145,7 @@ const TutorFeedback: React.FC = () => {
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
-        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>Phản hồi từ học sinh</h1>
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>Phản hồi từ học sinh</h1>
         <Text type="secondary">Xem và quản lý đánh giá của học sinh</Text>
       </div>
 
@@ -157,7 +157,7 @@ const TutorFeedback: React.FC = () => {
               <StarOutlined />
             </div>
             <div style={{ paddingRight: 56 }}>
-              <div style={{ fontSize: 36, fontWeight: 700, color: T.yellow }}>{avgRating}</div>
+              <div style={{ fontSize: 36, fontWeight: 500, color: T.yellow }}>{avgRating}</div>
               <Rate disabled value={Math.round(parseFloat(avgRating))} style={{ fontSize: 14, marginTop: 4 }} />
               <div style={{ fontSize: 13, color: T.textMuted, marginTop: 2 }}>Điểm TB</div>
             </div>
@@ -170,7 +170,7 @@ const TutorFeedback: React.FC = () => {
                 <MessageOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.text }}>{totalFeedback}</div>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.text }}>{totalFeedback}</div>
                 <div style={{ fontSize: 13, color: T.textMuted }}>Tổng phản hồi</div>
               </div>
             </div>
@@ -183,7 +183,7 @@ const TutorFeedback: React.FC = () => {
                 <SmileOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.green }}>{fiveStars}</div>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.green }}>{fiveStars}</div>
                 <div style={{ fontSize: 13, color: T.textMuted }}>Đánh giá 5 sao</div>
               </div>
             </div>
@@ -196,7 +196,7 @@ const TutorFeedback: React.FC = () => {
                 <StarOutlined />
               </div>
               <div>
-                <div style={{ fontSize: 28, fontWeight: 700, color: T.green }}>{positiveRate}%</div>
+                <div style={{ fontSize: 28, fontWeight: 500, color: T.green }}>{positiveRate}%</div>
                 <div style={{ fontSize: 13, color: T.textMuted }}>Tỷ lệ tích cực</div>
               </div>
             </div>
@@ -226,7 +226,7 @@ const TutorFeedback: React.FC = () => {
                   </PieChart>
                 </ResponsiveContainer>
                 <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center', pointerEvents: 'none' }}>
-                  <div style={{ fontSize: 18, fontWeight: 700, color: T.text, lineHeight: 1 }}>{totalFeedback}</div>
+                  <div style={{ fontSize: 18, fontWeight: 500, color: T.text, lineHeight: 1 }}>{totalFeedback}</div>
                   <div style={{ fontSize: 10, color: T.textSubtle }}>Đánh giá</div>
                 </div>
               </div>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Row, Col, Card, Table, Badge, Avatar, Tag, Button, Statistic, message, notification, Modal, Typography, Progress } from 'antd';
+import React, { useState, useRef } from 'react';
+import { Row, Col, Card, Table, Badge, Avatar, Tag, Button, Statistic, message, notification, Modal, Typography, Progress, Carousel } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
@@ -9,13 +9,16 @@ import {
   CalendarOutlined, TeamOutlined, ClockCircleOutlined,
   StarOutlined, RiseOutlined, VideoCameraOutlined,
   DollarOutlined, AlertOutlined, ExclamationCircleOutlined,
-  BellOutlined, EyeOutlined, SyncOutlined,
+  BellOutlined, EyeOutlined, SyncOutlined, LeftOutlined, RightOutlined,
 } from '@ant-design/icons';
 import { StatusBadge } from '../../components/common';
 import {
   mockSessions, mockTutorProfile, mockNotifications,
   weeklyActivityData, subjectProgressData, ratingDistribution,
 } from '../../data/tutorMockData';
+import tutorImg1 from '../../assets/image/tutor/TTP_TUTOR_1.png';
+import tutorImg2 from '../../assets/image/tutor/TTP_TUTOR_2.png';
+import tutorImg3 from '../../assets/image/tutor/TTP_TUTOR_3.png';
 import type { Session } from '../../types';
 import dayjs from 'dayjs';
 
@@ -81,7 +84,7 @@ const StatCard = ({ icon, label, value, accent, sub }: {
       {icon}
     </div>
     <div style={{ marginTop: 8, paddingRight: 56 }}>
-      <div style={{ fontSize: 28, fontWeight: 700, color: T.text, letterSpacing: '-0.5px', lineHeight: 1.1 }}>
+      <div style={{ fontSize: 28, fontWeight: 500, color: T.text, letterSpacing: '-0.5px', lineHeight: 1.1 }}>
         {value}
       </div>
       <div style={{ fontSize: 13, fontWeight: 500, color: T.textMuted, marginTop: 5 }}>{label}</div>
@@ -94,6 +97,13 @@ const StatCard = ({ icon, label, value, accent, sub }: {
 const TutorDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [detailModal, setDetailModal] = useState<Session | null>(null);
+  const carouselRef = useRef<any>(null);
+
+  const tutorImages = [
+    { src: tutorImg1, slogan: 'Nâng cao kiến thức cùng gia sư hàng đầu', sub: 'Học mãi không biết chán' },
+    { src: tutorImg2, slogan: 'Học mọi lúc, mọi nơi', sub: 'Tiện lợi không giới hạn' },
+    { src: tutorImg3, slogan: 'Đồng hành cùng bạn', sub: 'Trên con đường tri thức' },
+  ];
 
   // Stats
   const today = dayjs().startOf('day');
@@ -190,11 +200,30 @@ const TutorDashboard: React.FC = () => {
   return (
     <div style={{ fontFamily: "'Inter', system-ui, -apple-system, sans-serif" }}>
 
+      {/* ── Image Slider ─────────────────────────────────────────── */}
+      <div style={{ position: 'relative', marginBottom: 24, borderRadius: 14, overflow: 'hidden' }}>
+        <Carousel ref={carouselRef} autoplay autoplaySpeed={4000} dotPosition="bottom" dots draggable>
+          {tutorImages.map((item, index) => (
+            <div key={index} style={{ position: 'relative' }}>
+              <img src={item.src} alt={`Tutor banner ${index + 1}`} style={{ width: '100%', aspectRatio: '3/1', objectFit: 'cover', display: 'block' }} />
+              <div style={{ position: 'absolute', bottom: 20, left: 24, zIndex: 2 }}>
+                <div style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)', borderRadius: 10, padding: '12px 18px', display: 'inline-block', maxWidth: 420 }}>
+                  <div style={{ color: '#ffffff', fontSize: 15, fontWeight: 700, lineHeight: 1.4 }}>{item.slogan}</div>
+                  <div style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, fontWeight: 400, marginTop: 3 }}>{item.sub}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Carousel>
+        <Button icon={<LeftOutlined />} onClick={() => carouselRef.current?.prev()} style={{ position: 'absolute', top: '50%', left: 16, transform: 'translateY(-50%)', borderRadius: '50%', width: 40, height: 40, border: 'none', background: 'rgba(255,255,255,0.85)', color: T.text, boxShadow: '0 2px 8px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }} />
+        <Button icon={<RightOutlined />} onClick={() => carouselRef.current?.next()} style={{ position: 'absolute', top: '50%', right: 16, transform: 'translateY(-50%)', borderRadius: '50%', width: 40, height: 40, border: 'none', background: 'rgba(255,255,255,0.85)', color: T.text, boxShadow: '0 2px 8px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2 }} />
+      </div>
+
       {/* ── Page Header ─────────────────────────────────────────── */}
       <div style={{ marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: T.text, letterSpacing: '-0.3px' }}>
+            <h1 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: T.text, letterSpacing: '-0.3px' }}>
               Xin chào, {mockTutorProfile.fullName}! 👨‍🏫
             </h1>
             <div style={{ fontSize: 13, color: T.textMuted, marginTop: 4 }}>
@@ -319,7 +348,7 @@ const TutorDashboard: React.FC = () => {
                     </PieChart>
                   </ResponsiveContainer>
                   <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center', pointerEvents: 'none' }}>
-                    <div style={{ fontSize: 16, fontWeight: 700, color: T.text, lineHeight: 1 }}>{subjectProgressData.length}</div>
+                    <div style={{ fontSize: 16, fontWeight: 500, color: T.text, lineHeight: 1 }}>{subjectProgressData.length}</div>
                     <div style={{ fontSize: 10, color: T.textSubtle }}>Môn</div>
                   </div>
                 </div>
@@ -445,7 +474,7 @@ const TutorDashboard: React.FC = () => {
               {detailModal.score !== undefined && detailModal.score !== null && (
                 <div style={{ background: T.primaryLight, borderRadius: 10, padding: '12px 16px' }}>
                   <Text type="secondary" style={{ fontSize: 13 }}>Kết quả</Text>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: T.primary }}>{detailModal.score}/10</div>
+                  <div style={{ fontSize: 22, fontWeight: 500, color: T.primary }}>{detailModal.score}/10</div>
                   {detailModal.tutorComment && <Paragraph style={{ color: T.textMuted, margin: 0, fontSize: 13 }}>{detailModal.tutorComment}</Paragraph>}
                 </div>
               )}
