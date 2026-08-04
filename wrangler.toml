@@ -4,4 +4,6 @@ compatibility_flags = ["nodejs_compat"]
 
 [build]
 command = "npm run build"
-upload = "dist"
+
+[assets]
+directory = "./dist"
